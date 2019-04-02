@@ -4,11 +4,11 @@ import java.awt.Polygon;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import base.collections.CircularArrayList;
 import game.Player;
 import game.map.Continent;
 import game.map.Country;
 import game.map.CountryBorder;
-import resources.collections.CircularArrayList;
 
 public class GameData {
 	

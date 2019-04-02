@@ -1,4 +1,4 @@
-package resources.tests;
+package base.tests;
 
 /**
  * @author Jan Braun

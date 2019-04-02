@@ -3,7 +3,7 @@ package game.map;
 import java.util.PriorityQueue;
 import java.util.Random;
 
-import resources.collections.IntegerComparator;
+import base.collections.IntegerComparator;
 
 public class CountryBorder {
 	

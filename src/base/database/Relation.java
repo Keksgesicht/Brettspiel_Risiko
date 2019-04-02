@@ -1,4 +1,4 @@
-package resources.database;
+package base.database;
 
 /**
  * @author Jan Braun
