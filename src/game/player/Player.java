@@ -1,4 +1,4 @@
-package game;
+package game.player;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -7,7 +7,7 @@ import java.util.Random;
 import game.map.Country;
 import game.resources.GameCreator;
 
-public class Player {
+public class Player implements Cloneable {
 	
 	private enum AreaCard {
 		TANK, CAVALIER, SOLDIER
@@ -28,6 +28,15 @@ public class Player {
 	public Player(String name, Color col) {
 		controlledCountries = new ArrayList<Country>();
 		cards = new ArrayList<AreaCard>();
+		state = PlayerStatus.WAIT;
+		won1Fight = false;
+		this.name = name;
+		color = col;
+	}
+	
+	private Player(String name, Color col, ArrayList<Country> controlled, ArrayList<AreaCard> cards) {
+		controlledCountries = controlled;
+		this.cards = cards;
 		state = PlayerStatus.WAIT;
 		won1Fight = false;
 		this.name = name;
@@ -85,7 +94,7 @@ public class Player {
 	 */
 	public int ultiReady() {
 		if(cards.size() < 3) return 0;
-		if(cards.size() == 5) return 2;
+		if(cards.size() >= 5) return 2;
 		byte t,c,s;
 		t = c = s = 0;
 		for(AreaCard ac : cards) {
@@ -138,6 +147,14 @@ public class Player {
 		ArrayList<Player> please = GameCreator.getPlayers();
 		int index = please.indexOf(this);
 		return please.get(index + 1);
+	}
+	
+	@Override
+	public Player clone() {
+		Player ply = new Player(this.name, this.color, this.controlledCountries, this.cards);
+		ply.state = this.state;
+		ply.won1Fight = this.won1Fight;		
+		return ply;
 	}
 
 }

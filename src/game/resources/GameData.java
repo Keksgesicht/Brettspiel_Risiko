@@ -5,10 +5,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import base.collections.CircularArrayList;
-import game.Player;
 import game.map.Continent;
 import game.map.Country;
 import game.map.CountryBorder;
+import game.player.Player;
 
 public class GameData {
 	

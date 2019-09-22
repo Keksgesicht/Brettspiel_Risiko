@@ -1,4 +1,4 @@
-package base.tests;
+package tests;
 
 /**
  * @author Jan Braun

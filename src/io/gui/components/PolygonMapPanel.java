@@ -16,8 +16,8 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.border.BevelBorder;
 
-import game.Player;
 import game.map.Country;
+import game.player.Player;
 import game.resources.GameCreator;
 
 @SuppressWarnings("serial")

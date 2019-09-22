@@ -2,7 +2,7 @@ package game.map;
 
 import java.util.ArrayList;
 
-import game.Player;
+import game.player.Player;
 
 public class Continent {
 	

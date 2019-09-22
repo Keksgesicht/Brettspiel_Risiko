@@ -2,7 +2,7 @@ package game.map;
 
 import java.util.ArrayList;
 
-import game.Player;
+import game.player.Player;
 import game.resources.GameCreator;
 
 public class Country {

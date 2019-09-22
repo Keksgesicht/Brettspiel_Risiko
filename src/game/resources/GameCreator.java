@@ -4,10 +4,10 @@ import java.awt.Polygon;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import game.Player;
 import game.map.Continent;
 import game.map.Country;
 import game.map.CountryBorder;
+import game.player.Player;
 
 /**
  * @author Jan Braun
