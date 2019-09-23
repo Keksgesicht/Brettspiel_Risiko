@@ -1,5 +1,6 @@
 package game.resources;
 
+import java.awt.Color;
 import java.awt.Polygon;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -56,8 +57,11 @@ public abstract class GameCreator {
 	}
 	
 	public static void createNewGame(int players, MapList map) {
-		
-		
+		ArrayList<Player> playerList = new ArrayList<Player>();
+		for(int i = 1; i <= players; i++) {
+			playerList.add(new Player("Testsubjekt" +  i, Color.GREEN));
+		}
+		createNewGame(playerList, map);
 	}
 	
 	public static void createNewGame(ArrayList<Player> players, MapList map) {
