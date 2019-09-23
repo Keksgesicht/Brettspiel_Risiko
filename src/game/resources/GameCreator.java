@@ -61,7 +61,7 @@ public abstract class GameCreator {
 	}
 	
 	public static void createNewGame(ArrayList<Player> players, MapList map) {
-		MapCreator.createMap(MapList.DEFAULT);
+		MapCreator.createMap(map);
 		live = new GameData(players, 
 				MapCreator.getContinents(), 
 				MapCreator.getCountries(), 

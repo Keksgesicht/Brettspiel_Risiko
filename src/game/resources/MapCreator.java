@@ -49,7 +49,39 @@ abstract class MapCreator {
 	}
 	
 	private static void mapTest() {
+		Country c1 = new Country("A");
+		Polygon p1 = new Polygon();
+		p1.addPoint(10, 10);
+		p1.addPoint(10, 100);
+		p1.addPoint(100, 100);
+		p1.addPoint(100, 10);
+		countries.put(p1, c1);
 		
+		Country c2 = new Country("BB");
+		Polygon p2 = new Polygon();
+		p2.addPoint(100, 10);
+		p2.addPoint(100, 100);
+		p2.addPoint(200, 100);
+		p2.addPoint(200, 10);
+		countries.put(p1, c1);
+		
+		Country c3 = new Country("CCC");
+		Polygon p3 = new Polygon();
+		p3.addPoint(10, 100);
+		p3.addPoint(10, 200);
+		p3.addPoint(200, 200);
+		p3.addPoint(200, 100);
+		countries.put(p1, c1);
+		
+		borders.add(new CountryBorder(c1,c2));
+		borders.add(new CountryBorder(c1,c3));
+		borders.add(new CountryBorder(c2,c3));
+		
+		ArrayList<Country> coties = new ArrayList<Country>();
+		coties.add(c1);
+		coties.add(c2);
+		coties.add(c3);
+		continents.add(new Continent(coties, 42));
 	}
 
 }
