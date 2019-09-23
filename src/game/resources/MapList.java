@@ -1,5 +1,5 @@
 package game.resources;
 
 public enum MapList {
-	DEFAULT
+	DEFAULT, TEST
 }

@@ -55,6 +55,11 @@ public abstract class GameCreator {
 		return GameData.state;
 	}
 	
+	public static void createNewGame(int players, MapList map) {
+		
+		
+	}
+	
 	public static void createNewGame(ArrayList<Player> players, MapList map) {
 		MapCreator.createMap(MapList.DEFAULT);
 		live = new GameData(players, 

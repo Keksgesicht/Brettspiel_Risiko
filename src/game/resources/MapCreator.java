@@ -24,8 +24,9 @@ abstract class MapCreator {
 	static void createMap(MapList map) {
 		switch(map) {
 		case DEFAULT:
-			defaultMap();
-			break;
+			mapDefault(); break;
+		case TEST:
+			mapTest(); break;
 		}
 	}
 
@@ -41,7 +42,13 @@ abstract class MapCreator {
 		return borders;
 	}
 	
-	private static void defaultMap() {
+	/* Map creation */
+	
+	private static void mapDefault() {
+		
+	}
+	
+	private static void mapTest() {
 		
 	}
 
