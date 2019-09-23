@@ -48,8 +48,12 @@ public abstract class GameCreator {
 		return live.borders;
 	}
 	
-	public static int goldenCavalier() {
-		return live.goldenCavalier();
+	public static int getGoldenCavalier() {
+		return live.getGoldenCavalier();
+	}
+	
+	public static void updateGoldenCavalier() {
+		live.updateGoldenCavalier();
 	}
 	
 	public static GameStatus getGameState() {

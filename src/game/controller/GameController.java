@@ -49,6 +49,8 @@ public abstract class GameController {
 		}	
 	}
 	
+
+	
 	/*
 	nützliches Zeug:
 		currentPlayer.getStatus();

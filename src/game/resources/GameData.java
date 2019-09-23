@@ -55,13 +55,15 @@ public class GameData {
 	 * raises the Strength of the golden Cavalier
 	 * @return the current Strength of the golden Cavalier
 	 */
-	public int goldenCavalier() {
-		int cs = goldenCavalier;
+	public void updateGoldenCavalier() {
 		if(goldenCavalier < 10) {
 			goldenCavalier += 2;
 		} else if(goldenCavalier < 60) {
 			goldenCavalier += 5;
-		} return cs;
+		}
 	}	
 
+	public int getGoldenCavalier() {
+		return goldenCavalier;
+	}
 }
