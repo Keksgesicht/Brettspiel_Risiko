@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.swing.JMenu;
@@ -19,6 +20,7 @@ import javax.swing.border.BevelBorder;
 import game.map.Country;
 import game.player.Player;
 import game.resources.GameCreator;
+import game.resources.GameStatus;
 
 @SuppressWarnings("serial")
 public class PolygonMapPanel extends JPanel {
@@ -36,7 +38,6 @@ public class PolygonMapPanel extends JPanel {
 	            + event.getActionCommand() + "] was pressed.");
 	      }
 	    };
-	   
 	    JMenuItem item;
 	    popup.add(item = new JMenuItem("Left"));
 	    item.setHorizontalTextPosition(JMenuItem.RIGHT);
@@ -53,16 +54,16 @@ public class PolygonMapPanel extends JPanel {
 	    popup.setLabel("Justification");
 	    popup.setBorder(new BevelBorder(BevelBorder.RAISED));
 	    
-	    
-		
-		HashMap<Polygon,Country> cmap = GameCreator.getCMap();		
+		Map<Polygon,Country> cmap = GameCreator.getCMap();		
 		for(Entry<Polygon, Country> pc : cmap.entrySet()) {
 			// draw Country with Player color
-			Player ply = pc.getValue().player();
-			g.setColor(ply.color);
-			g.fillPolygon(pc.getKey());
-			
+			if(GameCreator.getGameState() != GameStatus.INIT) {
+				Player ply = pc.getValue().player();
+				g.setColor(ply.color);
+				g.fillPolygon(pc.getKey());
+			}
 			// add popup menu for specific polygon
+			/*
 			this.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent arg0) {
@@ -89,10 +90,10 @@ public class PolygonMapPanel extends JPanel {
 						popup.show(PolygonMapPanel.this, arg0.getX(), arg0.getY());
 					}
 				}
-			});			
+			});	*/
 			// draw Country border
 			g.setColor(Color.BLACK);
-			g.fillPolygon(pc.getKey());
+			g.drawPolygon(pc.getKey());
 		}
 	    
 		

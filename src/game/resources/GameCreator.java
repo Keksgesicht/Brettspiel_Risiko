@@ -3,7 +3,7 @@ package game.resources;
 import java.awt.Color;
 import java.awt.Polygon;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Map;
 
 import game.map.Continent;
 import game.map.Country;
@@ -26,7 +26,7 @@ public abstract class GameCreator {
 		return live.continents;
 	}
 	
-	public static HashMap<Polygon, Country> getCMap() {
+	public static Map<Polygon, Country> getCMap() {
 		return live.countries;
 	}
 	

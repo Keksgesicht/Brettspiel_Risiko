@@ -2,7 +2,7 @@ package game.resources;
 
 import java.awt.Polygon;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Map;
 
 import base.collections.CircularArrayList;
 import game.map.Continent;
@@ -15,7 +15,7 @@ public class GameData {
 	static GameStatus state = GameStatus.INIT;
 	final CircularArrayList<Player> players = new CircularArrayList<Player>();
 	final ArrayList<Continent> continents;
-	final HashMap<Polygon, Country> countries;
+	final Map<Polygon, Country> countries;
 	final ArrayList<CountryBorder> borders;
 	private int goldenCavalier;
 	
@@ -27,7 +27,7 @@ public class GameData {
 	 * @param borders
 	 * @param goldenCavelier
 	 */
-	public GameData(ArrayList<Player> players, ArrayList<Continent> continents, HashMap<Polygon, Country> countries, ArrayList<CountryBorder> borders, int goldenCavelier) {
+	public GameData(ArrayList<Player> players, ArrayList<Continent> continents, Map<Polygon, Country> countries, ArrayList<CountryBorder> borders, int goldenCavelier) {
 		this.players.addAll(players);
 		this.continents = continents;
 		this.countries = countries;

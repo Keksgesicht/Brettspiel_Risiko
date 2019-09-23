@@ -82,6 +82,8 @@ public class InitFrame extends JFrame {
 				    options,
 				    options[0]);
 				GameCreator.createNewGame(playerCount + 2, MapList.TEST);
+				new GameMapFrame().setVisible(true);
+				InitFrame.this.dispose();
 			}
 		});
 		contentPane.add(btnCreateNewGame);

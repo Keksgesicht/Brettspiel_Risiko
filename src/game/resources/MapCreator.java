@@ -1,11 +1,9 @@
-/**
- * 
- */
 package game.resources;
 
 import java.awt.Polygon;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import game.map.Continent;
 import game.map.Country;
@@ -18,7 +16,7 @@ import game.map.CountryBorder;
 abstract class MapCreator {
 	
 	private static ArrayList<Continent> continents = null;
-	private static HashMap<Polygon, Country> countries = null;
+	private static Map<Polygon, Country> countries = null;
 	private static ArrayList<CountryBorder> borders = null;
 
 	static void createMap(MapList map) {
@@ -34,7 +32,7 @@ abstract class MapCreator {
 		return continents;
 	}
 
-	public static HashMap<Polygon, Country> getCountries() {
+	public static Map<Polygon, Country> getCountries() {
 		return countries;
 	}
 
@@ -49,6 +47,10 @@ abstract class MapCreator {
 	}
 	
 	private static void mapTest() {
+		countries = new HashMap<Polygon, Country>();
+		borders = new ArrayList<CountryBorder>();
+		continents = new ArrayList<Continent>();
+		
 		Country c1 = new Country("A");
 		Polygon p1 = new Polygon();
 		p1.addPoint(10, 10);
@@ -63,7 +65,7 @@ abstract class MapCreator {
 		p2.addPoint(100, 100);
 		p2.addPoint(200, 100);
 		p2.addPoint(200, 10);
-		countries.put(p1, c1);
+		countries.put(p2, c2);
 		
 		Country c3 = new Country("CCC");
 		Polygon p3 = new Polygon();
@@ -71,7 +73,7 @@ abstract class MapCreator {
 		p3.addPoint(10, 200);
 		p3.addPoint(200, 200);
 		p3.addPoint(200, 100);
-		countries.put(p1, c1);
+		countries.put(p3, c3);
 		
 		borders.add(new CountryBorder(c1,c2));
 		borders.add(new CountryBorder(c1,c3));
