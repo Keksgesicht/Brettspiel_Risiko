@@ -80,11 +80,11 @@ public class Country {
 			if(bd_l == coty && bd_r.player() == this.player() && !contained.contains(bd_r)) {
 				contained = getNearFriendlyCountries(contained, bd_r);
 				contained.add(bd_r);
-			} 
+			}
 			else if(bd_r == coty && bd_l.player() == this.player() && !contained.contains(bd_l)) {
 				contained = getNearFriendlyCountries(contained, bd_l);
 				contained.add(bd_l);
-			}	
+			}
 		} contained.remove(coty);
 		return contained;
 	}

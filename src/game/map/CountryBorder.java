@@ -64,19 +64,19 @@ public class CountryBorder {
 			int a = attacker.getSoldiers() -1;
 			int d = defender.getSoldiers();
 			if(3 < a) a = 3;
-			if(2 < d) d = 2;			
+			if(2 < d) d = 2;
 			PriorityQueue<Integer> qa = new PriorityQueue<Integer>(a , new IntegerComparator().reversed());
-			PriorityQueue<Integer> da = new PriorityQueue<Integer>(d , new IntegerComparator().reversed());						
+			PriorityQueue<Integer> qd = new PriorityQueue<Integer>(d , new IntegerComparator().reversed());
 			for(int i = 0; i < a; i++) {
 				qa.add((int) r.nextDouble()*6+1);
 			} for(int i = 0; i < d; i++) {
-				da.add((int) r.nextDouble()*6+1);
+				qd.add((int) r.nextDouble()*6+1);
 			} do {
-				if(da.remove() < qa.remove())
+				if(qd.remove() < qa.remove())
 					defender.subSoldiers();
 				else
 					attacker.subSoldiers();
-			} while(0 < qa.size() && 0 < da.size());
+			} while(0 < qa.size() && 0 < qd.size());
 		} while(ff && 1 < attacker.getSoldiers() && 0 < defender.getSoldiers());
 	}
 	
