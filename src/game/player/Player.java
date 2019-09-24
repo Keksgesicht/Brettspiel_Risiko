@@ -177,16 +177,16 @@ public class Player implements Cloneable {
 	 * 
 	 * @return The number of troops to be deployed
 	 */
-	public int addTroops() {
+	public int addTroops(boolean wantsUlti) {
 		int troops = 0;
 		if (controlledCountries.size() < 12) {
 			troops += 3;
 		} else {
 			troops = controlledCountries.size() / 4;
 		}
-		if (ultiReady() == 2) {
+		if (ultiReady() == 2 || (ultiReady() == 1 && wantsUlti)) {
 			troops += useUlti();
-		}
+		} 
 		return troops;
 	}
 

@@ -4,6 +4,8 @@
 package game.controller;
 
 import java.util.ArrayList;
+
+import game.map.Country;
 import game.player.Player;
 import game.player.PlayerStatus;
 import game.resources.GameCreator;
@@ -40,13 +42,21 @@ public abstract class GameController {
 		
 		if(currentPlayer.getStatus() == PlayerStatus.WAIT) {
 			currentPlayer.updateStatus();
-			//currentPlayer.PlaceTroops
+			playerINIT(true);
 			currentPlayer.updateStatus();
 			//currentPlayer.fightStuff
 			currentPlayer.updateStatus();
 			//currentPlayer.endRound
 			currentPlayer.updateStatus();
 		}	
+	}
+	
+	public static int playerINIT(boolean wantsUlti) {
+		return currentPlayer.addTroops(wantsUlti);
+	}
+	
+	public static ArrayList<Country> GetControlledCountries(){
+		return currentPlayer.controlledCountries;
 	}
 	
 
