@@ -11,15 +11,23 @@ import game.map.CountryBorder;
 import game.player.Player;
 
 /**
- * @author Jan Braun
- *
+ * @author Braun
  */
 public abstract class GameCreator {
 	
 	static GameData live;
+	private static int plyN = 0;
 	
 	public static ArrayList<Player> getPlayers() {
 		return live.players;
+	}
+	
+	public static Player getCurrentPlayer() {
+		return getPlayers().get(plyN);
+	}
+	
+	public static Player nextPlayer() {
+		return getPlayers().get(++plyN);
 	}
 	
 	public static ArrayList<Continent> getContinents() {
