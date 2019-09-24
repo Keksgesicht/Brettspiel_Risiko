@@ -41,13 +41,13 @@ public class GameData {
 	public static GameStatus updateStatus() {
 		switch(state) {
 		case INIT:
-			state = GameStatus.CREATE; break;
-		case CREATE:
+			state = GameStatus.START; break;
+		case START:
 			state = GameStatus.PLAY; break;
 		case PLAY:
 			state = GameStatus.END; break;
 		case END:
-			state = GameStatus.CREATE; break;
+			state = GameStatus.INIT; break;
 		} return state;
 	}
 	
