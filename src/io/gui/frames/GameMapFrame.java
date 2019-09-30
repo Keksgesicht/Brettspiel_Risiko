@@ -93,7 +93,7 @@ public class GameMapFrame extends JFrame {
 	}
 	
 	public void updateCurrentPlayer() {
-		CurrentPlayer.repaint();
+		CurrentPlayer.setText(GameCreator.getCurrentPlayer().name);
 	}
 
 }
