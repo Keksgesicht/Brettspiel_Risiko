@@ -184,6 +184,7 @@ public class Player implements Cloneable {
 	 */
 	public int addTroops() {
 		switch(GameCreator.getGameState()) {
+		case INIT:
 		case START:
 			return troops--;
 		case PLAY:
@@ -214,7 +215,7 @@ public class Player implements Cloneable {
 		if(kingC != null)
 			kingC.controlledCountries.remove(country);
 		controlledCountries.add(country);
-		country.theKindIsDead(this);
+		country.theKingIsDead(this);
 	}
 	
 	public boolean containsCountries(List<Country> countries) {

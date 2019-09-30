@@ -52,15 +52,22 @@ public class PolygonMapPanel extends JPanel {
 					
 					c.addSoldiers();
 					currentPlayer.addCountry(c);
+					currentPlayer.addTroops();
 					currentPlayer.getNext();
 					repaintMap();
-					if(GameCreator.getCountries().stream().filter(c -> c.king() != null).count() == 0) {
+					if(GameCreator.getCountries().stream().filter(c -> c.king() == null).count() == 0) {
 						GameCreator.updateGameStatus();
 					} break;
 				case START:
-					if(c.king() != currentPlayer) break;
 					
+					if(c.king() != currentPlayer) break;
+					if(currentPlayer.troops == 0) {
+						GameCreator.updateGameStatus();
+						break;
+					}
+					currentPlayer.addTroops();
 					c.addSoldiers();
+					currentPlayer.getNext();
 					repaintMap();
 					break;
 				case PLAY:

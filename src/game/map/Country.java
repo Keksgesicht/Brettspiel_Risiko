@@ -91,7 +91,7 @@ public class Country {
 	/**
 	 * @param player
 	 */
-	public void theKindIsDead(Player player) {
+	public void theKingIsDead(Player player) {
 		king = player;
 	}
 	
