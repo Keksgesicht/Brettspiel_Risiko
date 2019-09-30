@@ -20,6 +20,7 @@ public class Player implements Cloneable {
 	public final Set<AreaCard> cards;
 	public final String name;
 	public final Color color;
+	public int troops;
 	
 	private final Set<Country> controlledCountries;
 	private PlayerStatus state;
@@ -30,12 +31,13 @@ public class Player implements Cloneable {
 	 * @param name how the Player should be called
 	 * @param col  the Color in which his countries should be drawn
 	 */
-	public Player(String name, Color col) {
+	public Player(String name, Color col, int troops) {
 		controlledCountries = new HashSet<Country>();
 		cards = new HashSet<AreaCard>();
 		state = PlayerStatus.WAIT;
 		won1Fight = false;
 		this.name = name;
+		this.troops = troops;
 		color = col;
 	}
 
@@ -137,7 +139,7 @@ public class Player implements Cloneable {
 	/**
 	 * removes the right cards from his hand
 	 */
-	public int useUlti() {
+	public void useUlti() {
 		if (cards.size() == 3) {
 			cards.clear();
 		} else {
@@ -173,30 +175,35 @@ public class Player implements Cloneable {
 				cards.addAll(s);
 			}
 		}
-		int gc = GameCreator.getGoldenCavalier();
+		troops += GameCreator.getGoldenCavalier();
 		GameCreator.updateGoldenCavalier();
-		return gc;
 	}
 
 	/**
 	 * @return The number of troops to be deployed
 	 */
-	public int addTroops(boolean wantsUlti) {
-		// controlled countries / 3
-		int ccs = controlledCountries.size() / 3;
-		int troops = ccs < 3 ? 3 : ccs;
-		
-		// ulti bonus
-		if (wantsUlti) {
-			troops += useUlti();
-		}
-		
-		// continent bonus
-		for(Continent ct : GameCreator.getContinents()) {
-			troops += ct.isControlledBy(this);
-		}
-		
-		return troops;
+	public int addTroops() {
+		switch(GameCreator.getGameState()) {
+		case START:
+			return troops--;
+		case PLAY:
+			troops = 0;
+			// controlled countries / 3
+			int ccs = controlledCountries.size() / 3;
+			troops = ccs < 3 ? 3 : ccs;
+			
+			// continent bonus
+			for(Continent ct : GameCreator.getContinents())
+				troops += ct.isControlledBy(this);
+			
+			// ulti bonus
+			if(ultiReady() == 2) {
+				useUlti();
+				return 0 - troops;
+			}
+		default:
+			break;
+		} return troops;
 	}
 	
 	/**

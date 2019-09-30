@@ -90,7 +90,8 @@ public abstract class GameCreator {
 				col = Color.GREEN;
 				break;
 			}
-			playerList.add(new Player("Testsubjekt" +  i, col));
+			
+			playerList.add(new Player("Testsubjekt" +  i, col, 50 - 5 * players));
 		}
 		createNewGame(playerList, map);
 	}
