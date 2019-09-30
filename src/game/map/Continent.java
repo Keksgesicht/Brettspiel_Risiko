@@ -1,7 +1,6 @@
 package game.map;
 
 import java.util.ArrayList;
-
 import game.player.Player;
 
 public class Continent {
@@ -27,7 +26,7 @@ public class Continent {
 	 * ==> the number of additional soldiers Player ply can get at the beginning of a round
 	 */
 	public int isControlledBy(Player ply) {
-		if(ply.controlledCountries.containsAll(countries))
+		if(ply.containsCountries(countries))
 			return soldiers;
 		return 0;
 	}

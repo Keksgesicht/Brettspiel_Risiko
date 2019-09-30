@@ -66,7 +66,7 @@ public class InitFrame extends JFrame {
 		btnCreateNewGame.setBounds(210, 120, 190, 25);
 		btnCreateNewGame.setBackground(Color.DARK_GRAY);
 		btnCreateNewGame.setForeground(Color.WHITE);
-		btnCreateNewGame.addActionListener(new ActionListener() { 
+		btnCreateNewGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				int n = 5;
 				Object[] options = new Object[n];
@@ -81,6 +81,7 @@ public class InitFrame extends JFrame {
 				    null,
 				    options,
 				    options[0]);
+				
 				GameCreator.createNewGame(playerCount + 2, MapList.TEST);
 				new GameMapFrame().setVisible(true);
 				InitFrame.this.dispose();

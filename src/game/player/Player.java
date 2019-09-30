@@ -2,8 +2,12 @@ package game.player;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
+import game.map.Continent;
 import game.map.Country;
 import game.resources.GameCreator;
 
@@ -12,11 +16,12 @@ public class Player implements Cloneable {
 	private enum AreaCard {
 		TANK, CAVALIER, SOLDIER
 	}
-
-	public final ArrayList<Country> controlledCountries;
-	public final ArrayList<AreaCard> cards;
+	
+	public final Set<AreaCard> cards;
 	public final String name;
 	public final Color color;
+	
+	private final Set<Country> controlledCountries;
 	private PlayerStatus state;
 	private boolean won1Fight;
 
@@ -26,15 +31,15 @@ public class Player implements Cloneable {
 	 * @param col  the Color in which his countries should be drawn
 	 */
 	public Player(String name, Color col) {
-		controlledCountries = new ArrayList<Country>();
-		cards = new ArrayList<AreaCard>();
+		controlledCountries = new HashSet<Country>();
+		cards = new HashSet<AreaCard>();
 		state = PlayerStatus.WAIT;
 		won1Fight = false;
 		this.name = name;
 		color = col;
 	}
 
-	private Player(String name, Color col, ArrayList<Country> controlled, ArrayList<AreaCard> cards) {
+	private Player(String name, Color col, Set<Country> controlled, Set<AreaCard> cards) {
 		controlledCountries = controlled;
 		this.cards = cards;
 		state = PlayerStatus.WAIT;
@@ -174,29 +179,46 @@ public class Player implements Cloneable {
 	}
 
 	/**
-	 * 
 	 * @return The number of troops to be deployed
 	 */
 	public int addTroops(boolean wantsUlti) {
-		int troops = 0;
-		if (controlledCountries.size() < 12) {
-			troops += 3;
-		} else {
-			troops = controlledCountries.size() / 4;
-		}
-		if (ultiReady() == 2 || (ultiReady() == 1 && wantsUlti)) {
+		// controlled countries / 3
+		int ccs = controlledCountries.size() / 3;
+		int troops = ccs < 3 ? 3 : ccs;
+		
+		// ulti bonus
+		if (wantsUlti) {
 			troops += useUlti();
-		} 
+		}
+		
+		// continent bonus
+		for(Continent ct : GameCreator.getContinents()) {
+			troops += ct.isControlledBy(this);
+		}
+		
 		return troops;
+	}
+	
+	/**
+	 * @param country this player now controlls this country 
+	 */
+	public void addCountry(Country country) {
+		Player kingC = country.king();
+		if(kingC != null)
+			kingC.controlledCountries.remove(country);
+		controlledCountries.add(country);
+		country.theKindIsDead(this);
+	}
+	
+	public boolean containsCountries(List<Country> countries) {
+		return controlledCountries.containsAll(countries);
 	}
 
 	/**
 	 * @return the Player who has the next turn after this Player
 	 */
 	public Player getNext() {
-		ArrayList<Player> please = GameCreator.getPlayers();
-		int index = please.indexOf(this);
-		return please.get(index + 1);
+		return GameCreator.nextPlayer();
 	}
 
 	@Override

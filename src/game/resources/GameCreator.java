@@ -64,6 +64,10 @@ public abstract class GameCreator {
 		live.updateGoldenCavalier();
 	}
 	
+	public static void updateGameStatus() {
+		GameData.updateStatus();
+	}
+	
 	public static GameStatus getGameState() {
 		return GameData.state;
 	}
@@ -71,7 +75,22 @@ public abstract class GameCreator {
 	public static void createNewGame(int players, MapList map) {
 		ArrayList<Player> playerList = new ArrayList<Player>();
 		for(int i = 1; i <= players; i++) {
-			playerList.add(new Player("Testsubjekt" +  i, Color.GREEN));
+			Color col;
+			switch(i) {
+			case 1:
+				col = Color.RED;
+				break;
+			case 2:
+				col = Color.BLUE;
+				break;
+			case 3:
+				col = Color.YELLOW;
+				break;
+			default:
+				col = Color.GREEN;
+				break;
+			}
+			playerList.add(new Player("Testsubjekt" +  i, col));
 		}
 		createNewGame(playerList, map);
 	}

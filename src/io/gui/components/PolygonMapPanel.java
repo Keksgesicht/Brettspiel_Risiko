@@ -12,7 +12,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 
@@ -21,9 +20,6 @@ import game.player.Player;
 import game.player.PlayerStatus;
 import game.resources.GameCreator;
 import game.resources.GameStatus;
-import game.resources.MapList;
-import io.gui.frames.GameMapFrame;
-import io.gui.frames.InitFrame;
 
 @SuppressWarnings("serial")
 public class PolygonMapPanel extends JPanel {
@@ -51,12 +47,21 @@ public class PolygonMapPanel extends JPanel {
 				if(c == null) return;
 				
 				switch(GameCreator.getGameState()) {
-				case START:
-					if(c.player() != currentPlayer) break;
+				case INIT:
+					if(c.king() != null) break;
 					
 					c.addSoldiers();
-					if(c.player() == null)
-						currentPlayer.controlledCountries.add(c);
+					currentPlayer.addCountry(c);
+					currentPlayer.getNext();
+					repaintMap();
+					if(GameCreator.getCountries().stream().filter(c -> c.king() != null).count() == 0) {
+						GameCreator.updateGameStatus();
+					} break;
+				case START:
+					if(c.king() != currentPlayer) break;
+					
+					c.addSoldiers();
+					repaintMap();
 					break;
 				case PLAY:
 					if(currentPlayer.getStatus() != PlayerStatus.INIT) break;
@@ -78,31 +83,60 @@ public class PolygonMapPanel extends JPanel {
 							i = 1; n++;
 						} else i++;
 					} while(i < army);
+				default:
+					break;
 				}
 			}
 			
+			@Override
 			public void mouseDragged(MouseEvent e) {
 				
 			}
 			
 		});
 	}
+	
+	void repaintMap() {
+		new Thread() { public void run() { PolygonMapPanel.this.repaint(); } }.start();
+	}
 
 	@Override
-	public void paintComponent(Graphics g) {
+	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Map<Polygon, Country> cmap = GameCreator.getCMap();
 		for (Entry<Polygon, Country> pc : cmap.entrySet()) {
+			Polygon poly = pc.getKey();
+			Country coty = pc.getValue();
+			Player ply = coty.king();
 			// draw Country with Player color
-			if (GameCreator.getGameState() != GameStatus.INIT) {
-				Player ply = pc.getValue().player();
+			if(ply != null) {
 				g.setColor(ply.color);
-				g.fillPolygon(pc.getKey());
+				g.fillPolygon(poly);
 			}
 			// draw Country border
 			g.setColor(Color.BLACK);
-			g.drawPolygon(pc.getKey());
+			g.drawPolygon(poly);
+			
+			Point polyP = middlePoint(poly);
+			g.drawString(coty.name, polyP.x, polyP.y);
+			g.drawString(String.valueOf(coty.getSoldiers()), polyP.x, polyP.y + 20);
 		}
+	}
+	
+	private Point middlePoint(Polygon poly) {
+		int n = poly.npoints;
+		
+		int sumX = 0;
+		for(int x : poly.xpoints) {
+			sumX += x;
+		}
+		int sumY = 0;
+		for(int y : poly.ypoints) {
+			sumY += y;
+		}
+		
+		return new Point(sumX / n, sumY / n);
+		
 	}
 
 }

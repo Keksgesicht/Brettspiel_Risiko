@@ -1,14 +1,16 @@
 package game.map;
 
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import game.player.Player;
 import game.resources.GameCreator;
 
 public class Country {
 	
-	public final String name; 
+	public final String name;
 	private int soldiers = 0;
+	private Player king;
 	
 	/**
 	 * creates a Country by giving it a name and 2D area
@@ -38,26 +40,23 @@ public class Country {
 	/**	
 	 * @return the Player which controlls this Country
 	 */
-	public Player player() {
-		for(Player ply : GameCreator.getPlayers()) {
-			if(ply.controlledCountries.contains(this))
-				return ply; 
-		} return null;
+	public Player king() {
+		return king;
 	}
 	
 	/**
 	 * @return a list of countries which have a direct border with this Country and are in enemy hand
 	 */
-	public ArrayList<Country> getNeighboringEnemyCountries() {
+	public Set<Country> getNeighboringEnemyCountries() {
 		if(getSoldiers() < 2) return null;
-		ArrayList<Country> countries = new ArrayList<Country>();
+		Set<Country> countries = new HashSet<Country>();
 		for(CountryBorder bd : GameCreator.getBorders()) {
 			Country bd_l = bd.left();
 			Country bd_r = bd.right();
 			
-			if(bd_l == this && bd_r.player() != this.player())
+			if(bd_l == this && bd_r.king() != this.king())
 				countries.add(bd_r);
-			else if(bd_r == this && bd_l.player() != this.player())
+			else if(bd_r == this && bd_l.king() != this.king())
 				countries.add(bd_l);
 		} return countries;
 	}
@@ -65,28 +64,35 @@ public class Country {
 	/**
 	 * @return a list of countries which the Player, which controlls the country, can reach when crossing direct borders starting at this Country
 	 */
-	public ArrayList<Country> getNearFriendlyCountries() {
-		ArrayList<Country> countries = new ArrayList<Country>();
+	public Set<Country> getNearFriendlyCountries() {
+		Set<Country> countries = new HashSet<Country>();
 		countries = getNearFriendlyCountries(countries, this);		
 		return countries;
 	}
 	
-	private ArrayList<Country> getNearFriendlyCountries(ArrayList<Country> contained, Country coty) {
+	private Set<Country> getNearFriendlyCountries(Set<Country> contained, Country coty) {
 		contained.add(coty);
 		for(CountryBorder bd : GameCreator.getBorders()) {
 			Country bd_l = bd.left();
 			Country bd_r = bd.right();
 			
-			if(bd_l == coty && bd_r.player() == this.player() && !contained.contains(bd_r)) {
+			if(bd_l == coty && bd_r.king() == this.king() && !contained.contains(bd_r)) {
 				contained = getNearFriendlyCountries(contained, bd_r);
 				contained.add(bd_r);
 			}
-			else if(bd_r == coty && bd_l.player() == this.player() && !contained.contains(bd_l)) {
+			else if(bd_r == coty && bd_l.king() == this.king() && !contained.contains(bd_l)) {
 				contained = getNearFriendlyCountries(contained, bd_l);
 				contained.add(bd_l);
 			}
 		} contained.remove(coty);
 		return contained;
+	}
+
+	/**
+	 * @param player
+	 */
+	public void theKindIsDead(Player player) {
+		king = player;
 	}
 	
 }
