@@ -19,7 +19,6 @@ import game.map.Country;
 import game.player.Player;
 import game.player.PlayerStatus;
 import game.resources.GameCreator;
-import game.resources.GameStatus;
 
 @SuppressWarnings("serial")
 public class PolygonMapPanel extends JPanel {
@@ -59,17 +58,16 @@ public class PolygonMapPanel extends JPanel {
 						GameCreator.updateGameStatus();
 					} break;
 				case START:
-					
-					if(c.king() != currentPlayer) break;
 					if(currentPlayer.troops == 0) {
 						GameCreator.updateGameStatus();
+					} else {
+						if(c.king() != currentPlayer) break;
+						currentPlayer.addTroops();
+						c.addSoldiers();
+						currentPlayer.getNext();
+						repaintMap();
 						break;
 					}
-					currentPlayer.addTroops();
-					c.addSoldiers();
-					currentPlayer.getNext();
-					repaintMap();
-					break;
 				case PLAY:
 					if(currentPlayer.getStatus() != PlayerStatus.INIT) break;
 					
@@ -132,7 +130,6 @@ public class PolygonMapPanel extends JPanel {
 	
 	private Point middlePoint(Polygon poly) {
 		int n = poly.npoints;
-		
 		int sumX = 0;
 		for(int x : poly.xpoints) {
 			sumX += x;
@@ -141,9 +138,7 @@ public class PolygonMapPanel extends JPanel {
 		for(int y : poly.ypoints) {
 			sumY += y;
 		}
-		
 		return new Point(sumX / n, sumY / n);
-		
 	}
 
 }
