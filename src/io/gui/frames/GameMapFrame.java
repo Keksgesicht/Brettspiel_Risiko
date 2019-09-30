@@ -9,6 +9,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import game.resources.GameCreator;
 import io.gui.components.PolygonMapPanel;
 
 @SuppressWarnings("serial")
@@ -16,6 +17,7 @@ public class GameMapFrame extends JFrame {
 	
 	private JPanel mapPanel;
 	private JPanel contentPane;
+	private JTextField CurrentPlayer;
 
 	/**
 	 * Create the frame.
@@ -34,7 +36,7 @@ public class GameMapFrame extends JFrame {
 		
 		int nAtt = 3;
 		int txtWidth = 47;
-		Font risikoFont = new Font("Courier", Font.BOLD,42);
+		Font risikoFont = new Font("Courier", Font.BOLD,42);;
 		
 		// attacker dice TextFields
 		JTextField[] attDices = new JTextField[nAtt];
@@ -79,6 +81,19 @@ public class GameMapFrame extends JFrame {
 		useUlti.setHorizontalAlignment(SwingConstants.CENTER);
 		useUlti.setBounds(550, 180, 140, txtWidth);
 		contentPane.add(useUlti);
+		
+		CurrentPlayer = new JTextField(GameCreator.getCurrentPlayer().name);
+		CurrentPlayer.setEditable(false);
+		CurrentPlayer.setFont(risikoFont);
+		CurrentPlayer.setBackground(Color.WHITE);
+		CurrentPlayer.setForeground(GameCreator.getCurrentPlayer().color);
+		CurrentPlayer.setHorizontalAlignment(JTextField.LEFT);
+		CurrentPlayer.setBounds(60, 5, 300, txtWidth);
+		contentPane.add(CurrentPlayer);
+	}
+	
+	public void updateCurrentPlayer() {
+		CurrentPlayer.repaint();
 	}
 
 }
