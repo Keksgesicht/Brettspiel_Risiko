@@ -22,14 +22,14 @@ public class GameMapFrame extends JFrame {
 	 */
 	public GameMapFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 600, 350);
+		setBounds(100, 100, 750, 550);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(null);
 		setContentPane(contentPane);
 		
 		mapPanel = new PolygonMapPanel();
-		mapPanel.setBounds(50, 50, 230, 230);
+		mapPanel.setBounds(50, 50, 420, 420);
 		contentPane.add(mapPanel);
 		
 		int nAtt = 3;
@@ -45,7 +45,7 @@ public class GameMapFrame extends JFrame {
 			attDices[i].setBackground(Color.RED);
 			attDices[i].setForeground(Color.WHITE);
 			attDices[i].setHorizontalAlignment(SwingConstants.CENTER);
-			attDices[i].setBounds(300 + txtWidth * i, 60, txtWidth, txtWidth);
+			attDices[i].setBounds(500 + txtWidth * i, 60, txtWidth, txtWidth);
 			contentPane.add(attDices[i]);
 		}
 		// defender dice TextFields
@@ -58,7 +58,7 @@ public class GameMapFrame extends JFrame {
 			defDices[i].setBackground(Color.BLUE);
 			defDices[i].setForeground(Color.WHITE);
 			defDices[i].setHorizontalAlignment(SwingConstants.CENTER);
-			defDices[i].setBounds(300 + txtWidth * i, 120, txtWidth, txtWidth);
+			defDices[i].setBounds(500 + txtWidth * i, 120, txtWidth, txtWidth);
 			contentPane.add(defDices[i]);
 		}
 		
@@ -68,7 +68,7 @@ public class GameMapFrame extends JFrame {
 		calvalierCounter.setBackground(Color.BLACK);
 		calvalierCounter.setForeground(Color.YELLOW);
 		calvalierCounter.setHorizontalAlignment(SwingConstants.CENTER);
-		calvalierCounter.setBounds(300, 180, txtWidth, txtWidth);
+		calvalierCounter.setBounds(500, 180, txtWidth, txtWidth);
 		contentPane.add(calvalierCounter);
 		
 		Font buttonFont = new Font("Courier", Font.BOLD,20);
@@ -77,7 +77,7 @@ public class GameMapFrame extends JFrame {
 		useUlti.setBackground(Color.BLACK);
 		useUlti.setForeground(Color.YELLOW);
 		useUlti.setHorizontalAlignment(SwingConstants.CENTER);
-		useUlti.setBounds(350, 180, 140, txtWidth);
+		useUlti.setBounds(550, 180, 140, txtWidth);
 		contentPane.add(useUlti);
 	}
 

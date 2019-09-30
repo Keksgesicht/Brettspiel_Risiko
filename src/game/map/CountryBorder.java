@@ -4,6 +4,7 @@ import java.util.PriorityQueue;
 import java.util.Random;
 
 import base.collections.IntegerComparator;
+import game.resources.GameCreator;
 
 public class CountryBorder {
 	
@@ -18,6 +19,15 @@ public class CountryBorder {
 	public CountryBorder(Country c1, Country c2) {
 		left = c1;
 		right = c2;
+	}
+	
+	public CountryBorder(String s1, String s2) {
+		for(Country c : GameCreator.getCMap().values()) {
+			if(c.name.equals(s1))
+				left = c;
+			else if(c.name.equals(s2))
+				right = c;
+		}
 	}
 	
 	/**

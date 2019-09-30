@@ -35,6 +35,9 @@ public abstract class GameCreator {
 	}
 	
 	public static Map<Polygon, Country> getCMap() {
+		if (live == null) {
+			return MapCreator.getCountries();
+		}
 		return live.countries;
 	}
 	
@@ -85,6 +88,12 @@ public abstract class GameCreator {
 				break;
 			case 3:
 				col = Color.YELLOW;
+				break;
+			case 4:
+				col = Color.ORANGE;
+				break;
+			case 5:
+				col = Color.PINK;
 				break;
 			default:
 				col = Color.GREEN;
