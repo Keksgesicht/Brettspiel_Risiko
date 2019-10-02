@@ -32,7 +32,7 @@ public class GameMapFrame extends JFrame {
 		setContentPane(contentPane);
 		
 		mapPanel = new PolygonMapPanel(this);
-		mapPanel.setBounds(50, 50, 420, 420);
+		mapPanel.setBounds(50, 65, 420, 420);
 		contentPane.add(mapPanel);
 		
 		int nAtt = 3;
@@ -88,13 +88,14 @@ public class GameMapFrame extends JFrame {
 		currentPlayerTF.setFont(risikoFont);
 		currentPlayerTF.setBackground(Color.WHITE);
 		currentPlayerTF.setHorizontalAlignment(JTextField.LEFT);
-		currentPlayerTF.setBounds(60, 5, 300, txtWidth);
+		currentPlayerTF.setText(GameCreator.getCurrentPlayer().name);
+		currentPlayerTF.setForeground(GameCreator.getCurrentPlayer().color);
+		currentPlayerTF.setBounds(60, 5, 300, 55);
 		contentPane.add(currentPlayerTF);
-		updateCurrentPlayer();
 	}
 	
 	public void updateCurrentPlayer() {
-		Player ply = GameCreator.getCurrentPlayer();
+		Player ply = GameCreator.nextPlayer();
 		currentPlayerTF.setText(ply.name);
 		currentPlayerTF.setForeground(ply.color);
 	}

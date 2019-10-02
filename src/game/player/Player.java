@@ -222,13 +222,6 @@ public class Player implements Cloneable {
 		return controlledCountries.containsAll(countries);
 	}
 
-	/**
-	 * @return the Player who has the next turn after this Player
-	 */
-	public Player getNext() {
-		return GameCreator.nextPlayer();
-	}
-
 	@Override
 	public Player clone() {
 		Player ply = new Player(this.name, this.color, this.controlledCountries, this.cards);

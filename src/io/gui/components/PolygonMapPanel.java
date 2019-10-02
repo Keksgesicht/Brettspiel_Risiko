@@ -57,7 +57,6 @@ public class PolygonMapPanel extends JPanel {
 					currentPlayer.addCountry(c);
 					repaintMap();
 					currentPlayer.addTroops();
-					currentPlayer.getNext();
 					PolygonMapPanel.this.frame.updateCurrentPlayer();
 					if(GameCreator.getCountries().stream().filter(c -> c.king() == null).count() == 0) {
 						GameCreator.updateGameStatus();
@@ -71,7 +70,6 @@ public class PolygonMapPanel extends JPanel {
 						c.addSoldiers();
 						repaintMap();
 						currentPlayer.addTroops();
-						currentPlayer.getNext();
 						PolygonMapPanel.this.frame.updateCurrentPlayer();
 						break;
 					}
