@@ -17,7 +17,7 @@ public class GameMapFrame extends JFrame {
 	
 	private JPanel mapPanel;
 	private JPanel contentPane;
-	private JTextField CurrentPlayer;
+	private JTextField currentPlayer;
 
 	/**
 	 * Create the frame.
@@ -82,18 +82,19 @@ public class GameMapFrame extends JFrame {
 		useUlti.setBounds(550, 180, 140, txtWidth);
 		contentPane.add(useUlti);
 		
-		CurrentPlayer = new JTextField(GameCreator.getCurrentPlayer().name);
-		CurrentPlayer.setEditable(false);
-		CurrentPlayer.setFont(risikoFont);
-		CurrentPlayer.setBackground(Color.WHITE);
-		CurrentPlayer.setForeground(GameCreator.getCurrentPlayer().color);
-		CurrentPlayer.setHorizontalAlignment(JTextField.LEFT);
-		CurrentPlayer.setBounds(60, 5, 300, txtWidth);
-		contentPane.add(CurrentPlayer);
+		currentPlayer = new JTextField(GameCreator.getCurrentPlayer().name);
+		currentPlayer.setEditable(false);
+		currentPlayer.setFont(risikoFont);
+		currentPlayer.setBackground(Color.WHITE);
+		currentPlayer.setForeground(GameCreator.getCurrentPlayer().color);
+		currentPlayer.setHorizontalAlignment(JTextField.LEFT);
+		currentPlayer.setBounds(60, 5, 300, txtWidth);
+		contentPane.add(currentPlayer);
 	}
 	
 	public void updateCurrentPlayer() {
-		CurrentPlayer.setText(GameCreator.getCurrentPlayer().name);
+		currentPlayer.setText(GameCreator.getCurrentPlayer().name);
+		currentPlayer.setForeground(GameCreator.getCurrentPlayer().color);
 	}
 
 }
