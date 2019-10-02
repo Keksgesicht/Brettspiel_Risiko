@@ -11,6 +11,7 @@ import java.awt.event.MouseEvent;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
@@ -19,6 +20,7 @@ import game.map.Country;
 import game.player.Player;
 import game.player.PlayerStatus;
 import game.resources.GameCreator;
+import io.gui.frames.GameMapFrame;
 
 @SuppressWarnings("serial")
 public class PolygonMapPanel extends JPanel {
@@ -26,9 +28,11 @@ public class PolygonMapPanel extends JPanel {
 	JPopupMenu popup = new JPopupMenu();
 	JMenuItem item;
 	Country c;
+	GameMapFrame frame;
 
-	public PolygonMapPanel() {
+	public PolygonMapPanel(GameMapFrame frame) {
 		super();
+		this.frame = frame;
 		addMouseListener(new MouseAdapter() {
 			
 			@Override
@@ -36,6 +40,7 @@ public class PolygonMapPanel extends JPanel {
 				Point mouseP = e.getPoint();
 				Map<Polygon,Country> cmap = GameCreator.getCMap();
 				Player currentPlayer = GameCreator.getCurrentPlayer();
+				
 				
 				c = null;
 				for(Polygon poly : cmap.keySet()) {
@@ -48,30 +53,32 @@ public class PolygonMapPanel extends JPanel {
 				switch(GameCreator.getGameState()) {
 				case INIT:
 					if(c.king() != null) break;
-					
 					c.addSoldiers();
 					currentPlayer.addCountry(c);
+					repaintMap();
 					currentPlayer.addTroops();
 					currentPlayer.getNext();
-					repaintMap();
+					PolygonMapPanel.this.frame.updateCurrentPlayer();
 					if(GameCreator.getCountries().stream().filter(c -> c.king() == null).count() == 0) {
 						GameCreator.updateGameStatus();
 					} break;
 				case START:
 					if(currentPlayer.troops == 0) {
+						currentPlayer.updateStatus();
 						GameCreator.updateGameStatus();
 					} else {
 						if(c.king() != currentPlayer) break;
-						currentPlayer.addTroops();
 						c.addSoldiers();
-						currentPlayer.getNext();
 						repaintMap();
+						currentPlayer.addTroops();
+						currentPlayer.getNext();
+						PolygonMapPanel.this.frame.updateCurrentPlayer();
 						break;
 					}
 				case PLAY:
 					if(currentPlayer.getStatus() != PlayerStatus.INIT) break;
 					
-					int army = 3;
+					int army = currentPlayer.addTroops();
 					int i = 1; int n = 0;
 					do {
 						int troops = i * 10 ^ n;
@@ -88,6 +95,7 @@ public class PolygonMapPanel extends JPanel {
 							i = 1; n++;
 						} else i++;
 					} while(i < army);
+					popup.show(PolygonMapPanel.this, mouseP.x, mouseP.y);
 				default:
 					break;
 				}

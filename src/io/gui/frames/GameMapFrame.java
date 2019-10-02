@@ -9,6 +9,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import game.player.Player;
 import game.resources.GameCreator;
 import io.gui.components.PolygonMapPanel;
 
@@ -17,7 +18,7 @@ public class GameMapFrame extends JFrame {
 	
 	private JPanel mapPanel;
 	private JPanel contentPane;
-	private JTextField CurrentPlayer;
+	private JTextField currentPlayerTF;
 
 	/**
 	 * Create the frame.
@@ -30,7 +31,7 @@ public class GameMapFrame extends JFrame {
 		contentPane.setLayout(null);
 		setContentPane(contentPane);
 		
-		mapPanel = new PolygonMapPanel();
+		mapPanel = new PolygonMapPanel(this);
 		mapPanel.setBounds(50, 50, 420, 420);
 		contentPane.add(mapPanel);
 		
@@ -82,18 +83,20 @@ public class GameMapFrame extends JFrame {
 		useUlti.setBounds(550, 180, 140, txtWidth);
 		contentPane.add(useUlti);
 		
-		CurrentPlayer = new JTextField(GameCreator.getCurrentPlayer().name);
-		CurrentPlayer.setEditable(false);
-		CurrentPlayer.setFont(risikoFont);
-		CurrentPlayer.setBackground(Color.WHITE);
-		CurrentPlayer.setForeground(GameCreator.getCurrentPlayer().color);
-		CurrentPlayer.setHorizontalAlignment(JTextField.LEFT);
-		CurrentPlayer.setBounds(60, 5, 300, txtWidth);
-		contentPane.add(CurrentPlayer);
+		currentPlayerTF = new JTextField();
+		currentPlayerTF.setEditable(false);
+		currentPlayerTF.setFont(risikoFont);
+		currentPlayerTF.setBackground(Color.WHITE);
+		currentPlayerTF.setHorizontalAlignment(JTextField.LEFT);
+		currentPlayerTF.setBounds(60, 5, 300, txtWidth);
+		contentPane.add(currentPlayerTF);
+		updateCurrentPlayer();
 	}
 	
 	public void updateCurrentPlayer() {
-		CurrentPlayer.repaint();
+		Player ply = GameCreator.getCurrentPlayer();
+		currentPlayerTF.setText(ply.name);
+		currentPlayerTF.setForeground(ply.color);
 	}
 
 }
