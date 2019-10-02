@@ -2,8 +2,12 @@ package io.gui.frames;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -11,6 +15,7 @@ import javax.swing.border.EmptyBorder;
 
 import game.map.Country;
 import game.player.Player;
+import game.player.PlayerStatus;
 import game.resources.GameCreator;
 import game.resources.GameStatus;
 import io.gui.components.PolygonMapPanel;
@@ -86,6 +91,18 @@ public class GameMapFrame extends JFrame {
 		useUlti.setForeground(Color.YELLOW);
 		useUlti.setHorizontalAlignment(SwingConstants.CENTER);
 		useUlti.setBounds(550, 180, 140, txtWidth);
+		useUlti.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				if(GameCreator.getCurrentPlayer().ultiReady() == 1 && GameCreator.getCurrentPlayer().getStatus() == PlayerStatus.INIT) {
+					newArmy += GameCreator.getCurrentPlayer().useUlti();
+					newArmyCounter.setText(String.valueOf(newArmy));
+				}
+			}
+		});
+		
+		
+		
+		
 		contentPane.add(useUlti);
 		
 		currentPlayerTF = new JTextField();
@@ -108,7 +125,7 @@ public class GameMapFrame extends JFrame {
 		newArmyCounter.setBounds(400, 5, 55, 55);
 		contentPane.add(newArmyCounter);
 	}
-	
+
 	public void updateCurrentPlayer() {
 		Player ply = GameCreator.nextPlayer();
 		currentPlayerTF.setText(ply.name);
@@ -124,7 +141,8 @@ public class GameMapFrame extends JFrame {
 			}
 		} else if(newArmy < 0) {
 			newArmy = Math.abs(newArmy);
-			useUlti.setEnabled(false);
+			//Ausgabe, dass Ulti automatisch genutzt wurde
+			//useUlti.setEnabled(false); brauch man ja eigentlich nicht...
 		} 
 		newArmyCounter.setText(String.valueOf(newArmy));
 	}

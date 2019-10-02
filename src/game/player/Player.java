@@ -140,7 +140,7 @@ public class Player implements Cloneable {
 	/**
 	 * removes the right cards from his hand
 	 */
-	public void useUlti() {
+	public int useUlti() {
 		if (cards.size() == 3) {
 			cards.clear();
 		} else {
@@ -176,8 +176,9 @@ public class Player implements Cloneable {
 				cards.addAll(s);
 			}
 		}
-		troops += GameCreator.getGoldenCavalier();
+		int gGC = GameCreator.getGoldenCavalier(); 
 		GameCreator.updateGoldenCavalier();
+		return gGC;
 	}
 
 	/**
@@ -196,8 +197,7 @@ public class Player implements Cloneable {
 			
 			// ulti bonus
 			if(ultiReady() == 2) {
-				useUlti();
-				troops = 0 - troops;
+				troops = 0 - (troops+ useUlti());
 			}
 		}
 	}

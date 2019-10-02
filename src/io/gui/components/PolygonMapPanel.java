@@ -68,17 +68,17 @@ public class PolygonMapPanel extends JPanel {
 					if(currentPlayer.getStatus() != PlayerStatus.INIT) break;
 					if(currentPlayer != c.king()) break;
 					
-					int army = PolygonMapPanel.this.frame.getNewArmyCount();
+					int army = frame.getNewArmyCount();
 					int i = 1; int n = 0;
 					troops = (int) (i * Math.pow(10, n));
 					popup.removeAll();
-					while(troops < army) {
+					while(troops < army){
 						popup.add(item = new JMenuItem(String.valueOf(troops)));
 						item.addActionListener(new ActionListener() {
 							
 							public void actionPerformed(ActionEvent evt) {
 								int t = Integer.parseInt(((JMenuItem) evt.getSource()).getText());
-								PolygonMapPanel.this.frame.placeTroops(t, c);
+								frame.placeTroops(t, c);
 								repaintMap();
 							}
 							
@@ -95,7 +95,7 @@ public class PolygonMapPanel extends JPanel {
 						
 						public void actionPerformed(ActionEvent evt) {
 							int t = Integer.parseInt(((JMenuItem) evt.getSource()).getText());
-							PolygonMapPanel.this.frame.placeTroops(t, c);
+							frame.placeTroops(t, c);
 							repaintMap();
 						}
 						
@@ -109,7 +109,7 @@ public class PolygonMapPanel extends JPanel {
 			private void addAndRepaint() {
 				c.addSoldiers();
 				repaintMap();
-				PolygonMapPanel.this.frame.updateCurrentPlayer();
+				frame.updateCurrentPlayer();
 			}
 			
 			@Override
