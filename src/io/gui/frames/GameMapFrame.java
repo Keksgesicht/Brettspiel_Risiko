@@ -9,8 +9,10 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import game.map.Country;
 import game.player.Player;
 import game.resources.GameCreator;
+import game.resources.GameStatus;
 import io.gui.components.PolygonMapPanel;
 
 @SuppressWarnings("serial")
@@ -19,6 +21,9 @@ public class GameMapFrame extends JFrame {
 	private JPanel mapPanel;
 	private JPanel contentPane;
 	private JTextField currentPlayerTF;
+	private JTextField newArmyCounter;
+	private JButton useUlti;
+	private int newArmy = GameCreator.getCurrentPlayer().getNewTroops();
 
 	/**
 	 * Create the frame.
@@ -75,7 +80,7 @@ public class GameMapFrame extends JFrame {
 		contentPane.add(calvalierCounter);
 		
 		Font buttonFont = new Font("Courier", Font.BOLD,20);
-		JButton useUlti = new JButton("use Cards!");
+		useUlti = new JButton("use Cards!");
 		useUlti.setFont(buttonFont);
 		useUlti.setBackground(Color.BLACK);
 		useUlti.setForeground(Color.YELLOW);
@@ -92,12 +97,47 @@ public class GameMapFrame extends JFrame {
 		currentPlayerTF.setForeground(GameCreator.getCurrentPlayer().color);
 		currentPlayerTF.setBounds(60, 5, 300, 55);
 		contentPane.add(currentPlayerTF);
+		
+		newArmyCounter = new JTextField();
+		newArmyCounter.setEditable(false);
+		newArmyCounter.setFont(risikoFont);
+		newArmyCounter.setBackground(Color.WHITE);
+		newArmyCounter.setForeground(Color.BLACK);
+		newArmyCounter.setHorizontalAlignment(SwingConstants.CENTER);
+		newArmyCounter.setText(String.valueOf(newArmy));
+		newArmyCounter.setBounds(400, 5, 55, 55);
+		contentPane.add(newArmyCounter);
 	}
 	
 	public void updateCurrentPlayer() {
 		Player ply = GameCreator.nextPlayer();
 		currentPlayerTF.setText(ply.name);
 		currentPlayerTF.setForeground(ply.color);
+		ply.addTroops();
+		newArmy = ply.getNewTroops();
+		if(GameCreator.getGameState() == GameStatus.START) {
+			if(newArmy == 0) {
+				GameCreator.updateGameStatus();
+				ply.updateStatus();
+				ply.addTroops();
+				newArmy = ply.getNewTroops();
+			}
+		} else if(newArmy < 0) {
+			newArmy = Math.abs(newArmy);
+			useUlti.setEnabled(false);
+		} 
+		newArmyCounter.setText(String.valueOf(newArmy));
+	}
+	
+	public int getNewArmyCount() {
+		return newArmy;
+	}
+	
+	public void placeTroops(int t, Country c) {
+		for(int i=0; i < t; i++)
+			c.addSoldiers();
+		newArmy -= t;
+		newArmyCounter.setText(String.valueOf(newArmy));
 	}
 
 }

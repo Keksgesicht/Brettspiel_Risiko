@@ -10,6 +10,7 @@ import java.util.Set;
 import game.map.Continent;
 import game.map.Country;
 import game.resources.GameCreator;
+import game.resources.GameStatus;
 
 public class Player implements Cloneable {
 
@@ -20,11 +21,11 @@ public class Player implements Cloneable {
 	public final Set<AreaCard> cards;
 	public final String name;
 	public final Color color;
-	public int troops;
 	
 	private final Set<Country> controlledCountries;
 	private PlayerStatus state;
 	private boolean won1Fight;
+	private int troops;
 
 	/**
 	 * 
@@ -180,14 +181,10 @@ public class Player implements Cloneable {
 	}
 
 	/**
-	 * @return The number of troops to be deployed
+	 * calculates the count of troops that the player can add this round
 	 */
-	public int addTroops() {
-		switch(GameCreator.getGameState()) {
-		case INIT:
-		case START:
-			return troops--;
-		case PLAY:
+	public void addTroops() {
+		if(GameCreator.getGameState() == GameStatus.PLAY) {
 			troops = 0;
 			// controlled countries / 3
 			int ccs = controlledCountries.size() / 3;
@@ -200,11 +197,23 @@ public class Player implements Cloneable {
 			// ulti bonus
 			if(ultiReady() == 2) {
 				useUlti();
-				return 0 - troops;
+				troops = 0 - troops;
 			}
+		}
+	}
+	
+	/**
+	 * @return count of troops that the player can add this round
+	 */
+	public int getNewTroops() {
+		switch(GameCreator.getGameState()) {
+		case INIT:
+		case START:
+			return troops--;
 		default:
-			break;
-		} return troops;
+			return troops;
+		}
+	
 	}
 	
 	/**

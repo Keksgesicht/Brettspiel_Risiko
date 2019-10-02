@@ -11,10 +11,10 @@ import java.awt.event.MouseEvent;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
+import javax.swing.border.BevelBorder;
 
 import game.map.Country;
 import game.player.Player;
@@ -25,78 +25,91 @@ import io.gui.frames.GameMapFrame;
 @SuppressWarnings("serial")
 public class PolygonMapPanel extends JPanel {
 
-	JPopupMenu popup = new JPopupMenu();
-	JMenuItem item;
-	Country c;
 	GameMapFrame frame;
+	JPopupMenu popup = new JPopupMenu();
+	Map<Polygon,Country> cmap = GameCreator.getCMap();
 
 	public PolygonMapPanel(GameMapFrame frame) {
 		super();
 		this.frame = frame;
+		popup.setBorder(new BevelBorder(BevelBorder.RAISED));
 		addMouseListener(new MouseAdapter() {
+			
+			Point mouseP;
+			JMenuItem item;
+			Player currentPlayer;
+			Country c;
+			int troops;
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Point mouseP = e.getPoint();
-				Map<Polygon,Country> cmap = GameCreator.getCMap();
-				Player currentPlayer = GameCreator.getCurrentPlayer();
-				
-				
+				mouseP = e.getPoint();
+				currentPlayer = GameCreator.getCurrentPlayer();
 				c = null;
 				for(Polygon poly : cmap.keySet()) {
 					if(poly.contains(mouseP)) {
 						c = cmap.get(poly); break;
 					}
-				}
-				if(c == null) return;
+				} if(c == null) return;
 				
 				switch(GameCreator.getGameState()) {
 				case INIT:
 					if(c.king() != null) break;
-					c.addSoldiers();
 					currentPlayer.addCountry(c);
-					repaintMap();
-					currentPlayer.addTroops();
-					PolygonMapPanel.this.frame.updateCurrentPlayer();
+					addAndRepaint();
 					if(GameCreator.getCountries().stream().filter(c -> c.king() == null).count() == 0) {
 						GameCreator.updateGameStatus();
 					} break;
 				case START:
-					if(currentPlayer.troops == 0) {
-						currentPlayer.updateStatus();
-						GameCreator.updateGameStatus();
-					} else {
-						if(c.king() != currentPlayer) break;
-						c.addSoldiers();
-						repaintMap();
-						currentPlayer.addTroops();
-						PolygonMapPanel.this.frame.updateCurrentPlayer();
-						break;
-					}
+					if(c.king() != currentPlayer) break;
+					addAndRepaint();
+					break;
 				case PLAY:
 					if(currentPlayer.getStatus() != PlayerStatus.INIT) break;
+					if(currentPlayer != c.king()) break;
 					
-					int army = currentPlayer.addTroops();
+					int army = PolygonMapPanel.this.frame.getNewArmyCount();
 					int i = 1; int n = 0;
-					do {
-						int troops = i * 10 ^ n;
+					troops = (int) (i * Math.pow(10, n));
+					popup.removeAll();
+					while(troops < army) {
 						popup.add(item = new JMenuItem(String.valueOf(troops)));
-						item.addActionListener(new ActionListener() { 
+						item.addActionListener(new ActionListener() {
+							
 							public void actionPerformed(ActionEvent evt) {
-								for(int i=0; i < troops; i++)
-									c.addSoldiers();
+								int t = Integer.parseInt(((JMenuItem) evt.getSource()).getText());
+								PolygonMapPanel.this.frame.placeTroops(t, c);
+								repaintMap();
 							}
+							
 						});
 						// loop unit
 						if(i == 2) i = 5;
-						if(i == 5) {
+						else if(i == 5) {
 							i = 1; n++;
 						} else i++;
-					} while(i < army);
+						troops = (int) (i * Math.pow(10, n));
+					} 
+					popup.add(item = new JMenuItem(String.valueOf(army)));
+					item.addActionListener(new ActionListener() {
+						
+						public void actionPerformed(ActionEvent evt) {
+							int t = Integer.parseInt(((JMenuItem) evt.getSource()).getText());
+							PolygonMapPanel.this.frame.placeTroops(t, c);
+							repaintMap();
+						}
+						
+					});
 					popup.show(PolygonMapPanel.this, mouseP.x, mouseP.y);
 				default:
 					break;
 				}
+			}
+			
+			private void addAndRepaint() {
+				c.addSoldiers();
+				repaintMap();
+				PolygonMapPanel.this.frame.updateCurrentPlayer();
 			}
 			
 			@Override
@@ -108,13 +121,16 @@ public class PolygonMapPanel extends JPanel {
 	}
 	
 	void repaintMap() {
-		new Thread() { public void run() { PolygonMapPanel.this.repaint(); } }.start();
+		new Thread() { 
+			public void run() {
+				PolygonMapPanel.this.repaint(); 
+			} 
+		}.start();
 	}
 
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		Map<Polygon, Country> cmap = GameCreator.getCMap();
 		for (Entry<Polygon, Country> pc : cmap.entrySet()) {
 			Polygon poly = pc.getKey();
 			Country coty = pc.getValue();
