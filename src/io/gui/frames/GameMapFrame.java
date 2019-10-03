@@ -27,8 +27,11 @@ public class GameMapFrame extends JFrame {
 	private JPanel contentPane;
 	private JTextField currentPlayerTF;
 	private JTextField newArmyCounter;
+	private JTextField calvalierCounter;
 	private JButton useUlti;
-	private int newArmy = GameCreator.getCurrentPlayer().getNewTroops();
+	private Player currentPlayer = GameCreator.getCurrentPlayer();
+	private int newArmy = currentPlayer.getNewTroops();
+	
 
 	/**
 	 * Create the frame.
@@ -75,7 +78,7 @@ public class GameMapFrame extends JFrame {
 			contentPane.add(defDices[i]);
 		}
 		
-		JTextField calvalierCounter = new JTextField("0");
+		calvalierCounter = new JTextField(String.valueOf(GameCreator.getGoldenCavalier()));
 		calvalierCounter.setEditable(false);
 		calvalierCounter.setFont(risikoFont);
 		calvalierCounter.setBackground(Color.BLACK);
@@ -93,9 +96,10 @@ public class GameMapFrame extends JFrame {
 		useUlti.setBounds(550, 180, 140, txtWidth);
 		useUlti.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-				if(GameCreator.getCurrentPlayer().ultiReady() == 1 && GameCreator.getCurrentPlayer().getStatus() == PlayerStatus.INIT) {
-					newArmy += GameCreator.getCurrentPlayer().useUlti();
+				if(currentPlayer.ultiReady() == 1 && currentPlayer.getStatus() == PlayerStatus.INIT) {
+					newArmy += currentPlayer.useUlti();
 					newArmyCounter.setText(String.valueOf(newArmy));
+					calvalierCounter.setText(String.valueOf(GameCreator.getGoldenCavalier()));
 				}
 			}
 		});
@@ -110,8 +114,8 @@ public class GameMapFrame extends JFrame {
 		currentPlayerTF.setFont(risikoFont);
 		currentPlayerTF.setBackground(Color.WHITE);
 		currentPlayerTF.setHorizontalAlignment(JTextField.LEFT);
-		currentPlayerTF.setText(GameCreator.getCurrentPlayer().name);
-		currentPlayerTF.setForeground(GameCreator.getCurrentPlayer().color);
+		currentPlayerTF.setText(currentPlayer.name);
+		currentPlayerTF.setForeground(currentPlayer.color);
 		currentPlayerTF.setBounds(60, 5, 300, 55);
 		contentPane.add(currentPlayerTF);
 		
@@ -127,20 +131,21 @@ public class GameMapFrame extends JFrame {
 	}
 
 	public void updateCurrentPlayer() {
-		Player ply = GameCreator.nextPlayer();
-		currentPlayerTF.setText(ply.name);
-		currentPlayerTF.setForeground(ply.color);
-		ply.addTroops();
-		newArmy = ply.getNewTroops();
+		currentPlayer = GameCreator.nextPlayer();
+		currentPlayerTF.setText(currentPlayer.name);
+		currentPlayerTF.setForeground(currentPlayer.color);
+		currentPlayer.addTroops();
+		newArmy = currentPlayer.getNewTroops();
 		if(GameCreator.getGameState() == GameStatus.START) {
 			if(newArmy == 0) {
 				GameCreator.updateGameStatus();
-				ply.updateStatus();
-				ply.addTroops();
-				newArmy = ply.getNewTroops();
+				currentPlayer.updateStatus();
+				currentPlayer.addTroops();
+				newArmy = currentPlayer.getNewTroops();
 			}
 		} else if(newArmy < 0) {
 			newArmy = Math.abs(newArmy);
+			calvalierCounter.setText(String.valueOf(GameCreator.getGoldenCavalier()));
 			//Ausgabe, dass Ulti automatisch genutzt wurde
 			//useUlti.setEnabled(false); brauch man ja eigentlich nicht...
 		} 
