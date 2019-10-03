@@ -10,8 +10,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.border.BevelBorder;
@@ -21,6 +23,7 @@ import game.player.Player;
 import game.player.PlayerStatus;
 import game.resources.GameCreator;
 import io.gui.frames.GameMapFrame;
+import io.gui.frames.InitFrame;
 
 @SuppressWarnings("serial")
 public class PolygonMapPanel extends JPanel {
@@ -28,45 +31,65 @@ public class PolygonMapPanel extends JPanel {
 	GameMapFrame frame;
 	JPopupMenu popup = new JPopupMenu();
 	Map<Polygon,Country> cmap = GameCreator.getCMap();
+	ActionListener popupItemListener;
+	Set<Country> antiGreyCoties;
+	Country cotyOld;
+	Country coty;
 
 	public PolygonMapPanel(GameMapFrame frame) {
 		super();
 		this.frame = frame;
 		popup.setBorder(new BevelBorder(BevelBorder.RAISED));
+		
+		
+		popupItemListener = new ActionListener() {
+			
+			public void actionPerformed(ActionEvent evt) {
+				int t = Integer.parseInt(((JMenuItem) evt.getSource()).getText());
+				frame.placeTroops(t, coty);
+				repaint();
+			}
+			
+		};
+		
 		addMouseListener(new MouseAdapter() {
 			
 			Point mouseP;
 			JMenuItem item;
 			Player currentPlayer;
-			Country c;
 			int troops;
+			
+			public void getMouseMapInfo(MouseEvent e) {
+				mouseP = e.getPoint();
+				currentPlayer = GameCreator.getCurrentPlayer();
+				coty = null;
+				for(Polygon poly : cmap.keySet()) {
+					if(poly.contains(mouseP)) {
+						coty = cmap.get(poly); break;
+					}
+				}
+			}			
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				mouseP = e.getPoint();
-				currentPlayer = GameCreator.getCurrentPlayer();
-				c = null;
-				for(Polygon poly : cmap.keySet()) {
-					if(poly.contains(mouseP)) {
-						c = cmap.get(poly); break;
-					}
-				} if(c == null) return;
+				getMouseMapInfo(e);
+				if(coty == null) return;
 				
 				switch(GameCreator.getGameState()) {
 				case INIT:
-					if(c.king() != null) break;
-					currentPlayer.addCountry(c);
+					if(coty.king() != null) break;
+					currentPlayer.addCountry(coty);
 					addAndRepaint();
 					if(GameCreator.getCountries().stream().filter(c -> c.king() == null).count() == 0) {
 						GameCreator.updateGameStatus();
 					} break;
 				case START:
-					if(c.king() != currentPlayer) break;
+					if(coty.king() != currentPlayer) break;
 					addAndRepaint();
 					break;
 				case PLAY:
 					if(currentPlayer.getStatus() != PlayerStatus.INIT) break;
-					if(currentPlayer != c.king()) break;
+					if(currentPlayer != coty.king()) break;
 					
 					int army = frame.getNewArmyCount();
 					int i = 1; int n = 0;
@@ -74,15 +97,7 @@ public class PolygonMapPanel extends JPanel {
 					popup.removeAll();
 					while(troops < army){
 						popup.add(item = new JMenuItem(String.valueOf(troops)));
-						item.addActionListener(new ActionListener() {
-							
-							public void actionPerformed(ActionEvent evt) {
-								int t = Integer.parseInt(((JMenuItem) evt.getSource()).getText());
-								frame.placeTroops(t, c);
-								repaintMap();
-							}
-							
-						});
+						item.addActionListener(popupItemListener);
 						// loop unit
 						if(i == 2) i = 5;
 						else if(i == 5) {
@@ -91,15 +106,7 @@ public class PolygonMapPanel extends JPanel {
 						troops = (int) (i * Math.pow(10, n));
 					} 
 					popup.add(item = new JMenuItem(String.valueOf(army)));
-					item.addActionListener(new ActionListener() {
-						
-						public void actionPerformed(ActionEvent evt) {
-							int t = Integer.parseInt(((JMenuItem) evt.getSource()).getText());
-							frame.placeTroops(t, c);
-							repaintMap();
-						}
-						
-					});
+					item.addActionListener(popupItemListener);
 					popup.show(PolygonMapPanel.this, mouseP.x, mouseP.y);
 				default:
 					break;
@@ -107,47 +114,130 @@ public class PolygonMapPanel extends JPanel {
 			}
 			
 			private void addAndRepaint() {
-				c.addSoldiers();
-				repaintMap();
+				coty.addSoldiers();
+				repaint();
 				frame.updateCurrentPlayer();
 			}
 			
 			@Override
-			public void mouseDragged(MouseEvent e) {
+			public void mousePressed(MouseEvent e) {
+				getMouseMapInfo(e);
+				if(coty == null) return;
 				
+				switch(currentPlayer.getStatus()) {
+				case FIGHT:
+					antiGreyCoties = coty.getNeighboringEnemyCountries();
+					repaint();
+					cotyOld = coty;
+					break;
+				case END:
+					antiGreyCoties = coty.getNearFriendlyCountries();
+					repaint();
+					cotyOld = coty;
+					break;
+				default:
+					break;
+				}
+			}
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				getMouseMapInfo(e);
+				if(coty == null) {
+					cotyOld = null;
+					return;
+				}
+				
+				switch(currentPlayer.getStatus()) {
+				case FIGHT:
+					if(!antiGreyCoties.contains(coty)) break;
+					
+					switch(fightOptionPane()) {
+					case 0:
+						// TODO
+					case 1:
+						// TODO
+					default:
+						break;
+					}
+					break;
+				case END:
+					if(!antiGreyCoties.contains(coty)) break;
+					
+					 moveOptionPane();
+					// TODO
+				default:
+					break;
+				}
+				antiGreyCoties = null;
+				repaint();
+			}
+			
+			private int fightOptionPane() {
+				Object[] options = {"Fight", 
+									"Fast-Forward", 
+									"Cancel"};
+				return JOptionPane.showOptionDialog(frame,
+						cotyOld.name + " --> " + coty.name,
+						"Attack?",
+						JOptionPane.YES_NO_CANCEL_OPTION,
+						JOptionPane.QUESTION_MESSAGE,
+						null,
+						options,
+						options[2]);
+			}
+			
+			private int moveOptionPane() {
+				Object[] options = new Object[42];
+				// TODO
+				return JOptionPane.showOptionDialog(frame,
+						cotyOld.name + " --> " + coty.name,
+						"Move!",
+						JOptionPane.YES_NO_CANCEL_OPTION,
+						JOptionPane.QUESTION_MESSAGE,
+						null,
+						options,
+						options[2]);
 			}
 			
 		});
-	}
-	
-	void repaintMap() {
-		new Thread() { 
-			public void run() {
-				PolygonMapPanel.this.repaint(); 
-			} 
-		}.start();
 	}
 
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		for (Entry<Polygon, Country> pc : cmap.entrySet()) {
-			Polygon poly = pc.getKey();
-			Country coty = pc.getValue();
-			Player ply = coty.king();
-			// draw Country with Player color
-			if(ply != null) {
+		Set<Entry<Polygon, Country>> cmapES = cmap.entrySet();
+		cmapES.stream()
+			  .forEach(pc -> fillOnePolygon(g, pc.getKey(), pc.getValue()));
+		cmapES.parallelStream()
+			  .forEach(pc -> drawOnePolygon(g, pc.getKey(), pc.getValue()));
+	}
+	
+	private void fillOnePolygon(Graphics g, Polygon poly, Country cotyP) {
+		Player ply = cotyP.king();
+		// draw Country with Player color
+		if(ply != null) {
+			switch(ply.getStatus()) {
+			case FIGHT:
+			case END:
+				if(!antiGreyCoties.contains(cotyP)) 
+					g.setColor(Color.GRAY);
+				break;
+			default:
 				g.setColor(ply.color);
-				g.fillPolygon(poly);
-			}
-			// draw Country border
-			g.setColor(Color.BLACK);
-			g.drawPolygon(poly);
-			
-			Point polyP = middlePoint(poly);
-			g.drawString(coty.name, polyP.x, polyP.y);
-			g.drawString(String.valueOf(coty.getSoldiers()), polyP.x, polyP.y + 20);
+				break;
+			} g.fillPolygon(poly);
 		}
+	}
+	
+	private void drawOnePolygon(Graphics g, Polygon poly, Country cotyP) {
+		// draw Country border
+		g.setColor(Color.BLACK);
+		g.drawPolygon(poly);
+		// draw country name and soldier count
+		Point polyP = middlePoint(poly);
+		g.drawString(cotyP.name, polyP.x, polyP.y);
+		g.drawString(String.valueOf(cotyP.getSoldiers()), polyP.x, polyP.y + 20);
 	}
 	
 	private Point middlePoint(Polygon poly) {
