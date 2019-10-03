@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.PriorityQueue;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -31,7 +32,8 @@ public class GameMapFrame extends JFrame {
 	private JButton useUlti;
 	private Player currentPlayer = GameCreator.getCurrentPlayer();
 	private int newArmy = currentPlayer.getNewTroops();
-	
+	private JTextField[] attDices;
+	private JTextField[] defDices;
 
 	/**
 	 * Create the frame.
@@ -53,7 +55,7 @@ public class GameMapFrame extends JFrame {
 		Font risikoFont = new Font("Courier", Font.BOLD,42);;
 		
 		// attacker dice TextFields
-		JTextField[] attDices = new JTextField[nAtt];
+		attDices = new JTextField[nAtt];
 		for(int i = 0; i < nAtt; i++) {
 			attDices[i] = new JTextField("0");
 			attDices[i].setEditable(false);
@@ -66,7 +68,7 @@ public class GameMapFrame extends JFrame {
 		}
 		// defender dice TextFields
 		int nDef = 2;
-		JTextField[] defDices = new JTextField[nDef];
+		defDices = new JTextField[nDef];
 		for(int i = 0; i < nDef; i++) {
 			defDices[i] = new JTextField("0");
 			defDices[i].setEditable(false);
@@ -103,10 +105,6 @@ public class GameMapFrame extends JFrame {
 				}
 			}
 		});
-		
-		
-		
-		
 		contentPane.add(useUlti);
 		
 		currentPlayerTF = new JTextField();
@@ -161,6 +159,28 @@ public class GameMapFrame extends JFrame {
 			c.addSoldiers();
 		newArmy -= t;
 		newArmyCounter.setText(String.valueOf(newArmy));
+	}
+	
+	public void updateDices(Integer[] attacker, Integer[] defender) {
+		int duration = 1000;
+		int lambda = 25;
+		int times = duration / lambda;
+		for(int j = 0; j < times; j++) {
+			for(int i = 0; i < 3; i++)
+				attDices[i].setText(String.valueOf( (int) Math.random() * 6 + 1 ));
+			for(int i = 0; i < 2; i++)
+				defDices[i].setText(String.valueOf( (int) Math.random() * 6 + 1 ));
+			
+			try {
+				Thread.sleep(lambda);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		for(int i = 0; i < 3; i++)
+			attDices[i].setText(String.valueOf(attacker[i]));
+		for(int i = 0; i < 2; i++)
+			defDices[i].setText(String.valueOf(defender[i]));
 	}
 
 }

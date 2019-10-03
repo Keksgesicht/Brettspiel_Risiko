@@ -5,6 +5,7 @@ import java.util.Random;
 
 import base.collections.IntegerComparator;
 import game.resources.GameCreator;
+import io.gui.frames.GameMapFrame;
 
 public class CountryBorder {
 	
@@ -63,13 +64,13 @@ public class CountryBorder {
 	}
 	
 	/**
-	 * 
 	 * @param attacker
 	 * @param defender
 	 * @param ff
 	 */
-	public static void fight(Country attacker, Country defender, boolean ff) {
+	public static boolean fight(Country attacker, Country defender, boolean ff, GameMapFrame frame) {
 		Random r = new Random(System.nanoTime());
+		boolean again;
 		do {
 			int a = attacker.getSoldiers() -1;
 			int d = defender.getSoldiers();
@@ -78,16 +79,21 @@ public class CountryBorder {
 			PriorityQueue<Integer> qa = new PriorityQueue<Integer>(a , new IntegerComparator().reversed());
 			PriorityQueue<Integer> qd = new PriorityQueue<Integer>(d , new IntegerComparator().reversed());
 			for(int i = 0; i < a; i++) {
-				qa.add((int) r.nextDouble()*6+1);
-			} for(int i = 0; i < d; i++) {
-				qd.add((int) r.nextDouble()*6+1);
-			} do {
+				qa.add( (int) r.nextDouble() * 6 + 1 );
+			}
+			for(int i = 0; i < d; i++) {
+				qd.add( (int) r.nextDouble() * 6 + 1 );
+			}
+			frame.updateDices(qa.toArray(new Integer[3]), qd.toArray(new Integer[3]));
+			do {
 				if(qd.remove() < qa.remove())
 					defender.subSoldiers();
 				else
 					attacker.subSoldiers();
-			} while(0 < qa.size() && 0 < qd.size());
-		} while(ff && 1 < attacker.getSoldiers() && 0 < defender.getSoldiers());
+			} while(!qa.isEmpty() && !qd.isEmpty());
+			again = (1 < attacker.getSoldiers() && 0 < defender.getSoldiers());
+		} while(ff && again);
+		return again;
 	}
 	
 

@@ -19,6 +19,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.border.BevelBorder;
 
 import game.map.Country;
+import game.map.CountryBorder;
 import game.player.Player;
 import game.player.PlayerStatus;
 import game.resources.GameCreator;
@@ -151,15 +152,7 @@ public class PolygonMapPanel extends JPanel {
 				switch(currentPlayer.getStatus()) {
 				case FIGHT:
 					if(!antiGreyCoties.contains(coty)) break;
-					
-					switch(fightOptionPane()) {
-					case 0:
-						// TODO
-					case 1:
-						// TODO
-					default:
-						break;
-					}
+					fight();
 					break;
 				case END:
 					if(!antiGreyCoties.contains(coty)) break;
@@ -171,6 +164,22 @@ public class PolygonMapPanel extends JPanel {
 				}
 				antiGreyCoties = null;
 				repaint();
+			}
+			
+			private void fight() {
+				boolean again;
+				do {
+					switch(fightOptionPane()) {
+					case 0:
+						again = CountryBorder.fight(cotyOld, coty, false, frame);
+						break;
+					case 1:
+						CountryBorder.fight(cotyOld, coty, true, frame);
+					default:
+						again = false;
+						break;
+					}
+				} while(again);
 			}
 			
 			private int fightOptionPane() {
@@ -207,8 +216,11 @@ public class PolygonMapPanel extends JPanel {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Set<Entry<Polygon, Country>> cmapES = cmap.entrySet();
+		
 		cmapES.stream()
 			  .forEach(pc -> fillOnePolygon(g, pc.getKey(), pc.getValue()));
+		
+		g.setColor(Color.BLACK);
 		cmapES.parallelStream()
 			  .forEach(pc -> drawOnePolygon(g, pc.getKey(), pc.getValue()));
 	}
@@ -217,22 +229,20 @@ public class PolygonMapPanel extends JPanel {
 		Player ply = cotyP.king();
 		// draw Country with Player color
 		if(ply != null) {
+			g.setColor(ply.color);
 			switch(ply.getStatus()) {
 			case FIGHT:
 			case END:
 				if(!antiGreyCoties.contains(cotyP)) 
 					g.setColor(Color.GRAY);
-				break;
 			default:
-				g.setColor(ply.color);
 				break;
 			} g.fillPolygon(poly);
 		}
 	}
 	
 	private void drawOnePolygon(Graphics g, Polygon poly, Country cotyP) {
-		// draw Country border
-		g.setColor(Color.BLACK);
+		// draw Country borde
 		g.drawPolygon(poly);
 		// draw country name and soldier count
 		Point polyP = middlePoint(poly);
