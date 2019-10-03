@@ -4,11 +4,9 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.PriorityQueue;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -23,13 +21,14 @@ import io.gui.components.PolygonMapPanel;
 
 @SuppressWarnings("serial")
 public class GameMapFrame extends JFrame {
-	
+
 	private JPanel mapPanel;
 	private JPanel contentPane;
 	private JTextField currentPlayerTF;
 	private JTextField newArmyCounter;
 	private JTextField calvalierCounter;
 	private JButton useUlti;
+	private JButton nextPlayerStatus;
 	private Player currentPlayer = GameCreator.getCurrentPlayer();
 	private int newArmy = currentPlayer.getNewTroops();
 	private JTextField[] attDices;
@@ -45,18 +44,19 @@ public class GameMapFrame extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(null);
 		setContentPane(contentPane);
-		
+
 		mapPanel = new PolygonMapPanel(this);
 		mapPanel.setBounds(50, 65, 420, 420);
 		contentPane.add(mapPanel);
-		
+
 		int nAtt = 3;
 		int txtWidth = 47;
-		Font risikoFont = new Font("Courier", Font.BOLD,42);;
-		
+		Font risikoFont = new Font("Courier", Font.BOLD, 42);
+		;
+
 		// attacker dice TextFields
 		attDices = new JTextField[nAtt];
-		for(int i = 0; i < nAtt; i++) {
+		for (int i = 0; i < nAtt; i++) {
 			attDices[i] = new JTextField("0");
 			attDices[i].setEditable(false);
 			attDices[i].setFont(risikoFont);
@@ -69,7 +69,7 @@ public class GameMapFrame extends JFrame {
 		// defender dice TextFields
 		int nDef = 2;
 		defDices = new JTextField[nDef];
-		for(int i = 0; i < nDef; i++) {
+		for (int i = 0; i < nDef; i++) {
 			defDices[i] = new JTextField("0");
 			defDices[i].setEditable(false);
 			defDices[i].setFont(risikoFont);
@@ -79,7 +79,7 @@ public class GameMapFrame extends JFrame {
 			defDices[i].setBounds(500 + txtWidth * i, 120, txtWidth, txtWidth);
 			contentPane.add(defDices[i]);
 		}
-		
+
 		calvalierCounter = new JTextField(String.valueOf(GameCreator.getGoldenCavalier()));
 		calvalierCounter.setEditable(false);
 		calvalierCounter.setFont(risikoFont);
@@ -88,8 +88,8 @@ public class GameMapFrame extends JFrame {
 		calvalierCounter.setHorizontalAlignment(SwingConstants.CENTER);
 		calvalierCounter.setBounds(500, 180, txtWidth, txtWidth);
 		contentPane.add(calvalierCounter);
-		
-		Font buttonFont = new Font("Courier", Font.BOLD,20);
+
+		Font buttonFont = new Font("Courier", Font.BOLD, 20);
 		useUlti = new JButton("use Cards!");
 		useUlti.setFont(buttonFont);
 		useUlti.setBackground(Color.BLACK);
@@ -98,7 +98,7 @@ public class GameMapFrame extends JFrame {
 		useUlti.setBounds(550, 180, 140, txtWidth);
 		useUlti.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-				if(currentPlayer.ultiReady() == 1 && currentPlayer.getStatus() == PlayerStatus.INIT) {
+				if (currentPlayer.ultiReady() == 1 && currentPlayer.getStatus() == PlayerStatus.INIT) {
 					newArmy += currentPlayer.useUlti();
 					newArmyCounter.setText(String.valueOf(newArmy));
 					calvalierCounter.setText(String.valueOf(GameCreator.getGoldenCavalier()));
@@ -106,7 +106,38 @@ public class GameMapFrame extends JFrame {
 			}
 		});
 		contentPane.add(useUlti);
-		
+
+		nextPlayerStatus = new JButton("Start fighting");
+		nextPlayerStatus.setFont(buttonFont);
+		// nextPlayerStatus.setBackground(Color.WHITE);
+		nextPlayerStatus.setForeground(Color.BLACK);
+		nextPlayerStatus.setHorizontalAlignment(SwingConstants.CENTER);
+		nextPlayerStatus.setBounds(500, 240, 190, txtWidth);
+		nextPlayerStatus.setVisible(false);
+		nextPlayerStatus.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				switch (currentPlayer.getStatus()) {
+				case FIGHT:
+					nextPlayerStatus.setText("End turn");
+					currentPlayer.updateStatus();
+					break;
+				case END:
+					nextPlayerStatus.setText("Start fighting");
+					currentPlayer.updateStatus();
+					updateCurrentPlayer();
+					break;
+				case INIT:
+					if (newArmy == 0) {
+						nextPlayerStatus.setText("Finish fighting");
+						currentPlayer.updateStatus();
+					}
+				default:
+					return;
+				}
+			}
+		});
+		contentPane.add(nextPlayerStatus);
+
 		currentPlayerTF = new JTextField();
 		currentPlayerTF.setEditable(false);
 		currentPlayerTF.setFont(risikoFont);
@@ -116,7 +147,7 @@ public class GameMapFrame extends JFrame {
 		currentPlayerTF.setForeground(currentPlayer.color);
 		currentPlayerTF.setBounds(60, 5, 300, 55);
 		contentPane.add(currentPlayerTF);
-		
+
 		newArmyCounter = new JTextField();
 		newArmyCounter.setEditable(false);
 		newArmyCounter.setFont(risikoFont);
@@ -134,52 +165,53 @@ public class GameMapFrame extends JFrame {
 		currentPlayerTF.setForeground(currentPlayer.color);
 		currentPlayer.addTroops();
 		newArmy = currentPlayer.getNewTroops();
-		if(GameCreator.getGameState() == GameStatus.START) {
-			if(newArmy == 0) {
+		if (GameCreator.getGameState() == GameStatus.START) {
+			if (newArmy == 0) {
 				GameCreator.updateGameStatus();
 				currentPlayer.updateStatus();
 				currentPlayer.addTroops();
 				newArmy = currentPlayer.getNewTroops();
+				nextPlayerStatus.setVisible(true);
 			}
-		} else if(newArmy < 0) {
+		} else if (newArmy < 0) {
 			newArmy = Math.abs(newArmy);
 			calvalierCounter.setText(String.valueOf(GameCreator.getGoldenCavalier()));
-			//Ausgabe, dass Ulti automatisch genutzt wurde
-			//useUlti.setEnabled(false); brauch man ja eigentlich nicht...
-		} 
+			// Ausgabe, dass Ulti automatisch genutzt wurde
+			// useUlti.setEnabled(false); brauch man ja eigentlich nicht...
+		}
 		newArmyCounter.setText(String.valueOf(newArmy));
 	}
-	
+
 	public int getNewArmyCount() {
 		return newArmy;
 	}
-	
+
 	public void placeTroops(int t, Country c) {
-		for(int i=0; i < t; i++)
+		for (int i = 0; i < t; i++)
 			c.addSoldiers();
 		newArmy -= t;
 		newArmyCounter.setText(String.valueOf(newArmy));
 	}
-	
+
 	public void updateDices(Integer[] attacker, Integer[] defender) {
 		int duration = 1000;
 		int lambda = 25;
 		int times = duration / lambda;
-		for(int j = 0; j < times; j++) {
-			for(int i = 0; i < 3; i++)
-				attDices[i].setText(String.valueOf( (int) Math.random() * 6 + 1 ));
-			for(int i = 0; i < 2; i++)
-				defDices[i].setText(String.valueOf( (int) Math.random() * 6 + 1 ));
-			
+		for (int j = 0; j < times; j++) {
+			for (int i = 0; i < 3; i++)
+				attDices[i].setText(String.valueOf((int) Math.random() * 6 + 1));
+			for (int i = 0; i < 2; i++)
+				defDices[i].setText(String.valueOf((int) Math.random() * 6 + 1));
+
 			try {
 				Thread.sleep(lambda);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
-		for(int i = 0; i < 3; i++)
+		for (int i = 0; i < 3; i++)
 			attDices[i].setText(String.valueOf(attacker[i]));
-		for(int i = 0; i < 2; i++)
+		for (int i = 0; i < 2; i++)
 			defDices[i].setText(String.valueOf(defender[i]));
 	}
 
