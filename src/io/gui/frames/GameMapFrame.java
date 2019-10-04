@@ -184,18 +184,17 @@ public class GameMapFrame extends JFrame {
 			}
 			break;
 		case PLAY:
+			useUlti.setVisible(true);
 			if (0 < currentPlayer.ultiReady()) {
 				useUlti.setBackground(Color.BLACK);
 				useUlti.setForeground(Color.YELLOW);
-				useUlti.setVisible(true);
 				useUlti.setEnabled(true);
-				if (newArmy < 0) {
-					newArmy = Math.abs(newArmy);
-					calvalierCounter.setText(String.valueOf(GameCreator.getGoldenCavalier()));
-					useUlti.setBackground(Color.BLUE);
-					useUlti.setForeground(Color.WHITE);
-					useUlti.setEnabled(false);
-				}
+			} else if (newArmy < 0) {
+				newArmy = Math.abs(newArmy);
+				calvalierCounter.setText(String.valueOf(GameCreator.getGoldenCavalier()));
+				useUlti.setBackground(Color.BLUE);
+				useUlti.setForeground(Color.WHITE);
+				useUlti.setEnabled(false);
 			} else
 				useUlti.setVisible(false);
 			currentPlayer.updateStatus();
