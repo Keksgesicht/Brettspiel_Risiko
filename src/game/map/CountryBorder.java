@@ -1,5 +1,6 @@
 package game.map;
 
+import java.util.Comparator;
 import java.util.PriorityQueue;
 import java.util.Random;
 
@@ -67,30 +68,36 @@ public class CountryBorder {
 	 * @param attacker
 	 * @param defender
 	 * @param ff
+	 * @param frame
+	 * @return whether the fight can go on
 	 */
 	public static boolean fight(Country attacker, Country defender, boolean ff, GameMapFrame frame) {
 		Random r = new Random(System.nanoTime());
 		boolean again;
 		do {
-			int a = attacker.getSoldiers() -1;
-			int d = defender.getSoldiers();
-			if(3 < a) a = 3;
-			if(2 < d) d = 2;
-			PriorityQueue<Integer> qa = new PriorityQueue<Integer>(a , new IntegerComparator().reversed());
-			PriorityQueue<Integer> qd = new PriorityQueue<Integer>(d , new IntegerComparator().reversed());
-			for(int i = 0; i < a; i++) {
-				qa.add( (int) r.nextDouble() * 6 + 1 );
-			}
-			for(int i = 0; i < d; i++) {
-				qd.add( (int) r.nextDouble() * 6 + 1 );
-			}
-			frame.updateDices(qa.toArray(new Integer[3]), qd.toArray(new Integer[3]));
+			int att = attacker.getSoldiers() - 1;
+			int def = defender.getSoldiers();
+			if (3 < att)
+				att = 3;
+			if (2 < def)
+				def = 2;
+			
+			Comparator<Integer> intComp = new IntegerComparator().reversed();
+			PriorityQueue<Integer> queueAtt = new PriorityQueue<Integer>(att, intComp);
+			PriorityQueue<Integer> queueDef = new PriorityQueue<Integer>(def, intComp);
+			for (int i = 0; i < att; i++)
+				queueAtt.add((int) (r.nextDouble() * 6 + 1));
+			for (int i = 0; i < def; i++)
+				queueDef.add((int) (r.nextDouble() * 6 + 1));
+			
+			frame.updateDices(queueAtt.stream().sorted(intComp).toArray(Integer[]::new), 
+							  queueDef.stream().sorted(intComp).toArray(Integer[]::new));
 			do {
-				if(qd.remove() < qa.remove())
+				if (queueDef.remove() < queueAtt.remove())
 					defender.subSoldiers();
 				else
 					attacker.subSoldiers();
-			} while(!qa.isEmpty() && !qd.isEmpty());
+			} while (!queueAtt.isEmpty() && !queueDef.isEmpty());
 			again = (1 < attacker.getSoldiers() && 0 < defender.getSoldiers());
 		} while(ff && again);
 		return again;

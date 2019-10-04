@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -16,7 +17,6 @@ import game.map.Country;
 import game.player.Player;
 import game.player.PlayerStatus;
 import game.resources.GameCreator;
-import game.resources.GameStatus;
 import io.gui.components.PolygonMapPanel;
 
 @SuppressWarnings("serial")
@@ -97,13 +97,18 @@ public class GameMapFrame extends JFrame {
 		useUlti.setHorizontalAlignment(SwingConstants.CENTER);
 		useUlti.setBounds(550, 180, 140, txtWidth);
 		useUlti.addActionListener(new ActionListener() {
+
 			public void actionPerformed(ActionEvent evt) {
-				if (currentPlayer.ultiReady() == 1 && currentPlayer.getStatus() == PlayerStatus.INIT) {
+				if (currentPlayer.getStatus() == PlayerStatus.INIT && 0 < currentPlayer.ultiReady()) {
 					newArmy += currentPlayer.useUlti();
 					newArmyCounter.setText(String.valueOf(newArmy));
 					calvalierCounter.setText(String.valueOf(GameCreator.getGoldenCavalier()));
+					useUlti.setBackground(Color.BLUE);
+					useUlti.setForeground(Color.WHITE);
+					useUlti.setEnabled(false);
 				}
 			}
+
 		});
 		contentPane.add(useUlti);
 
@@ -115,26 +120,29 @@ public class GameMapFrame extends JFrame {
 		nextPlayerStatus.setBounds(500, 240, 190, txtWidth);
 		nextPlayerStatus.setVisible(false);
 		nextPlayerStatus.addActionListener(new ActionListener() {
+
 			public void actionPerformed(ActionEvent evt) {
 				switch (currentPlayer.getStatus()) {
 				case FIGHT:
-					nextPlayerStatus.setText("End turn");
 					currentPlayer.updateStatus();
+					nextPlayerStatus.setText("Next Player");
 					break;
 				case END:
-					nextPlayerStatus.setText("Start fighting");
 					currentPlayer.updateStatus();
 					updateCurrentPlayer();
+					nextPlayerStatus.setText("Start fighting");
 					break;
 				case INIT:
 					if (newArmy == 0) {
-						nextPlayerStatus.setText("Finish fighting");
 						currentPlayer.updateStatus();
-					}
+						nextPlayerStatus.setText("Finish fighting");
+					} else
+						JOptionPane.showMessageDialog(GameMapFrame.this, "There are troops left to be placed");
 				default:
-					return;
+					break;
 				}
 			}
+
 		});
 		contentPane.add(nextPlayerStatus);
 
@@ -165,7 +173,8 @@ public class GameMapFrame extends JFrame {
 		currentPlayerTF.setForeground(currentPlayer.color);
 		currentPlayer.addTroops();
 		newArmy = currentPlayer.getNewTroops();
-		if (GameCreator.getGameState() == GameStatus.START) {
+		switch (GameCreator.getGameState()) {
+		case START:
 			if (newArmy == 0) {
 				GameCreator.updateGameStatus();
 				currentPlayer.updateStatus();
@@ -173,11 +182,25 @@ public class GameMapFrame extends JFrame {
 				newArmy = currentPlayer.getNewTroops();
 				nextPlayerStatus.setVisible(true);
 			}
-		} else if (newArmy < 0) {
-			newArmy = Math.abs(newArmy);
-			calvalierCounter.setText(String.valueOf(GameCreator.getGoldenCavalier()));
-			// Ausgabe, dass Ulti automatisch genutzt wurde
-			// useUlti.setEnabled(false); brauch man ja eigentlich nicht...
+			break;
+		case PLAY:
+			if (0 < currentPlayer.ultiReady()) {
+				useUlti.setBackground(Color.BLACK);
+				useUlti.setForeground(Color.YELLOW);
+				useUlti.setVisible(true);
+				useUlti.setEnabled(true);
+				if (newArmy < 0) {
+					newArmy = Math.abs(newArmy);
+					calvalierCounter.setText(String.valueOf(GameCreator.getGoldenCavalier()));
+					useUlti.setBackground(Color.BLUE);
+					useUlti.setForeground(Color.WHITE);
+					useUlti.setEnabled(false);
+				}
+			} else
+				useUlti.setVisible(false);
+			currentPlayer.updateStatus();
+		default:
+			break;
 		}
 		newArmyCounter.setText(String.valueOf(newArmy));
 	}
@@ -195,12 +218,23 @@ public class GameMapFrame extends JFrame {
 
 	public void updateDices(Integer[] attacker, Integer[] defender) {
 		int duration = 1000;
-		int lambda = 25;
+		int lambda = 200;
 		int times = duration / lambda;
+
+		int att = attacker.length;
+		int def = defender.length;
+
+		for (int i = att; i < 3; i++) {
+			attDices[i].setText("0");
+		}
+		for (int i = att; i < 2; i++) {
+			defDices[i].setText("0");
+		}
+
 		for (int j = 0; j < times; j++) {
-			for (int i = 0; i < 3; i++)
+			for (int i = 0; i < att; i++)
 				attDices[i].setText(String.valueOf((int) Math.random() * 6 + 1));
-			for (int i = 0; i < 2; i++)
+			for (int i = 0; i < def; i++)
 				defDices[i].setText(String.valueOf((int) Math.random() * 6 + 1));
 
 			try {
@@ -209,10 +243,13 @@ public class GameMapFrame extends JFrame {
 				e.printStackTrace();
 			}
 		}
-		for (int i = 0; i < 3; i++)
+		for (int i = 0; i < att; i++) {
 			attDices[i].setText(String.valueOf(attacker[i]));
-		for (int i = 0; i < 2; i++)
+		}
+		for (int i = 0; i < def; i++) {
 			defDices[i].setText(String.valueOf(defender[i]));
+		}
+
 	}
 
 }

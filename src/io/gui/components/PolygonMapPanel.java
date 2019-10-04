@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -24,7 +25,6 @@ import game.player.Player;
 import game.player.PlayerStatus;
 import game.resources.GameCreator;
 import io.gui.frames.GameMapFrame;
-import io.gui.frames.InitFrame;
 
 @SuppressWarnings("serial")
 public class PolygonMapPanel extends JPanel {
@@ -92,10 +92,13 @@ public class PolygonMapPanel extends JPanel {
 					if(currentPlayer.getStatus() != PlayerStatus.INIT) break;
 					if(currentPlayer != coty.king()) break;
 					
+					popup.removeAll();
 					int army = frame.getNewArmyCount();
+					if (army == 0)
+						break;
 					int i = 1; int n = 0;
 					troops = (int) (i * Math.pow(10, n));
-					popup.removeAll();
+
 					while(troops < army){
 						popup.add(item = new JMenuItem(String.valueOf(troops)));
 						item.addActionListener(popupItemListener);
@@ -151,14 +154,14 @@ public class PolygonMapPanel extends JPanel {
 				
 				switch(currentPlayer.getStatus()) {
 				case FIGHT:
-					if(!antiGreyCoties.contains(coty)) break;
+					if (antiGreyCoties == null || !antiGreyCoties.contains(coty))
+						break;
 					fight();
 					break;
 				case END:
-					if(!antiGreyCoties.contains(coty)) break;
-					
-					 moveOptionPane();
-					// TODO
+					if (antiGreyCoties == null || !antiGreyCoties.contains(coty))
+						break;
+					 moveOptionPane(false);
 				default:
 					break;
 				}
@@ -167,21 +170,30 @@ public class PolygonMapPanel extends JPanel {
 			}
 			
 			private void fight() {
-				boolean again;
-				do {
+				while (true) {
 					switch(fightOptionPane()) {
 					case 0:
-						again = CountryBorder.fight(cotyOld, coty, false, frame);
+						if (!CountryBorder.fight(cotyOld, coty, false, frame)) {
+							victory();
+							return;
+						}
 						break;
 					case 1:
 						CountryBorder.fight(cotyOld, coty, true, frame);
+						victory();
+						return;
 					default:
-						again = false;
-						break;
+						return;
 					}
-				} while(again);
+					repaint();
+				}
 			}
 			
+			private void victory() {
+				if (coty.getSoldiers() == 0)
+					moveOptionPane(true);
+			}
+
 			private int fightOptionPane() {
 				Object[] options = {"Fight", 
 									"Fast-Forward", 
@@ -196,17 +208,47 @@ public class PolygonMapPanel extends JPanel {
 						options[2]);
 			}
 			
-			private int moveOptionPane() {
-				Object[] options = new Object[42];
-				// TODO
-				return JOptionPane.showOptionDialog(frame,
+			private void moveOptionPane(boolean victory) {
+				ArrayList<Object> op = new ArrayList<Object>();
+				
+				int army = cotyOld.getSoldiers() - 1;
+				int i = 1; int n = 0;
+				troops = (int) (i * Math.pow(10, n));
+				
+				if (victory) {
+					for (troops = 1; troops < army; troops++)
+						op.add(String.valueOf(troops));
+					currentPlayer.addCountry(coty);
+				} else {
+					op.add("0");
+					while (troops < army) {
+						op.add(String.valueOf(troops));
+						// loop unit
+						if (i == 2)
+							i = 5;
+						else if (i == 5) {
+							i = 1;
+							n++;
+						} else
+							i++;
+						troops = (int) (i * Math.pow(10, n));
+					}
+				}	
+				op.add(String.valueOf(army));
+				Object[] options = op.toArray(new Object[op.size()]);
+				int m = JOptionPane.showOptionDialog(frame,
 						cotyOld.name + " --> " + coty.name,
 						"Move!",
 						JOptionPane.YES_NO_CANCEL_OPTION,
 						JOptionPane.QUESTION_MESSAGE,
 						null,
 						options,
-						options[2]);
+						options[0]);
+				m = Integer.parseInt((String) op.get(m));
+				for (int j = 0; j < m; j++) {
+					cotyOld.subSoldiers();
+					coty.addSoldiers();
+				}
 			}
 			
 		});
@@ -230,14 +272,9 @@ public class PolygonMapPanel extends JPanel {
 		// draw Country with Player color
 		if(ply != null) {
 			g.setColor(ply.color);
-			switch(ply.getStatus()) {
-			case FIGHT:
-			case END:
-				if(!antiGreyCoties.contains(cotyP)) 
-					g.setColor(Color.GRAY);
-			default:
-				break;
-			} g.fillPolygon(poly);
+			if (antiGreyCoties != null && !antiGreyCoties.contains(cotyP))
+				g.setColor(Color.GRAY);
+			g.fillPolygon(poly);
 		}
 	}
 	
