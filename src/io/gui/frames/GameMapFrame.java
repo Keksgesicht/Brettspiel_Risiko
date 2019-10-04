@@ -17,12 +17,16 @@ import game.map.Country;
 import game.player.Player;
 import game.player.PlayerStatus;
 import game.resources.GameCreator;
+import io.gui.components.DicePanel;
 import io.gui.components.PolygonMapPanel;
 
 @SuppressWarnings("serial")
 public class GameMapFrame extends JFrame {
 
-	private JPanel mapPanel;
+	public final JPanel mapPanel;
+	public final DicePanel attDices;
+	public final DicePanel defDices;
+
 	private JPanel contentPane;
 	private JTextField currentPlayerTF;
 	private JTextField newArmyCounter;
@@ -31,8 +35,6 @@ public class GameMapFrame extends JFrame {
 	private JButton nextPlayerStatus;
 	private Player currentPlayer = GameCreator.getCurrentPlayer();
 	private int newArmy = currentPlayer.getNewTroops();
-	private JTextField[] attDices;
-	private JTextField[] defDices;
 
 	/**
 	 * Create the frame.
@@ -50,36 +52,15 @@ public class GameMapFrame extends JFrame {
 		mapPanel.setBounds(50, 65, 420, 420);
 		contentPane.add(mapPanel);
 
-		int nAtt = 3;
 		int txtWidth = 47;
 		Font risikoFont = new Font("Courier", Font.BOLD, 42);
-		;
 
-		// attacker dice TextFields
-		attDices = new JTextField[nAtt];
-		for (int i = 0; i < nAtt; i++) {
-			attDices[i] = new JTextField("0");
-			attDices[i].setEditable(false);
-			attDices[i].setFont(risikoFont);
-			attDices[i].setBackground(Color.RED);
-			attDices[i].setForeground(Color.WHITE);
-			attDices[i].setHorizontalAlignment(SwingConstants.CENTER);
-			attDices[i].setBounds(500 + txtWidth * i, 60, txtWidth, txtWidth);
-			contentPane.add(attDices[i]);
-		}
-		// defender dice TextFields
-		int nDef = 2;
-		defDices = new JTextField[nDef];
-		for (int i = 0; i < nDef; i++) {
-			defDices[i] = new JTextField("0");
-			defDices[i].setEditable(false);
-			defDices[i].setFont(risikoFont);
-			defDices[i].setBackground(Color.BLUE);
-			defDices[i].setForeground(Color.WHITE);
-			defDices[i].setHorizontalAlignment(SwingConstants.CENTER);
-			defDices[i].setBounds(500 + txtWidth * i, 120, txtWidth, txtWidth);
-			contentPane.add(defDices[i]);
-		}
+		attDices = new DicePanel(3);
+		attDices.setBounds(500, 75, 120, txtWidth);
+		contentPane.add(attDices);
+		defDices = new DicePanel(2);
+		defDices.setBounds(500, 115, 120, txtWidth);
+		contentPane.add(defDices);
 
 		calvalierCounter = new JTextField(String.valueOf(GameCreator.getGoldenCavalier()));
 		calvalierCounter.setEditable(false);
@@ -215,42 +196,6 @@ public class GameMapFrame extends JFrame {
 			c.addSoldiers();
 		newArmy -= t;
 		newArmyCounter.setText(String.valueOf(newArmy));
-	}
-
-	public void updateDices(Integer[] attacker, Integer[] defender) {
-		int duration = 1000;
-		int lambda = 200;
-		int times = duration / lambda;
-
-		int att = attacker.length;
-		int def = defender.length;
-
-		for (int i = att; i < 3; i++) {
-			attDices[i].setText("0");
-		}
-		for (int i = def; i < 2; i++) {
-			defDices[i].setText("0");
-		}
-
-		for (int j = 0; j < times; j++) {
-			for (int i = 0; i < att; i++)
-				attDices[i].setText(String.valueOf((int) Math.random() * 6 + 1));
-			for (int i = 0; i < def; i++)
-				defDices[i].setText(String.valueOf((int) Math.random() * 6 + 1));
-
-			try {
-				Thread.sleep(lambda);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-		for (int i = 0; i < att; i++) {
-			attDices[i].setText(String.valueOf(attacker[i]));
-		}
-		for (int i = 0; i < def; i++) {
-			defDices[i].setText(String.valueOf(defender[i]));
-		}
-
 	}
 
 }

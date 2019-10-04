@@ -12,6 +12,7 @@ public class CountryBorder {
 	
 	private Country left;
 	private Country right;
+	private static boolean again;
 
 	/**
 	 * creates a representive of a connection between the countries c1 and c2
@@ -73,32 +74,52 @@ public class CountryBorder {
 	 */
 	public static boolean fight(Country attacker, Country defender, boolean ff, GameMapFrame frame) {
 		Random r = new Random(System.nanoTime());
-		boolean again;
 		do {
-			int att = attacker.getSoldiers() - 1;
-			int def = defender.getSoldiers();
-			if (3 < att)
-				att = 3;
-			if (2 < def)
-				def = 2;
+			Thread t = new Thread() {
+
+				public void run() {
+					int att = attacker.getSoldiers() - 1;
+					int def = defender.getSoldiers();
+					if (3 < att)
+						att = 3;
+					if (2 < def)
+						def = 2;
+
+					Comparator<Integer> intComp = new IntegerComparator().reversed();
+					PriorityQueue<Integer> queueAtt = new PriorityQueue<Integer>(att, intComp);
+					PriorityQueue<Integer> queueDef = new PriorityQueue<Integer>(def, intComp);
+					for (int i = 0; i < att; i++)
+						queueAtt.add((int) (r.nextDouble() * 6 + 1));
+					for (int i = 0; i < def; i++)
+						queueDef.add((int) (r.nextDouble() * 6 + 1));
+
+					try {
+						sleep(750);
+						frame.attDices.drawDices(queueAtt.stream().sorted(intComp).toArray(Integer[]::new));
+						sleep(750);
+						frame.defDices.drawDices(queueDef.stream().sorted(intComp).toArray(Integer[]::new));
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+
+					do {
+						if (queueDef.remove() < queueAtt.remove())
+							defender.subSoldiers();
+						else
+							attacker.subSoldiers();
+						frame.mapPanel.repaint(200);
+					} while (!queueAtt.isEmpty() && !queueDef.isEmpty());
+					again = (1 < attacker.getSoldiers() && 0 < defender.getSoldiers());
+				}
+
+			};
+			try {
+				t.start();
+				t.join();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 			
-			Comparator<Integer> intComp = new IntegerComparator().reversed();
-			PriorityQueue<Integer> queueAtt = new PriorityQueue<Integer>(att, intComp);
-			PriorityQueue<Integer> queueDef = new PriorityQueue<Integer>(def, intComp);
-			for (int i = 0; i < att; i++)
-				queueAtt.add((int) (r.nextDouble() * 6 + 1));
-			for (int i = 0; i < def; i++)
-				queueDef.add((int) (r.nextDouble() * 6 + 1));
-			
-			frame.updateDices(queueAtt.stream().sorted(intComp).toArray(Integer[]::new), 
-							  queueDef.stream().sorted(intComp).toArray(Integer[]::new));
-			do {
-				if (queueDef.remove() < queueAtt.remove())
-					defender.subSoldiers();
-				else
-					attacker.subSoldiers();
-			} while (!queueAtt.isEmpty() && !queueDef.isEmpty());
-			again = (1 < attacker.getSoldiers() && 0 < defender.getSoldiers());
 		} while(ff && again);
 		return again;
 	}

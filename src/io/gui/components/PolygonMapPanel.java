@@ -8,7 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -17,7 +16,10 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
+import javax.swing.JSlider;
 import javax.swing.border.BevelBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import game.map.Country;
 import game.map.CountryBorder;
@@ -59,6 +61,7 @@ public class PolygonMapPanel extends JPanel {
 			JMenuItem item;
 			Player currentPlayer;
 			int troops;
+			boolean inProgress = false;
 			
 			public void getMouseMapInfo(MouseEvent e) {
 				mouseP = e.getPoint();
@@ -125,6 +128,8 @@ public class PolygonMapPanel extends JPanel {
 			
 			@Override
 			public void mousePressed(MouseEvent e) {
+				if (inProgress)
+					return;
 				getMouseMapInfo(e);
 				if(coty == null) return;
 				
@@ -135,6 +140,8 @@ public class PolygonMapPanel extends JPanel {
 					cotyOld = coty;
 					break;
 				case END:
+					if (coty.getSoldiers() < 2)
+						break;
 					antiGreyCoties = coty.getNearFriendlyCountries();
 					repaint();
 					cotyOld = coty;
@@ -146,6 +153,9 @@ public class PolygonMapPanel extends JPanel {
 			
 			@Override
 			public void mouseReleased(MouseEvent e) {
+				if (inProgress)
+					return;
+				inProgress = true;
 				getMouseMapInfo(e);
 				if(coty == null) {
 					cotyOld = null;
@@ -166,6 +176,8 @@ public class PolygonMapPanel extends JPanel {
 					break;
 				}
 				antiGreyCoties = null;
+				cotyOld = null;
+				inProgress = false;
 				repaint();
 			}
 			
@@ -185,10 +197,9 @@ public class PolygonMapPanel extends JPanel {
 					default:
 						return;
 					}
-					repaint();
 				}
 			}
-			
+
 			private void victory() {
 				if (coty.getSoldiers() == 0)
 					moveOptionPane(true);
@@ -209,42 +220,35 @@ public class PolygonMapPanel extends JPanel {
 			}
 			
 			private void moveOptionPane(boolean victory) {
-				ArrayList<Object> op = new ArrayList<Object>();
-				
 				int army = cotyOld.getSoldiers() - 1;
-				int i = 1; int n = 0;
-				troops = (int) (i * Math.pow(10, n));
-				
-				if (victory) {
-					for (troops = 1; troops < army; troops++)
-						op.add(String.valueOf(troops));
+				int min = victory ? 1 : 0;
+				if (victory)
 					currentPlayer.addCountry(coty);
-				} else {
-					op.add("0");
-					while (troops < army) {
-						op.add(String.valueOf(troops));
-						// loop unit
-						if (i == 2)
-							i = 5;
-						else if (i == 5) {
-							i = 1;
-							n++;
-						} else
-							i++;
-						troops = (int) (i * Math.pow(10, n));
+				JOptionPane movePane = new JOptionPane();
+				JSlider armyMoveSlider = new JSlider(min, army, army);
+
+				int maxTick = army < 10 ? 1 : army < 50 ? 5 : 10;
+				armyMoveSlider.setMajorTickSpacing(maxTick);
+				armyMoveSlider.setMinorTickSpacing(1);
+				armyMoveSlider.setPaintTicks(true);
+				armyMoveSlider.setPaintLabels(true);
+				armyMoveSlider.addChangeListener(new ChangeListener() {
+
+					public void stateChanged(ChangeEvent changeEvent) {
+						JSlider theSlider = (JSlider) changeEvent.getSource();
+						if (!theSlider.getValueIsAdjusting()) {
+							movePane.setInputValue(theSlider.getValue());
+						}
 					}
-				}	
-				op.add(String.valueOf(army));
-				Object[] options = op.toArray(new Object[op.size()]);
-				int m = JOptionPane.showOptionDialog(frame,
-						cotyOld.name + " --> " + coty.name,
-						"Move!",
-						JOptionPane.YES_NO_CANCEL_OPTION,
-						JOptionPane.QUESTION_MESSAGE,
-						null,
-						options,
-						options[0]);
-				m = Integer.parseInt((String) op.get(m));
+
+				});
+				movePane.setInputValue(army);
+				movePane.setMessage(new Object[] { cotyOld.name + " --> " + coty.name, armyMoveSlider });
+				movePane.setMessageType(JOptionPane.QUESTION_MESSAGE);
+				movePane.setOptionType(JOptionPane.DEFAULT_OPTION);
+				movePane.createDialog(frame, "Move!").setVisible(true);
+
+				int m = Integer.parseInt(movePane.getInputValue().toString());
 				for (int j = 0; j < m; j++) {
 					cotyOld.subSoldiers();
 					coty.addSoldiers();
@@ -255,10 +259,9 @@ public class PolygonMapPanel extends JPanel {
 	}
 
 	@Override
-	protected void paintComponent(Graphics g) {
+	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Set<Entry<Polygon, Country>> cmapES = cmap.entrySet();
-		
 		cmapES.stream()
 			  .forEach(pc -> fillOnePolygon(g, pc.getKey(), pc.getValue()));
 		
