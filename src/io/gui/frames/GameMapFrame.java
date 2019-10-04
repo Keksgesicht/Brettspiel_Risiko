@@ -43,6 +43,7 @@ public class GameMapFrame extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(null);
+		setResizable(false);
 		setContentPane(contentPane);
 
 		mapPanel = new PolygonMapPanel(this);
@@ -92,6 +93,7 @@ public class GameMapFrame extends JFrame {
 		Font buttonFont = new Font("Courier", Font.BOLD, 20);
 		useUlti = new JButton("use Cards!");
 		useUlti.setFont(buttonFont);
+		useUlti.setVisible(false);
 		useUlti.setBackground(Color.BLACK);
 		useUlti.setForeground(Color.YELLOW);
 		useUlti.setHorizontalAlignment(SwingConstants.CENTER);
@@ -226,7 +228,7 @@ public class GameMapFrame extends JFrame {
 		for (int i = att; i < 3; i++) {
 			attDices[i].setText("0");
 		}
-		for (int i = att; i < 2; i++) {
+		for (int i = def; i < 2; i++) {
 			defDices[i].setText("0");
 		}
 
