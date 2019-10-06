@@ -214,7 +214,7 @@ public class PolygonMapPanel extends JPanel {
 			private void victory() {
 				if (coty.getSoldiers() == 0) {
 					moveOptionPane(true);
-					GameCreator.getCurrentPlayer().fightWon();
+					currentPlayer.fightWon();
 				}
 			}
 

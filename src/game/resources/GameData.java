@@ -48,8 +48,6 @@ class GameData {
 			state = GameStatus.PLAY;
 			break;
 		case PLAY:
-			state = GameStatus.END;
-			break;
 		case END:
 			state = GameStatus.END;
 			break;
