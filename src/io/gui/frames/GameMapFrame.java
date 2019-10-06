@@ -32,7 +32,7 @@ public class GameMapFrame extends JFrame {
 	private JTextField newArmyCounter;
 	private JTextField calvalierCounter;
 	private JButton useUlti;
-	private JButton nextPlayerStatus;
+	public JButton nextPlayerStatus;
 	private Player currentPlayer = GameCreator.getCurrentPlayer();
 	private int newArmy = currentPlayer.getNewTroops();
 
