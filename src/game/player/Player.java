@@ -17,11 +17,11 @@ public class Player implements Cloneable {
 	private enum AreaCard {
 		TANK, CAVALIER, SOLDIER
 	}
-	
+
 	public final Set<AreaCard> cards;
 	public final String name;
 	public final Color color;
-	
+
 	private final Set<Country> controlledCountries;
 	private PlayerStatus state;
 	private boolean won1Fight;
@@ -176,7 +176,7 @@ public class Player implements Cloneable {
 				cards.addAll(s);
 			}
 		}
-		int gGC = GameCreator.getGoldenCavalier(); 
+		int gGC = GameCreator.getGoldenCavalier();
 		GameCreator.updateGoldenCavalier();
 		return gGC;
 	}
@@ -185,48 +185,51 @@ public class Player implements Cloneable {
 	 * calculates the count of troops that the player can add this round
 	 */
 	public void addTroops() {
-		if(GameCreator.getGameState() == GameStatus.PLAY) {
+		if (GameCreator.getGameState() == GameStatus.PLAY) {
 			troops = 0;
 			// controlled countries / 3
 			int ccs = controlledCountries.size() / 3;
 			troops = ccs < 3 ? 3 : ccs;
-			
+
 			// continent bonus
-			for(Continent ct : GameCreator.getContinents())
+			for (Continent ct : GameCreator.getContinents())
 				troops += ct.isControlledBy(this);
-			
+
 			// ulti bonus
-			if(ultiReady() == 2) {
-				troops = 0 - (troops+ useUlti());
+			if (ultiReady() == 2) {
+				troops = 0 - (troops + useUlti());
 			}
 		}
 	}
-	
+
 	/**
 	 * @return count of troops that the player can add this round
 	 */
 	public int getNewTroops() {
-		switch(GameCreator.getGameState()) {
+		switch (GameCreator.getGameState()) {
 		case INIT:
 		case START:
 			return troops--;
 		default:
 			return troops;
 		}
-	
+
 	}
-	
+
 	/**
-	 * @param country this player now controlls this country 
+	 * @param country this player now controls this country
 	 */
 	public void addCountry(Country country) {
 		Player kingC = country.king();
-		if(kingC != null)
+		if (kingC != null) {
 			kingC.controlledCountries.remove(country);
+			if (kingC.controlledCountries.isEmpty())
+				GameCreator.getPlayers().remove(kingC);
+		}
 		controlledCountries.add(country);
 		country.theKingIsDead(this);
 	}
-	
+
 	public boolean containsCountries(List<Country> countries) {
 		return controlledCountries.containsAll(countries);
 	}

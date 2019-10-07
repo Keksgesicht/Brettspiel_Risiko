@@ -9,12 +9,12 @@ import game.map.Country;
 import game.player.Player;
 
 class GameData {
-	
+
 	static GameStatus state = GameStatus.INIT;
 	final CircularArrayList<Player> players = new CircularArrayList<Player>();
 	final Map<Polygon, Country> countries;
 	private int goldenCavalier;
-	
+
 	/**
 	 * 
 	 * @param players
@@ -28,41 +28,45 @@ class GameData {
 		this.countries = countries;
 		this.goldenCavalier = goldenCavelier;
 	}
-	
+
 	/**
 	 * @return the updated Status in which Programm currently is
 	 */
 	static void updateStatus() {
-		switch(state) {
+		switch (state) {
 		case INIT:
-			state = GameStatus.START; break;
+			state = GameStatus.START;
+			break;
 		case START:
-			state = GameStatus.PLAY; break;
+			state = GameStatus.PLAY;
+			break;
 		case PLAY:
 		case END:
-			state = GameStatus.END; break;
+			state = GameStatus.END;
+			break;
 		}
 	}
-	
+
 	/**
 	 * raises the Strength of the golden Cavalier
+	 * 
 	 * @return the current Strength of the golden Cavalier
 	 */
 	void updateGoldenCavalier() {
-		if(goldenCavalier < 10) {
+		if (goldenCavalier < 10) {
 			goldenCavalier += 2;
-		} else if(goldenCavalier < 60) {
+		} else if (goldenCavalier < 60) {
 			goldenCavalier += 5;
 		}
-	}	
+	}
 
 	int getGoldenCavalier() {
 		return goldenCavalier;
 	}
-	
+
 	protected GameData clone() {
 		// TODO
 		return null;
 	}
-	
+
 }

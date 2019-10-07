@@ -7,7 +7,6 @@ import java.util.Map;
 
 import game.map.Continent;
 import game.map.Country;
-import game.map.CountryBorder;
 import game.player.Player;
 
 /**
@@ -31,7 +30,7 @@ public abstract class GameCreator {
 	}
 	
 	public static ArrayList<Continent> getContinents() {
-		return live.continents;
+		return MapCreator.getContinents();
 	}
 	
 	public static Map<Polygon, Country> getCMap() {
@@ -53,10 +52,6 @@ public abstract class GameCreator {
 		for(Polygon c : live.countries.keySet()) {
 			alp.add(c);
 		} return alp; 
-	}
-	
-	public static ArrayList<CountryBorder> getBorders() {
-		return live.borders;
 	}
 	
 	public static int getGoldenCavalier() {
@@ -100,17 +95,14 @@ public abstract class GameCreator {
 				break;
 			}
 			
-			playerList.add(new Player("Testsubjekt" +  i, col, 50 - 5 * players));
+			playerList.add(new Player("Testsubjekt" +  i, col, 20 - 5 * players));
 		}
 		createNewGame(playerList, map);
 	}
 	
 	public static void createNewGame(ArrayList<Player> players, MapList map) {
 		MapCreator.createMap(map);
-		live = new GameData(players, 
-				MapCreator.getContinents(), 
-				MapCreator.getCountries(), 
-				MapCreator.getBorders(), 4);
+		live = new GameData(players, MapCreator.getCountries(), 4);
 	}
 
 }
