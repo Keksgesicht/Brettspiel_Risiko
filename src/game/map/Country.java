@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import game.player.Player;
-import game.resources.GameCreator;
 
 public class Country {
 	
@@ -50,15 +49,10 @@ public class Country {
 	public Set<Country> getNeighboringEnemyCountries() {
 		if(getSoldiers() < 2) return null;
 		Set<Country> countries = new HashSet<Country>();
-		for(CountryBorder bd : GameCreator.getBorders()) {
-			Country bd_l = bd.left();
-			Country bd_r = bd.right();
-			
-			if(bd_l == this && bd_r.king() != this.king())
-				countries.add(bd_r);
-			else if(bd_r == this && bd_l.king() != this.king())
-				countries.add(bd_l);
-		} return countries;
+		for (Country neighboor : CountryBorder.getNeighboors(this))
+			if (neighboor.king() != this.king())
+				countries.add(neighboor);
+		return countries;
 	}
 	
 	/**
@@ -72,19 +66,13 @@ public class Country {
 	
 	private Set<Country> getNearFriendlyCountries(Set<Country> contained, Country coty) {
 		contained.add(coty);
-		for(CountryBorder bd : GameCreator.getBorders()) {
-			Country bd_l = bd.left();
-			Country bd_r = bd.right();
-			
-			if(bd_l == coty && bd_r.king() == this.king() && !contained.contains(bd_r)) {
-				contained = getNearFriendlyCountries(contained, bd_r);
-				contained.add(bd_r);
+		for (Country neighboor : CountryBorder.getNeighboors(coty)) {
+			if (neighboor.king() == this.king() && !contained.contains(neighboor)) {
+				contained = getNearFriendlyCountries(contained, neighboor);
+				contained.add(neighboor);
 			}
-			else if(bd_r == coty && bd_l.king() == this.king() && !contained.contains(bd_l)) {
-				contained = getNearFriendlyCountries(contained, bd_l);
-				contained.add(bd_l);
-			}
-		} contained.remove(coty);
+		}
+		contained.remove(coty);
 		return contained;
 	}
 

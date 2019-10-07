@@ -7,7 +7,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -26,13 +25,13 @@ public class GameMapFrame extends JFrame {
 	public final JPanel mapPanel;
 	public final DicePanel attDices;
 	public final DicePanel defDices;
+	public final JButton nextPlayerStatus;
 
 	private JPanel contentPane;
 	private JTextField currentPlayerTF;
 	private JTextField newArmyCounter;
 	private JTextField calvalierCounter;
 	private JButton useUlti;
-	private JButton nextPlayerStatus;
 	private Player currentPlayer = GameCreator.getCurrentPlayer();
 	private int newArmy = currentPlayer.getNewTroops();
 
@@ -95,7 +94,7 @@ public class GameMapFrame extends JFrame {
 		});
 		contentPane.add(useUlti);
 
-		nextPlayerStatus = new JButton("Start fighting");
+		nextPlayerStatus = new JButton("Finish fighting");
 		nextPlayerStatus.setFont(buttonFont);
 		// nextPlayerStatus.setBackground(Color.WHITE);
 		nextPlayerStatus.setForeground(Color.BLACK);
@@ -113,14 +112,8 @@ public class GameMapFrame extends JFrame {
 				case END:
 					currentPlayer.updateStatus();
 					updateCurrentPlayer();
-					nextPlayerStatus.setText("Start fighting");
-					break;
-				case INIT:
-					if (newArmy == 0) {
-						currentPlayer.updateStatus();
-						nextPlayerStatus.setText("Finish fighting");
-					} else
-						JOptionPane.showMessageDialog(GameMapFrame.this, "There are troops left to be placed");
+					nextPlayerStatus.setText("Finish fighting");
+					nextPlayerStatus.setVisible(false);
 				default:
 					break;
 				}
@@ -163,7 +156,6 @@ public class GameMapFrame extends JFrame {
 				currentPlayer.updateStatus();
 				currentPlayer.addTroops();
 				newArmy = currentPlayer.getNewTroops();
-				nextPlayerStatus.setVisible(true);
 			}
 			break;
 		case PLAY:
@@ -181,6 +173,7 @@ public class GameMapFrame extends JFrame {
 			} else
 				useUlti.setVisible(false);
 			currentPlayer.updateStatus();
+			newArmyCounter.setVisible(true);
 		default:
 			break;
 		}
@@ -195,7 +188,12 @@ public class GameMapFrame extends JFrame {
 		for (int i = 0; i < t; i++)
 			c.addSoldiers();
 		newArmy -= t;
-		newArmyCounter.setText(String.valueOf(newArmy));
+		if (newArmy <= 0) {
+			currentPlayer.updateStatus();
+			nextPlayerStatus.setVisible(true);
+			newArmyCounter.setVisible(false);
+		} else
+			newArmyCounter.setText(String.valueOf(newArmy));
 	}
 
 }

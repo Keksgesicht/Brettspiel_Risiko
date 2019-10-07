@@ -17,7 +17,6 @@ abstract class MapCreator {
 	
 	private static ArrayList<Continent> continents = null;
 	private static Map<Polygon, Country> countries = null;
-	private static ArrayList<CountryBorder> borders = null;
 
 	static void createMap(MapList map) {
 		switch(map) {
@@ -35,10 +34,6 @@ abstract class MapCreator {
 	public static Map<Polygon, Country> getCountries() {
 		return countries;
 	}
-
-	public static ArrayList<CountryBorder> getBorders() {
-		return borders;
-	}
 	
 	/* Map creation */
 	
@@ -48,7 +43,6 @@ abstract class MapCreator {
 	
 	private static void mapTest() {
 		countries = new HashMap<Polygon, Country>();
-		borders = new ArrayList<CountryBorder>();
 		continents = new ArrayList<Continent>();
 		
 		int n = 2;
@@ -88,9 +82,9 @@ abstract class MapCreator {
 				p3.addPoint(200 + b * j, 100 + b * i);
 				countries.put(p3, c3);
 				
-				borders.add(new CountryBorder(c1,c2));
-				borders.add(new CountryBorder(c1,c3));
-				borders.add(new CountryBorder(c2,c3));
+				CountryBorder.addBorder(c1, c2);
+				CountryBorder.addBorder(c1, c3);
+				CountryBorder.addBorder(c2, c3);
 				
 				ArrayList<Country> coties = new ArrayList<Country>();
 				coties.add(c1);
@@ -99,14 +93,21 @@ abstract class MapCreator {
 				continents.add(new Continent(coties, 13));
 			}
 		}
-		borders.add(new CountryBorder("B","AAA"));
-		borders.add(new CountryBorder("C","AA"));
-		borders.add(new CountryBorder("C","BB"));
-		borders.add(new CountryBorder("C","CCC"));
-		borders.add(new CountryBorder("AAAA","CCC"));
-		borders.add(new CountryBorder("BBBB","CCC"));
-		borders.add(new CountryBorder("BB","AAAA"));
-		borders.add(new CountryBorder("CC","CCCC"));
+		CountryBorder.addBorder(getCountry("B"), getCountry("AAA"));
+		CountryBorder.addBorder(getCountry("C"), getCountry("AA"));
+		CountryBorder.addBorder(getCountry("C"), getCountry("BB"));
+		CountryBorder.addBorder(getCountry("C"), getCountry("CCC"));
+		CountryBorder.addBorder(getCountry("AAAA"), getCountry("CCC"));
+		CountryBorder.addBorder(getCountry("BBBB"), getCountry("CCC"));
+		CountryBorder.addBorder(getCountry("BB"), getCountry("AAAA"));
+		CountryBorder.addBorder(getCountry("CC"), getCountry("CCCC"));
+	}
+
+	private static Country getCountry(String countryName) {
+		for (Country c : countries.values())
+			if (c.name.equals(countryName))
+				return c;
+		return null;
 	}
 
 }

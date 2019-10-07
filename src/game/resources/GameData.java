@@ -5,18 +5,14 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import base.collections.CircularArrayList;
-import game.map.Continent;
 import game.map.Country;
-import game.map.CountryBorder;
 import game.player.Player;
 
 class GameData {
 	
 	static GameStatus state = GameStatus.INIT;
 	final CircularArrayList<Player> players = new CircularArrayList<Player>();
-	final ArrayList<Continent> continents;
 	final Map<Polygon, Country> countries;
-	final ArrayList<CountryBorder> borders;
 	private int goldenCavalier;
 	
 	/**
@@ -27,11 +23,9 @@ class GameData {
 	 * @param borders
 	 * @param goldenCavelier
 	 */
-	GameData(ArrayList<Player> players, ArrayList<Continent> continents, Map<Polygon, Country> countries, ArrayList<CountryBorder> borders, int goldenCavelier) {
+	GameData(ArrayList<Player> players, Map<Polygon, Country> countries, int goldenCavelier) {
 		this.players.addAll(players);
-		this.continents = continents;
 		this.countries = countries;
-		this.borders = borders;
 		this.goldenCavalier = goldenCavelier;
 	}
 	

@@ -97,8 +97,6 @@ public class PolygonMapPanel extends JPanel {
 					
 					popup.removeAll();
 					int army = frame.getNewArmyCount();
-					if (army == 0)
-						break;
 					int i = 1; int n = 0;
 					troops = (int) (i * Math.pow(10, n));
 
@@ -131,7 +129,7 @@ public class PolygonMapPanel extends JPanel {
 				if (inProgress)
 					return;
 				getMouseMapInfo(e);
-				if(coty == null) return;
+				if(coty == null || coty.getSoldiers() < 2 || coty.king() != currentPlayer) return;
 				
 				switch(currentPlayer.getStatus()) {
 				case FIGHT:
@@ -140,8 +138,6 @@ public class PolygonMapPanel extends JPanel {
 					cotyOld = coty;
 					break;
 				case END:
-					if (coty.getSoldiers() < 2)
-						break;
 					antiGreyCoties = coty.getNearFriendlyCountries();
 					repaint();
 					cotyOld = coty;
@@ -155,12 +151,12 @@ public class PolygonMapPanel extends JPanel {
 			public void mouseReleased(MouseEvent e) {
 				if (inProgress)
 					return;
-				inProgress = true;
 				getMouseMapInfo(e);
 				if(coty == null) {
 					cotyOld = null;
 					return;
 				}
+				inProgress = true;
 				
 				switch(currentPlayer.getStatus()) {
 				case FIGHT:

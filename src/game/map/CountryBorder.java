@@ -1,68 +1,35 @@
 package game.map;
 
 import java.util.Comparator;
+import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Random;
 
 import base.collections.IntegerComparator;
-import game.resources.GameCreator;
+import base.graphs.Graph;
 import io.gui.frames.GameMapFrame;
 
-public class CountryBorder {
+public abstract class CountryBorder {
 	
 	private Country left;
 	private Country right;
 	private static boolean again;
+	private static Graph<Boolean, Country> borders = new Graph<Boolean, Country>(false);
+	private static String matrixName = "mapBorders";
 
 	/**
 	 * creates a representive of a connection between the countries c1 and c2
+	 * 
 	 * @param c1 the one Country
 	 * @param c2 the other Country
 	 */
-	public CountryBorder(Country c1, Country c2) {
-		left = c1;
-		right = c2;
+	public static void addBorder(Country c1, Country c2) {
+		borders.setWeight(matrixName, c1, c2, true);
+		borders.setWeight(matrixName, c2, c1, true);
 	}
-	
-	public CountryBorder(String s1, String s2) {
-		for(Country c : GameCreator.getCMap().values()) {
-			if(c.name.equals(s1))
-				left = c;
-			else if(c.name.equals(s2))
-				right = c;
-		}
-	}
-	
-	/**
-	 * @param o the other Border which will be compared
-	 * @return whether the other Border is between the same two countries
-	 */
-	public boolean equals(Object o) {
-		if(o instanceof CountryBorder) {
-			if((
-					((CountryBorder) o).left() == left()
-					|| 
-					((CountryBorder) o).left() == right()
-				) && (
-					((CountryBorder) o).right() == left() 
-					|| 
-					((CountryBorder) o).right() == right()
-			)) return true;
-		} return false;
-	}
-	
-	/**
-	 * @return the one Country
-	 */
-	public Country left() {
-		return left;
-	}
-	
-	/**
-	 * @return the other Country
-	 */
-	public Country right() {
-		return right;
+
+	public static List<Country> getNeighboors(Country c) {
+		return borders.getAdjazenzListe(matrixName, c);
 	}
 	
 	/**
