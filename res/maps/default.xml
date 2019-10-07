@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map name="default" zoom="0.5">
+	<Continent name="Nord-Amerika" soldiers="5" countries="9">
+		<Country id="0" name="Alaska">
+			<Polygon>
+				<Point x="22" y="52"/>
+				<Point x="45" y="44"/>
+				<Point x="66" y="52"/>
+				<Point x="66" y="87"/>
+				<Point x="79" y="87"/>
+				<Point x="79" y="118"/>
+				<Point x="66" y="99"/>
+				<Point x="46" y="89"/>
+				<Point x="17" y="107"/>
+				<Point x="9" y="84"/>
+			</Polygon>
+		</Country>
+		<Country id="1" name="Nordwest-Territorium">
+			<Polygon>
+				<Point x="22" y="52"/>
+			</Polygon>
+		</Country>
+		<Country id="2" name="Grönland">
+			<Polygon>
+				<Point x="22" y="52"/>
+			</Polygon>
+		</Country>
+		<Country id="3" name="Alberta">
+			<Polygon>
+				<Point x="22" y="52"/>
+			</Polygon>
+		</Country>
+		<Country id="4" name="Ontario">
+			<Polygon>
+				<Point x="22" y="52"/>
+			</Polygon>
+		</Country>
+		<Country id="5" name="Quebec">
+			<Polygon>
+				<Point x="22" y="52"/>
+			</Polygon>
+		</Country>
+		<Country id="6" name="Weststaaten">
+			<Polygon>
+				<Point x="22" y="52"/>
+			</Polygon>
+		</Country>
+		<Country id="7" name="Oststaaten">
+			<Polygon>
+				<Point x="22" y="52"/>
+			</Polygon>
+		</Country>
+		<Country id="8" name="Mittel-Amerika">
+			<Polygon>
+				<Point x="22" y="52"/>
+			</Polygon>
+		</Country>
+	</Continent>
+	<Continent name="Europa" soldiers="5" countries="7">
+		<Country id="9" name="Island">
+			<Polygon>
+				<Point x="22" y="52"/>
+			</Polygon>
+		</Country>
+		<Country id="10" name="Skandinavien">
+			<Polygon>
+				<Point x="22" y="52"/>
+			</Polygon>
+		</Country>
+		<Country id="11" name="Ukraine">
+			<Polygon>
+				<Point x="22" y="52"/>
+			</Polygon>
+		</Country>
+		<Country id="12" name="Groß-Britannien">
+			<Polygon>
+				<Point x="22" y="52"/>
+			</Polygon>
+		</Country>
+		<Country id="13" name="Mitteleuropa">
+			<Polygon>
+				<Point x="22" y="52"/>
+			</Polygon>
+		</Country>
+		<Country id="14" name="Westeuropa">
+			<Polygon>
+				<Point x="22" y="52"/>
+			</Polygon>
+		</Country>
+		<Country id="15" name="Südeuropa">
+			<Polygon>
+				<Point x="22" y="52"/>
+			</Polygon>
+		</Country>
+	</Continent>
+	<Continent name="Süd-Amerika" soldiers="2" countries="4">
+		<Country id="16" name="Alaska">
+			<Polygon>
+				<Point x="22" y="52"/>
+				<Point x="45" y="44"/>
+				<Point x="66" y="52"/>
+				<Point x="66" y="87"/>
+				<Point x="79" y="87"/>
+				<Point x="79" y="118"/>
+				<Point x="66" y="99"/>
+				<Point x="46" y="89"/>
+				<Point x="17" y="107"/>
+				<Point x="9" y="84"/>
+			</Polygon>
+		</Country>
+		<Country id="1" name="Nordwest-Territorium">
+			<Polygon>
+				<Point x="22" y="52"/>
+			</Polygon>
+		</Country>
+		<Country id="2" name="Grönland">
+			<Polygon>
+				<Point x="22" y="52"/>
+			</Polygon>
+		</Country>
+		<Country id="3" name="Alberta">
+			<Polygon>
+				<Point x="22" y="52"/>
+			</Polygon>
+		</Country>
+		<Country id="4" name="Ontario">
+			<Polygon>
+				<Point x="22" y="52"/>
+			</Polygon>
+		</Country>
+		<Country id="5" name="Quebec">
+			<Polygon>
+				<Point x="22" y="52"/>
+			</Polygon>
+		</Country>
+		<Country id="6" name="Weststaaten">
+			<Polygon>
+				<Point x="22" y="52"/>
+			</Polygon>
+		</Country>
+		<Country id="7" name="Oststaaten">
+			<Polygon>
+				<Point x="22" y="52"/>
+			</Polygon>
+		</Country>
+		<Country id="8" name="Mittel-Amerika">
+			<Polygon>
+				<Point x="22" y="52"/>
+			</Polygon>
+		</Country>
+	</Continent>
+</map>

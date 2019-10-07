@@ -4,12 +4,12 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.net.URL;
 import java.util.Random;
 
-import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
+import io.data.Resources;
 
 /**
  * @author Braun
@@ -26,9 +26,9 @@ public class DicePanel extends JPanel {
 		try {
 			loadDices();
 		} catch (IOException ex) {
+			ex.printStackTrace();
 			JOptionPane.showMessageDialog(null, "Konnte Resourcen nicht laden: " + ex.getMessage(),
 					"Fehler beim Laden der Resourcen", JOptionPane.ERROR_MESSAGE);
-			ex.printStackTrace();
 			System.exit(200);
 		}
 		this.numDices = numDices;
@@ -72,23 +72,10 @@ public class DicePanel extends JPanel {
 		return dices[value % dices.length];
 	}
 
-	/**
-     * Lädt ein Bild aus den Resourcen
-     * @param name der Name der Datei
-     * @return das Bild als {@link BufferedImage}-Objekt
-     * @throws IOException Eine IOException wird geworfen, falls das Bild nicht gefunden wurde oder andere Probleme beim Laden auftreten
-     */
-	public static BufferedImage loadImage(String name) throws IOException {
-		URL res = DicePanel.class.getClassLoader().getResource(name);
-        if(res == null)
-            throw new IOException("Resource not found: " + name);
-        return ImageIO.read(res);
-    }
-
 	private void loadDices() throws IOException {
 		dices = new BufferedImage[6];
 		for(int i = 1; i <= 6; i++) {
-			dices[i - 1] = loadImage("dice" + i + ".jpg");
+			dices[i - 1] = Resources.loadImage("pictures/dice" + i + ".jpg");
 		}
 	}
 
