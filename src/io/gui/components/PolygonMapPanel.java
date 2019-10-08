@@ -33,7 +33,7 @@ public class PolygonMapPanel extends JPanel {
 
 	GameMapFrame frame;
 	JPopupMenu popup = new JPopupMenu();
-	Map<Polygon, Country> cmap = GameCreator.getCMap();
+	Map<Polygon, Country> cpMap = GameCreator.getCPMap();
 	ActionListener popupItemListener;
 	Set<Country> antiGreyCoties;
 	Country cotyOld;
@@ -46,6 +46,7 @@ public class PolygonMapPanel extends JPanel {
 
 		popupItemListener = new ActionListener() {
 
+			@Override
 			public void actionPerformed(ActionEvent evt) {
 				int t = Integer.parseInt(((JMenuItem) evt.getSource()).getText());
 				frame.placeTroops(t, coty);
@@ -66,9 +67,9 @@ public class PolygonMapPanel extends JPanel {
 				mouseP = e.getPoint();
 				currentPlayer = GameCreator.getCurrentPlayer();
 				coty = null;
-				for (Polygon poly : cmap.keySet()) {
+				for (Polygon poly : cpMap.keySet()) {
 					if (poly.contains(mouseP)) {
-						coty = cmap.get(poly);
+						coty = cpMap.get(poly);
 						break;
 					}
 				}
@@ -243,6 +244,7 @@ public class PolygonMapPanel extends JPanel {
 				armyMoveSlider.setPaintLabels(true);
 				armyMoveSlider.addChangeListener(new ChangeListener() {
 
+					@Override
 					public void stateChanged(ChangeEvent changeEvent) {
 						JSlider theSlider = (JSlider) changeEvent.getSource();
 						if (!theSlider.getValueIsAdjusting()) {
@@ -270,7 +272,7 @@ public class PolygonMapPanel extends JPanel {
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		Set<Entry<Polygon, Country>> cmapES = cmap.entrySet();
+		Set<Entry<Polygon, Country>> cmapES = cpMap.entrySet();
 		cmapES.stream().forEach(pc -> fillOnePolygon(g, pc.getKey(), pc.getValue()));
 
 		g.setColor(Color.BLACK);

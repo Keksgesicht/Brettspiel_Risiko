@@ -3,7 +3,10 @@ package game.resources;
 import java.awt.Color;
 import java.awt.Polygon;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import game.map.Continent;
 import game.map.Country;
@@ -17,7 +20,7 @@ public abstract class GameCreator {
 	static GameData live;
 	private static int plyN = 0;
 	
-	public static ArrayList<Player> getPlayers() {
+	public static List<Player> getPlayers() {
 		return live.players;
 	}
 	
@@ -29,31 +32,22 @@ public abstract class GameCreator {
 		return getPlayers().get(++plyN);
 	}
 	
-	public static ArrayList<Continent> getContinents() {
+	public static List<Continent> getContinents() {
 		return MapCreator.getContinents();
 	}
 	
-	public static Map<Polygon, Country> getCMap() {
-		if (live == null) {
-			return MapCreator.getCountries();
-		}
+	public static Map<Polygon, Country> getCPMap() {
 		return live.countries;
 	}
 	
-	public static ArrayList<Country> getCountries() {
-		ArrayList<Country> alc = new ArrayList<Country>();
-		for(Country c : live.countries.values()) {
-			alc.add(c);
-		} return alc; 
+	public static Collection<Country> getCountries() {
+		return live.countries.values();
 	}
-	
-	public static ArrayList<Polygon> getPolygons() {
-		ArrayList<Polygon> alp = new ArrayList<Polygon>();
-		for(Polygon c : live.countries.keySet()) {
-			alp.add(c);
-		} return alp; 
+
+	public static Set<Polygon> getPolygons() {
+		return live.countries.keySet();
 	}
-	
+
 	public static int getGoldenCavalier() {
 		return live.getGoldenCavalier();
 	}
@@ -94,7 +88,6 @@ public abstract class GameCreator {
 				col = Color.GREEN;
 				break;
 			}
-			
 			playerList.add(new Player("Testsubjekt" +  i, col, 20 - 5 * players));
 		}
 		createNewGame(playerList, map);

@@ -11,8 +11,6 @@ import io.gui.frames.GameMapFrame;
 
 public abstract class CountryBorder {
 	
-	private Country left;
-	private Country right;
 	private static boolean again;
 	private static Graph<Boolean, Country> borders = new Graph<Boolean, Country>(false);
 	private static String matrixName = "mapBorders";
@@ -44,6 +42,7 @@ public abstract class CountryBorder {
 		do {
 			Thread t = new Thread() {
 
+				@Override
 				public void run() {
 					int att = attacker.getSoldiers() - 1;
 					int def = defender.getSoldiers();

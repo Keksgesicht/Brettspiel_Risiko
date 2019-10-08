@@ -1,11 +1,13 @@
 package game.map;
 
 import java.util.ArrayList;
+import java.util.List;
+
 import game.player.Player;
 
 public class Continent {
 	
-	final ArrayList<Country> countries;
+	final List<Country> countries;
 	private final int soldiers;
 	
 	/**
