@@ -9,7 +9,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.swing.JMenuItem;
@@ -26,6 +25,8 @@ import game.map.CountryBorder;
 import game.player.Player;
 import game.player.PlayerStatus;
 import game.resources.GameCreator;
+import io.data.text.MapReader;
+import io.gui.GUImanager;
 import io.gui.frames.GameMapFrame;
 
 @SuppressWarnings("serial")
@@ -42,8 +43,9 @@ public class PolygonMapPanel extends JPanel {
 	public PolygonMapPanel(GameMapFrame frame) {
 		super();
 		this.frame = frame;
+		zoomMap(MapReader.SCALE);
+		repaint();
 		popup.setBorder(new BevelBorder(BevelBorder.RAISED));
-
 		popupItemListener = new ActionListener() {
 
 			@Override
@@ -54,7 +56,6 @@ public class PolygonMapPanel extends JPanel {
 			}
 
 		};
-
 		addMouseListener(new MouseAdapter() {
 
 			Point mouseP;
@@ -224,7 +225,7 @@ public class PolygonMapPanel extends JPanel {
 				int min = victory ? 1 : 0;
 				if (victory) {
 					currentPlayer.addCountry(coty);
-					if (GameCreator.getPlayers().size() < 2) {
+					if (GameCreator.noEnemyPlayers()) {
 						GameCreator.updateGameStatus();
 						JOptionPane.showMessageDialog(frame,
 								GameCreator.getCurrentPlayer().name + " has won the game!");
@@ -272,31 +273,38 @@ public class PolygonMapPanel extends JPanel {
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		Set<Entry<Polygon, Country>> cmapES = cpMap.entrySet();
-		cmapES.stream().forEach(pc -> fillOnePolygon(g, pc.getKey(), pc.getValue()));
-
-		g.setColor(Color.BLACK);
-		cmapES.parallelStream().forEach(pc -> drawOnePolygon(g, pc.getKey(), pc.getValue()));
+		cpMap.entrySet().stream().forEach(pc -> fillOnePolygon(g, pc.getKey(), pc.getValue()));
 	}
 
 	private void fillOnePolygon(Graphics g, Polygon poly, Country cotyP) {
-		Player ply = cotyP.king();
+		// draw Country border
+		g.setColor(Color.BLACK);
+		g.drawPolygon(poly);
 		// draw Country with Player color
+		Player ply = cotyP.king();
 		if (ply != null) {
 			g.setColor(ply.color);
 			if (antiGreyCoties != null && !antiGreyCoties.contains(cotyP))
 				g.setColor(Color.GRAY);
 			g.fillPolygon(poly);
+			g.setColor(GUImanager.contrast(ply.color));
 		}
-	}
-
-	private void drawOnePolygon(Graphics g, Polygon poly, Country cotyP) {
-		// draw Country borde
-		g.drawPolygon(poly);
 		// draw country name and soldier count
 		Point polyP = middlePoint(poly);
 		g.drawString(cotyP.name, polyP.x, polyP.y);
 		g.drawString(String.valueOf(cotyP.getSoldiers()), polyP.x, polyP.y + 20);
+	}
+
+	public void zoomMap(double zoom) {
+		for (Polygon poly : cpMap.keySet()) {
+			int[] x = poly.xpoints;
+			int[] y = poly.ypoints;
+			int n = poly.npoints;
+			poly.reset();
+			for (int i = 0; i < n; i++)
+				poly.addPoint((int) (x[i] * zoom), (int) (y[i] * zoom));
+		}
+		MapReader.SCALE = zoom;
 	}
 
 	private Point middlePoint(Polygon poly) {

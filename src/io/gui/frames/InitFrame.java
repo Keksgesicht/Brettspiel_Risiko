@@ -6,18 +6,16 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import game.resources.GameCreator;
-import game.resources.MapList;
-
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 
 @SuppressWarnings("serial")
 public class InitFrame extends JFrame {
@@ -30,6 +28,7 @@ public class InitFrame extends JFrame {
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				try {
 					InitFrame frame = new InitFrame();
@@ -67,6 +66,7 @@ public class InitFrame extends JFrame {
 		btnCreateNewGame.setBackground(Color.DARK_GRAY);
 		btnCreateNewGame.setForeground(Color.WHITE);
 		btnCreateNewGame.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent evt) {
 				int n = 5;
 				Object[] options = new Object[n];
@@ -82,7 +82,7 @@ public class InitFrame extends JFrame {
 				    options,
 				    options[0]);
 				
-				GameCreator.createNewGame(playerCount + 2, MapList.TEST);
+				GameCreator.createNewGame(playerCount + 2);
 				new GameMapFrame().setVisible(true);
 				InitFrame.this.dispose();
 			}

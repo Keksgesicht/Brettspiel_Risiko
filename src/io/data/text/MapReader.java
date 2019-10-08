@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -27,19 +28,37 @@ import game.map.CountryBorder;
  */
 public abstract class MapReader {
 	
-	public static double MAPZOOM = 1.0d;
+	public static double SCALE = 1.0d;
 	public static Rectangle mapSpace;
 
-	private static Map<String, File> mapFiles;
+	private static Map<String, File> mapFiles = new HashMap<String, File>();
 	private static List<Continent> continents;
 	
+	static {
+		ClassLoader cl = MapReader.class.getClassLoader();
+		try {
+			mapFiles.put("default", new File(cl.getResource("maps/default.xml").getFile()));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
 	public static List<Continent> getContinents() {
 		return continents;
 	}
 
-	public static Map<String, File> searchForMaps(File... mapFolder) {
-		// TODO
-		return mapFiles;
+	public static Set<String> addMapFile(File mapFile) throws SAXException, IOException, ParserConfigurationException {
+		for(Entry<String, File> sf : mapFiles.entrySet()) {
+			File f = sf.getValue();
+			if (!f.exists() || !f.isFile() || !f.canRead())
+				mapFiles.remove(sf.getKey());
+		}
+		Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(mapFile);
+		Element root = doc.getDocumentElement();
+		root.normalize();
+		mapFiles.put(root.getAttribute("name"), mapFile);
+		return mapFiles.keySet();
 	}
 
 	protected static Object[] parseMap(File mapXML) throws ParserConfigurationException, SAXException, IOException {
@@ -82,29 +101,34 @@ public abstract class MapReader {
 	@SuppressWarnings("unchecked")
 	public static Map<Polygon, Country> loadMap(String mapName) throws ParserConfigurationException, SAXException, IOException {
 		Object[] mapContent = parseMap(mapFiles.get(mapName));
-		MAPZOOM = Double.parseDouble((String) mapContent[0]);
-		
+		SCALE = Double.parseDouble((String) mapContent[0]);
 		Map<Polygon, Country> poco = (Map<Polygon, Country>) mapContent[1];
-		int maxX = 0;
-		int maxY = 0;
-		for (Entry<Polygon, Country> pc1 : poco.entrySet()) {
-			Polygon poly1 = pc1.getKey();
-			for (Entry<Polygon, Country> pc2 : poco.entrySet()) {
-				Polygon poly2 = pc2.getKey();
-				if (poly1 == poly2)
-					continue;
-				for (int i = 0; i < poly1.npoints; i++) {
-					int x = poly1.xpoints[i];
-					int y = poly1.ypoints[i];
-					if (poly2.contains(x, y))
-						CountryBorder.addBorder(pc1.getValue(), pc2.getValue());
-					maxX = Math.max(maxX, x);
-					maxY = Math.max(maxY, y);
+		new Thread() {
+			
+			@Override
+			public void run() {
+				int maxX = 0;
+				int maxY = 0;
+				for (Entry<Polygon, Country> pc1 : poco.entrySet()) {
+					Polygon poly1 = pc1.getKey();
+					for (Entry<Polygon, Country> pc2 : poco.entrySet()) {
+						Polygon poly2 = pc2.getKey();
+						if (poly1 == poly2)
+							continue;
+						for (int i = 0; i < poly1.npoints; i++) {
+							int x = poly1.xpoints[i];
+							int y = poly1.ypoints[i];
+							if (poly2.contains(x, y))
+								CountryBorder.addBorder(pc1.getValue(), pc2.getValue());
+							maxX = Math.max(maxX, x);
+							maxY = Math.max(maxY, y);
+						}
+					}
 				}
-
+				mapSpace = new Rectangle(0, 0, maxX, maxY);
 			}
-		}
-		mapSpace = new Rectangle(0, 0, maxX, maxY);
+			
+		}.start();
 		return poco;
 	}
 

@@ -2,15 +2,21 @@ package game.resources;
 
 import java.awt.Color;
 import java.awt.Polygon;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
+
 import game.map.Continent;
 import game.map.Country;
 import game.player.Player;
+import io.data.text.MapReader;
 
 /**
  * @author Braun
@@ -25,15 +31,30 @@ public abstract class GameCreator {
 	}
 	
 	public static Player getCurrentPlayer() {
+		plyN %= getPlayers().size();
 		return getPlayers().get(plyN);
 	}
 	
 	public static Player nextPlayer() {
-		return getPlayers().get(++plyN);
+		do {
+			plyN++;
+		} while (getPlayers().get(plyN) == null);
+		return getCurrentPlayer();
 	}
-	
+
+	public static void removePlayer(Player ply) {
+		for(int i=0; i < getPlayers().size(); i++) {
+			if(getPlayers().get(i) == ply)
+				getPlayers().set(i, null);
+		}
+	}
+
+	public static boolean noEnemyPlayers() {
+		return (getPlayers().stream().filter(ply -> ply != null).count() < 2);
+	}
+
 	public static List<Continent> getContinents() {
-		return MapCreator.getContinents();
+		return MapReader.getContinents();
 	}
 	
 	public static Map<Polygon, Country> getCPMap() {
@@ -64,7 +85,7 @@ public abstract class GameCreator {
 		return GameData.state;
 	}
 	
-	public static void createNewGame(int players, MapList map) {
+	public static void createNewGame(int players) {
 		ArrayList<Player> playerList = new ArrayList<Player>();
 		for(int i = 1; i <= players; i++) {
 			Color col;
@@ -88,14 +109,17 @@ public abstract class GameCreator {
 				col = Color.GREEN;
 				break;
 			}
-			playerList.add(new Player("Testsubjekt" +  i, col, 20 - 5 * players));
+			playerList.add(new Player("Testsubjekt" + i, col, 50 - 5 * players));
 		}
-		createNewGame(playerList, map);
+		createNewGame(playerList);
 	}
 	
-	public static void createNewGame(ArrayList<Player> players, MapList map) {
-		MapCreator.createMap(map);
-		live = new GameData(players, MapCreator.getCountries(), 4);
+	public static void createNewGame(ArrayList<Player> players) {
+		try {
+			live = new GameData(players, MapReader.loadMap("default"), 4);
+		} catch (ParserConfigurationException | SAXException | IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

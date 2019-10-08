@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map name="default" zoom="2.0">
+	<Continent name="Nord-Amerika" soldiers="5" countries="9">
+		<Country name="Alaska">
+			<Polygon>
+				<Point x="22" y="52"/>
+				<Point x="45" y="44"/>
+				<Point x="66" y="52"/>
+				<Point x="66" y="87"/>
+				<Point x="79" y="87"/>
+				<Point x="79" y="118"/>
+				<Point x="66" y="99"/>
+				<Point x="46" y="89"/>
+				<Point x="17" y="107"/>
+				<Point x="9" y="84"/>
+			</Polygon>
+		</Country>
+		<Country name="Nordwest-Territorium">
+			<Polygon>
+				<Point x="66" y="52"/>
+				<Point x="104" y="49"/>
+				<Point x="135" y="62"/>
+				<Point x="163" y="56"/>
+				<Point x="175" y="33"/>
+				<Point x="180" y="58"/>
+				<Point x="192" y="61"/>
+				<Point x="162" y="93"/>
+				<Point x="141" y="93"/>
+				<Point x="79" y="87"/>
+				<Point x="66" y="87"/>
+			</Polygon>
+		</Country>
+		<Country name="Grönland">
+			<Polygon>
+				<Point x="0" y="0"/>
+			</Polygon>
+		</Country>
+		<Country name="Alberta">
+			<Polygon>
+				<Point x="79" y="87"/>
+				<Point x="141" y="93"/>
+				<Point x="139" y="145"/>
+				<Point x="87" y="145"/>
+				<Point x="79" y="118"/>
+			</Polygon>
+		</Country>
+		<Country name="Ontario">
+			<Polygon>
+				<Point x="141" y="93"/>
+				<Point x="162" y="93"/>
+				<Point x="183" y="121"/>
+				<Point x="198" y="161"/>
+				<Point x="179" y="172"/>
+				<Point x="163" y="148"/>
+				<Point x="162" y="93"/>
+				<Point x="154" y="145"/>
+				<Point x="139" y="145"/>
+			</Polygon>
+		</Country>
+		<Country name="Quebec">
+			<Polygon>
+				<Point x="0" y="0"/>
+			</Polygon>
+		</Country>
+		<Country name="Weststaaten">
+			<Polygon>
+				<Point x="0" y="0"/>
+			</Polygon>
+		</Country>
+		<Country name="Oststaaten">
+			<Polygon>
+				<Point x="0" y="0"/>
+			</Polygon>
+		</Country>
+		<Country name="Mittel-Amerika">
+			<Polygon>
+				<Point x="0" y="0"/>
+			</Polygon>
+		</Country>
+	</Continent>
+	<Continent name="Europa" soldiers="5" countries="7">
+		<Country id="9" name="Island">
+			<Polygon>
+				<Point x="0" y="0"/>
+			</Polygon>
+		</Country>
+		<Country name="Skandinavien">
+			<Polygon>
+				<Point x="0" y="0"/>
+			</Polygon>
+		</Country>
+		<Country name="Ukraine">
+			<Polygon>
+				<Point x="0" y="0"/>
+			</Polygon>
+		</Country>
+		<Country name="Groß-Britannien">
+			<Polygon>
+				<Point x="0" y="0"/>
+			</Polygon>
+		</Country>
+		<Country name="Mitteleuropa">
+			<Polygon>
+				<Point x="0" y="0"/>
+			</Polygon>
+		</Country>
+		<Country name="Westeuropa">
+			<Polygon>
+				<Point x="0" y="0"/>
+			</Polygon>
+		</Country>
+		<Country name="Südeuropa">
+			<Polygon>
+				<Point x="0" y="0"/>
+			</Polygon>
+		</Country>
+	</Continent>
+	<Continent name="Süd-Amerika" soldiers="2" countries="4">
+		<Country name="Venezuela">
+			<Polygon>
+				<Point x="0" y="0"/>
+			</Polygon>
+		</Country>
+		<Country name="Peru">
+			<Polygon>
+				<Point x="0" y="0"/>
+			</Polygon>
+		</Country>
+		<Country name="Brasilien">
+			<Polygon>
+				<Point x="0" y="0"/>
+			</Polygon>
+		</Country>
+		<Country name="Argentinien">
+			<Polygon>
+				<Point x="0" y="0"/>
+			</Polygon>
+		</Country>
+	</Continent>
+	<Continent name="Afrika" soldiers="3" countries="6">
+		<Country name="Nordwestafrika">
+			<Polygon>
+				<Point x="0" y="0"/>
+			</Polygon>
+		</Country>
+		<Country name="Ägypten">
+			<Polygon>
+				<Point x="0" y="0"/>
+			</Polygon>
+		</Country>
+		<Country name="Kongo">
+			<Polygon>
+				<Point x="0" y="0"/>
+			</Polygon>
+		</Country>
+		<Country name="Ostafrika">
+			<Polygon>
+				<Point x="0" y="0"/>
+			</Polygon>
+		</Country>
+		<Country name="Südafrika">
+			<Polygon>
+				<Point x="0" y="0"/>
+			</Polygon>
+		</Country>
+		<Country name="Madagaska">
+			<Polygon>
+				<Point x="0" y="0"/>
+			</Polygon>
+		</Country>
+	</Continent>
+	<Continent name="Australien" soldiers="2" countries="4">
+		<Country name="Indonesien">
+			<Polygon>
+				<Point x="0" y="0"/>
+			</Polygon>
+		</Country>
+		<Country name="Neu-Geuinea">
+			<Polygon>
+				<Point x="0" y="0"/>
+			</Polygon>
+		</Country>
+		<Country name="Westaustralien">
+			<Polygon>
+				<Point x="0" y="0"/>
+			</Polygon>
+		</Country>
+		<Country name="Ostaustralien">
+			<Polygon>
+				<Point x="0" y="0"/>
+			</Polygon>
+		</Country>
+	</Continent>
+	<Continent name="Asien" soldiers="7" countries="12">
+	</Continent>
+</map>

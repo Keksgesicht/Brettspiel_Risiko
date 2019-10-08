@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -16,6 +17,7 @@ import game.map.Country;
 import game.player.Player;
 import game.player.PlayerStatus;
 import game.resources.GameCreator;
+import io.gui.GUImanager;
 import io.gui.components.DicePanel;
 import io.gui.components.PolygonMapPanel;
 
@@ -39,8 +41,13 @@ public class GameMapFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public GameMapFrame() {
+		int txtWidth = 47;
+		Font risikoFont = new Font("Courier", Font.BOLD, 42);
+		int startMisc = 1500;
+		int frameH = 1250;
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 750, 550);
+		setBounds(100, 100, startMisc + 200, frameH);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(null);
@@ -48,17 +55,15 @@ public class GameMapFrame extends JFrame {
 		setContentPane(contentPane);
 
 		mapPanel = new PolygonMapPanel(this);
-		mapPanel.setBounds(50, 65, 420, 420);
+		mapPanel.setBounds(5, 65, startMisc - 50, frameH - 100);
+		mapPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		contentPane.add(mapPanel);
 
-		int txtWidth = 47;
-		Font risikoFont = new Font("Courier", Font.BOLD, 42);
-
 		attDices = new DicePanel(3);
-		attDices.setBounds(500, 75, 120, txtWidth);
+		attDices.setBounds(startMisc, 75, 120, txtWidth);
 		contentPane.add(attDices);
 		defDices = new DicePanel(2);
-		defDices.setBounds(500, 115, 120, txtWidth);
+		defDices.setBounds(startMisc, 115, 120, txtWidth);
 		contentPane.add(defDices);
 
 		calvalierCounter = new JTextField(String.valueOf(GameCreator.getGoldenCavalier()));
@@ -67,7 +72,7 @@ public class GameMapFrame extends JFrame {
 		calvalierCounter.setBackground(Color.BLACK);
 		calvalierCounter.setForeground(Color.YELLOW);
 		calvalierCounter.setHorizontalAlignment(SwingConstants.CENTER);
-		calvalierCounter.setBounds(500, 180, txtWidth, txtWidth);
+		calvalierCounter.setBounds(startMisc, 180, txtWidth, txtWidth);
 		contentPane.add(calvalierCounter);
 
 		Font buttonFont = new Font("Courier", Font.BOLD, 20);
@@ -77,9 +82,10 @@ public class GameMapFrame extends JFrame {
 		useUlti.setBackground(Color.BLACK);
 		useUlti.setForeground(Color.YELLOW);
 		useUlti.setHorizontalAlignment(SwingConstants.CENTER);
-		useUlti.setBounds(550, 180, 140, txtWidth);
+		useUlti.setBounds(startMisc + 50, 180, 140, txtWidth);
 		useUlti.addActionListener(new ActionListener() {
 
+			@Override
 			public void actionPerformed(ActionEvent evt) {
 				if (currentPlayer.getStatus() == PlayerStatus.INIT && 0 < currentPlayer.ultiReady()) {
 					newArmy += currentPlayer.useUlti();
@@ -96,13 +102,13 @@ public class GameMapFrame extends JFrame {
 
 		nextPlayerStatus = new JButton("Finish fighting");
 		nextPlayerStatus.setFont(buttonFont);
-		// nextPlayerStatus.setBackground(Color.WHITE);
 		nextPlayerStatus.setForeground(Color.BLACK);
 		nextPlayerStatus.setHorizontalAlignment(SwingConstants.CENTER);
-		nextPlayerStatus.setBounds(500, 240, 190, txtWidth);
+		nextPlayerStatus.setBounds(startMisc, 240, 190, txtWidth);
 		nextPlayerStatus.setVisible(false);
 		nextPlayerStatus.addActionListener(new ActionListener() {
 
+			@Override
 			public void actionPerformed(ActionEvent evt) {
 				switch (currentPlayer.getStatus()) {
 				case FIGHT:
@@ -125,11 +131,11 @@ public class GameMapFrame extends JFrame {
 		currentPlayerTF = new JTextField();
 		currentPlayerTF.setEditable(false);
 		currentPlayerTF.setFont(risikoFont);
-		currentPlayerTF.setBackground(Color.WHITE);
+		currentPlayerTF.setForeground(currentPlayer.color);
+		currentPlayerTF.setBackground(GUImanager.contrast(currentPlayer.color));
 		currentPlayerTF.setHorizontalAlignment(JTextField.LEFT);
 		currentPlayerTF.setText(currentPlayer.name);
-		currentPlayerTF.setForeground(currentPlayer.color);
-		currentPlayerTF.setBounds(60, 5, 300, 55);
+		currentPlayerTF.setBounds(20, 5, 280, 55);
 		contentPane.add(currentPlayerTF);
 
 		newArmyCounter = new JTextField();
@@ -139,7 +145,7 @@ public class GameMapFrame extends JFrame {
 		newArmyCounter.setForeground(Color.BLACK);
 		newArmyCounter.setHorizontalAlignment(SwingConstants.CENTER);
 		newArmyCounter.setText(String.valueOf(newArmy));
-		newArmyCounter.setBounds(400, 5, 55, 55);
+		newArmyCounter.setBounds(320, 5, 55, 55);
 		contentPane.add(newArmyCounter);
 	}
 
@@ -147,6 +153,7 @@ public class GameMapFrame extends JFrame {
 		currentPlayer = GameCreator.nextPlayer();
 		currentPlayerTF.setText(currentPlayer.name);
 		currentPlayerTF.setForeground(currentPlayer.color);
+		currentPlayerTF.setBackground(GUImanager.contrast(currentPlayer.color));
 		currentPlayer.addTroops();
 		newArmy = currentPlayer.getNewTroops();
 		switch (GameCreator.getGameState()) {

@@ -44,7 +44,6 @@ public class DicePanel extends JPanel {
 	public void drawDices(Integer[] diceValues) {
 		this.diceValues = diceValues;
 		numDices = diceValues.length;
-		// repaint(50);
 		paintComponent(getGraphics());
 	}
 

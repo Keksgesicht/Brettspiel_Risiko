@@ -224,7 +224,7 @@ public class Player implements Cloneable {
 		if (kingC != null) {
 			kingC.controlledCountries.remove(country);
 			if (kingC.controlledCountries.isEmpty())
-				GameCreator.getPlayers().remove(kingC);
+				GameCreator.removePlayer(kingC);
 		}
 		controlledCountries.add(country);
 		country.theKingIsDead(this);
