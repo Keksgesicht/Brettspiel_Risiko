@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map name="default" zoom="2.0">
+<map name="default" zoom="1.75">
 	<Continent name="Nord-Amerika" soldiers="5" countries="9">
 		<Country name="Alaska">
+			<Point x="44" y="75"/>
 			<Polygon>
 				<Point x="22" y="52"/>
 				<Point x="45" y="44"/>
@@ -16,6 +17,7 @@
 			</Polygon>
 		</Country>
 		<Country name="Nordwest-Territorium">
+			<Point x="133" y="77"/>
 			<Polygon>
 				<Point x="66" y="52"/>
 				<Point x="104" y="49"/>
@@ -28,6 +30,18 @@
 				<Point x="141" y="93"/>
 				<Point x="79" y="87"/>
 				<Point x="66" y="87"/>
+			</Polygon>
+		</Country>
+		<Country name="Grönland">
+			<Polygon>
+				<Point x="205" y="42"/>
+				<Point x="258" y="6"/>
+				<Point x="306" y="15"/>
+				<Point x="298" y="63"/>
+				<Point x="263" y="86"/>
+				<Point x="257" y="109"/>
+				<Point x="252" y="80"/>
+				<Point x="244" y="53"/>
 			</Polygon>
 		</Country>
 		<Country name="Alberta">
@@ -44,6 +58,8 @@
 				<Point x="141" y="93"/>
 				<Point x="162" y="93"/>
 				<Point x="183" y="121"/>
+				<Point x="187" y="138"/>
+				<Point x="186" y="158"/>
 				<Point x="198" y="161"/>
 				<Point x="179" y="172"/>
 				<Point x="163" y="148"/>
@@ -51,5 +67,77 @@
 				<Point x="139" y="145"/>
 			</Polygon>
 		</Country>
+		<Country name="Quebec">
+			<Polygon>
+				<Point x="187" y="138"/>
+				<Point x="200" y="89"/>
+				<Point x="228" y="100"/>
+				<Point x="245" y="135"/>
+				<Point x="223" y="145"/>
+				<Point x="230" y="159"/>
+				<Point x="220" y="173"/>
+				<Point x="215" y="152"/>
+				<Point x="198" y="161"/>
+				<Point x="186" y="158"/>
+			</Polygon>
+		</Country>
+		<Country name="Weststaaten">
+			<Polygon>
+				<Point x="87" y="145"/>
+				<Point x="139" y="145"/>
+				<Point x="154" y="145"/>
+				<Point x="154" y="183"/>
+				<Point x="142" y="183"/>
+				<Point x="129" y="216"/>
+				<Point x="90" y="207"/>
+				<Point x="82" y="179"/>
+			</Polygon>
+		</Country>
+		<Country name="Oststaaten">
+			<Polygon>
+				<Point x="154" y="145"/>
+				<Point x="163" y="148"/>
+				<Point x="179" y="172"/>
+				<Point x="198" y="161"/>
+				<Point x="215" y="152"/>
+				<Point x="220" y="173"/>
+				<Point x="200" y="196"/>
+				<Point x="184" y="214"/>
+				<Point x="187" y="231"/>
+				<Point x="181" y="233"/>
+				<Point x="177" y="217"/>
+				<Point x="145" y="216"/>
+				<Point x="133" y="225"/>
+				<Point x="129" y="216"/>
+				<Point x="142" y="183"/>
+				<Point x="154" y="183"/>
+			</Polygon>
+		</Country>
+		<Country name="Mittel-Amerika">
+			<Polygon>
+				<Point x="90" y="207"/>
+				<Point x="129" y="216"/>
+				<Point x="133" y="225"/>
+				<Point x="135" y="246"/>
+				<Point x="153" y="241"/>
+				<Point x="151" y="259"/>
+				<Point x="147" y="277"/>
+				<Point x="149" y="283"/>
+				<Point x="134" y="258"/>
+				<Point x="113" y="245"/>
+			</Polygon>
+		</Country>
+		<Border>
+			<Point x="190" y="61"/>
+			<Point x="244" y="53"/>
+		</Border>
+		<Border>
+			<Point x="172" y="108"/>
+			<Point x="244" y="53"/>
+		</Border>
+		<Border>
+			<Point x="227" y="100"/>
+			<Point x="244" y="53"/>
+		</Border>
 	</Continent>
 </map>

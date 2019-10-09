@@ -1,13 +1,17 @@
 package io.gui.components;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -32,19 +36,19 @@ import io.gui.frames.GameMapFrame;
 @SuppressWarnings("serial")
 public class PolygonMapPanel extends JPanel {
 
-	GameMapFrame frame;
-	JPopupMenu popup = new JPopupMenu();
-	Map<Polygon, Country> cpMap = GameCreator.getCPMap();
-	ActionListener popupItemListener;
-	Set<Country> antiGreyCoties;
-	Country cotyOld;
-	Country coty;
+	private GameMapFrame frame;
+	private JPopupMenu popup = new JPopupMenu();
+	private Map<Polygon, Country> cpMap = GameCreator.getCPMap();
+	private ActionListener popupItemListener;
+	private Set<Country> antiGreyCoties;
+	private Country cotyOld;
+	private Country coty;
+	private Font gFont;
 
 	public PolygonMapPanel(GameMapFrame frame) {
 		super();
 		this.frame = frame;
-		zoomMap(MapReader.SCALE);
-		repaint();
+		gFont = new Font("SansSerif", Font.PLAIN, (int) (10 * GUImanager.SCALE * 3 / 4));
 		popup.setBorder(new BevelBorder(BevelBorder.RAISED));
 		popupItemListener = new ActionListener() {
 
@@ -67,13 +71,7 @@ public class PolygonMapPanel extends JPanel {
 			public void getMouseMapInfo(MouseEvent e) {
 				mouseP = e.getPoint();
 				currentPlayer = GameCreator.getCurrentPlayer();
-				coty = null;
-				for (Polygon poly : cpMap.keySet()) {
-					if (poly.contains(mouseP)) {
-						coty = cpMap.get(poly);
-						break;
-					}
-				}
+				coty = MapReader.getCotyWithPoint(mouseP);
 			}
 
 			@Override
@@ -273,13 +271,27 @@ public class PolygonMapPanel extends JPanel {
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		// draw not land borders
+		g.setColor(Color.BLACK);
+		Graphics2D g2 = (Graphics2D) g;
+		g2.setStroke(new BasicStroke(3.3f));
+		List<Point> bl = MapReader.getBorderLines();
+		for (int i = 0; i < bl.size(); i++) {
+			Point p1 = bl.get(i++);
+			Point p2 = bl.get(i);
+			g2.drawLine(p1.x, p1.y, p2.x, p2.y);
+		}
+		// draw countries
+		g.setFont(gFont);
 		cpMap.entrySet().stream().forEach(pc -> fillOnePolygon(g, pc.getKey(), pc.getValue()));
 	}
 
 	private void fillOnePolygon(Graphics g, Polygon poly, Country cotyP) {
 		// draw Country border
 		g.setColor(Color.BLACK);
-		g.drawPolygon(poly);
+		Graphics2D g2 = (Graphics2D) g;
+		g2.setStroke(new BasicStroke(1.5f));
+		g2.drawPolygon(poly);
 		// draw Country with Player color
 		Player ply = cotyP.king();
 		if (ply != null) {
@@ -291,23 +303,45 @@ public class PolygonMapPanel extends JPanel {
 		}
 		// draw country name and soldier count
 		Point polyP = middlePoint(poly);
-		g.drawString(cotyP.name, polyP.x, polyP.y);
-		g.drawString(String.valueOf(cotyP.getSoldiers()), polyP.x, polyP.y + 20);
+		System.out.println(polyP.x + " " + polyP.y);
+		String army = String.valueOf(cotyP.getSoldiers());
+		int nameX = polyP.x - g.getFontMetrics().stringWidth(cotyP.name) / 2;
+		int armyX = polyP.x - g.getFontMetrics().stringWidth(army) / 2;
+		int deltaY = gFont.getSize() * 2 / 3;
+		g.drawString(cotyP.name, nameX, polyP.y - deltaY);
+		g.drawString(army, armyX, polyP.y + deltaY);
 	}
 
-	public void zoomMap(double zoom) {
+	public void resizeMap(double scale) {
+		if (scale == GUImanager.SCALE)
+			return;
+		if (scale < 0.25 || 10 < scale)
+			return;
 		for (Polygon poly : cpMap.keySet()) {
 			int[] x = poly.xpoints;
 			int[] y = poly.ypoints;
 			int n = poly.npoints;
 			poly.reset();
 			for (int i = 0; i < n; i++)
-				poly.addPoint((int) (x[i] * zoom), (int) (y[i] * zoom));
+				poly.addPoint((int) (x[i] * scale), (int) (y[i] * scale));
 		}
-		MapReader.SCALE = zoom;
+		for (Point point : MapReader.getBorderLines()) {
+			point.x *= scale;
+			point.y *= scale;
+		}
+		for (Point point : MapReader.getStringPoints().values()) {
+			point.x *= scale;
+			point.y *= scale;
+		}
+		gFont = new Font("SansSerif", Font.PLAIN, (int) (10 * GUImanager.SCALE * 3 / 4));
+		GUImanager.SCALE = scale;
 	}
 
 	private Point middlePoint(Polygon poly) {
+		Map<Polygon, Point> stringPoints = MapReader.getStringPoints();
+		if (stringPoints.containsKey(poly)) {
+			return stringPoints.get(poly);
+		}
 		int n = poly.npoints;
 		int sumX = 0;
 		for (int x : poly.xpoints) {

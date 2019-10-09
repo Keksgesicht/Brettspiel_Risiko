@@ -1,7 +1,8 @@
 package io.data.text;
 
+import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.Polygon;
-import java.awt.Rectangle;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,17 +23,19 @@ import org.xml.sax.SAXException;
 import game.map.Continent;
 import game.map.Country;
 import game.map.CountryBorder;
+import game.resources.GameCreator;
+import io.gui.GUImanager;
+import io.gui.frames.GameMapFrame;
 
 /**
  * @author Braun
  */
 public abstract class MapReader {
-	
-	public static double SCALE = 1.0d;
-	public static Rectangle mapSpace;
 
-	private static Map<String, File> mapFiles = new HashMap<String, File>();
 	private static List<Continent> continents;
+	private static Map<String, File> mapFiles = new HashMap<String, File>();
+	private static Map<Polygon, Point> stringPoints = new HashMap<Polygon, Point>();
+	private static List<Point> borderLines = new ArrayList<Point>();
 	
 	static {
 		ClassLoader cl = MapReader.class.getClassLoader();
@@ -48,6 +51,14 @@ public abstract class MapReader {
 		return continents;
 	}
 
+	public static Map<Polygon, Point> getStringPoints() {
+		return stringPoints;
+	}
+
+	public static List<Point> getBorderLines() {
+		return borderLines;
+	}
+
 	public static Set<String> addMapFile(File mapFile) throws SAXException, IOException, ParserConfigurationException {
 		for(Entry<String, File> sf : mapFiles.entrySet()) {
 			File f = sf.getValue();
@@ -61,12 +72,11 @@ public abstract class MapReader {
 		return mapFiles.keySet();
 	}
 
-	protected static Object[] parseMap(File mapXML) throws ParserConfigurationException, SAXException, IOException {
-		Object[] mapContent = new Object[2];
+	protected static Map<Polygon, Country> parseMap(File mapXML) throws ParserConfigurationException, SAXException, IOException {
 		Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(mapXML);
 		Element root = doc.getDocumentElement();
 		root.normalize();
-		mapContent[0] = root.getAttribute("zoom");
+		GUImanager.SCALE = Double.parseDouble(root.getAttribute("zoom"));
 		List<Continent> alc = new ArrayList<Continent>();
 		Map<Polygon, Country> poco = new HashMap<Polygon, Country>();
 		
@@ -80,11 +90,19 @@ public abstract class MapReader {
 				
 				Element cotyE = (Element) countries.item(j);
 				Country cotyC = new Country(cotyE.getAttribute("name"));
-				NodeList points = cotyE.getElementsByTagName("Point");
+				Element polyE = (Element) cotyE.getElementsByTagName("Polygon").item(0);
+				NodeList points = polyE.getElementsByTagName("Point");
 				Polygon poly = new Polygon();
 				for (int k = 0; k < points.getLength(); k++) {
 					Element p = (Element) points.item(k);
-					poly.addPoint(Integer.valueOf(p.getAttribute("x")), Integer.valueOf(p.getAttribute("y")));
+					poly.addPoint((int) (Integer.valueOf(p.getAttribute("x")) * GUImanager.SCALE),
+							(int) (Integer.valueOf(p.getAttribute("y")) * GUImanager.SCALE));
+				}
+				Element pointN = (Element) cotyE.getElementsByTagName("Point").item(0);
+				if (!pointN.getParentNode().getNodeName().equals("Polygon")) {
+					stringPoints.put(poly,
+							new Point((int) (Integer.valueOf(pointN.getAttribute("x")) * GUImanager.SCALE),
+									(int) (Integer.valueOf(pointN.getAttribute("y")) * GUImanager.SCALE)));
 				}
 				contCoties.add(cotyC);
 				poco.put(poly, cotyC);
@@ -93,16 +111,22 @@ public abstract class MapReader {
 			alc.add(new Continent(contCoties, Integer.valueOf(cont.getAttribute("soldiers"))));
 			
 		}
+		NodeList borders = doc.getElementsByTagName("Border");
+		for (int i = 0; i < borders.getLength(); i++) {
+			Element border = (Element) borders.item(i);
+			NodeList points = border.getElementsByTagName("Point");
+			for (int j = 0; j < 2; j++) {
+				Element p = (Element) points.item(j);
+				borderLines.add(new Point((int) (Integer.valueOf(p.getAttribute("x")) * GUImanager.SCALE),
+						(int) (Integer.valueOf(p.getAttribute("y")) * GUImanager.SCALE)));
+			}
+		}
 		MapReader.continents = alc;
-		mapContent[1] = poco;
-		return mapContent;
+		return poco;
 	}
 	
-	@SuppressWarnings("unchecked")
 	public static Map<Polygon, Country> loadMap(String mapName) throws ParserConfigurationException, SAXException, IOException {
-		Object[] mapContent = parseMap(mapFiles.get(mapName));
-		SCALE = Double.parseDouble((String) mapContent[0]);
-		Map<Polygon, Country> poco = (Map<Polygon, Country>) mapContent[1];
+		Map<Polygon, Country> poco = parseMap(mapFiles.get(mapName));
 		new Thread() {
 			
 			@Override
@@ -125,11 +149,39 @@ public abstract class MapReader {
 						}
 					}
 				}
-				mapSpace = new Rectangle(0, 0, maxX, maxY);
+				for (int i = 0; i < borderLines.size(); i++) {
+					Country coty1 = getCotyWithPoint(borderLines.get(i++));
+					Country coty2 = getCotyWithPoint(borderLines.get(i));
+					CountryBorder.addBorder(coty1, coty2);
+				}
+				maxX += 10;
+				maxY += 10;
+				GUImanager.mapSpace = new Dimension(maxX, maxY);
+				while (!(GUImanager.getFrame() instanceof GameMapFrame)) {
+					try {
+						sleep(10);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+				((GameMapFrame) GUImanager.getFrame()).updateSize(maxX, maxY);
 			}
 			
 		}.start();
 		return poco;
+	}
+
+	public static Polygon getPolyWithPoint(Point p) {
+		for (Polygon poly : GameCreator.getPolygons()) {
+			if (poly.contains(p)) {
+				return poly;
+			}
+		}
+		return null;
+	}
+
+	public static Country getCotyWithPoint(Point p) {
+		return GameCreator.getCPMap().get(getPolyWithPoint(p));
 	}
 
 }

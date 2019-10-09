@@ -15,7 +15,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import game.resources.GameCreator;
+import io.gui.GUImanager;
 
 @SuppressWarnings("serial")
 public class InitFrame extends JFrame {
@@ -31,8 +31,7 @@ public class InitFrame extends JFrame {
 			@Override
 			public void run() {
 				try {
-					InitFrame frame = new InitFrame();
-					frame.setVisible(true);
+					GUImanager.setFrame(new InitFrame());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -81,9 +80,7 @@ public class InitFrame extends JFrame {
 				    null,
 				    options,
 				    options[0]);
-				
-				GameCreator.createNewGame(playerCount + 2);
-				new GameMapFrame().setVisible(true);
+				GUImanager.setFrame(new GameMapFrame(playerCount));
 				InitFrame.this.dispose();
 			}
 		});
