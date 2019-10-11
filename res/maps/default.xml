@@ -71,7 +71,7 @@
 		<Country name="Quebec">
 			<Polygon>
 				<Point x="187" y="138"/>
-				<Point x="200" y="89"/>
+				<Point x="200" y="95"/>
 				<Point x="228" y="100"/>
 				<Point x="245" y="135"/>
 				<Point x="223" y="145"/>
@@ -136,7 +136,7 @@
 			<Point x="244" y="53"/>
 		</Border>
 		<Border>
-			<Point x="172" y="108"/>
+			<Point x="169" y="103"/>
 			<Point x="244" y="53"/>
 		</Border>
 		<Border>
@@ -179,7 +179,7 @@
 				<Point x="205" y="277"/>
 				<Point x="207" y="285"/>
 				<Point x="235" y="280"/>
-				<Point x="284" y="309"/>
+				<Point x="284" y="309"/>	<!-- (Ägypten) -->
 				<Point x="263" y="363"/>
 				<Point x="246" y="369"/>
 				<Point x="234" y="395"/>
@@ -207,4 +207,148 @@
 			</Polygon>
 		</Country>
 	</Continent>
+	<Continent name="Europa" soldiers="5" countries="7">
+		<Country name="Island">
+			<Polygon>
+				<Point x="306" y="88"/>
+				<Point x="334" y="82"/>
+				<Point x="343" y="97"/>
+				<Point x="324" y="116"/>
+				<Point x="306" y="112"/>
+			</Polygon>
+		</Country>
+		<Country name="Skandinavien">
+			<Point x="390" y="100"/>
+			<Polygon>
+				<Point x="356" y="100"/>
+				<Point x="380" y="70"/>
+				<Point x="417" y="65"/>
+				<Point x="414" y="112"/>
+				<Point x="398" y="113"/>
+				<Point x="400" y="105"/>
+				<Point x="388" y="117"/>
+				<Point x="390" y="120"/>
+				<Point x="380" y="139"/>
+				<Point x="368" y="123"/>
+				<Point x="362" y="128"/>
+			</Polygon>
+		</Country>
+		<Country name="Ukraine">
+			<Polygon>
+				<Point x="417" y="65"/>
+				<Point x="508" y="65"/>		<!-- Ural -->
+				<Point x="507" y="145"/>	<!-- Ural / Afghanistan -->
+				<Point x="472" y="158"/>	<!-- Afghanistan -->
+				<Point x="471" y="188"/>	<!-- Afghanistan -->
+				<Point x="475" y="224"/>	<!-- mittlerer Osten -->
+				<Point x="455" y="230"/>	<!-- mittlerer Osten -->
+				<Point x="440" y="201"/>
+				<Point x="414" y="210"/>
+				<Point x="401" y="187"/>
+				<Point x="407" y="177"/>
+				<Point x="407" y="147"/>
+				<Point x="399" y="144"/>
+				<Point x="414" y="113"/>
+			</Polygon>
+		</Country>
+		<Country name="Groß-Britannien">
+			<Point x="310" y="172"/>
+			<Polygon>
+				<Point x="312" y="123"/>
+				<Point x="317" y="132"/>
+				<Point x="316" y="144"/>
+				<Point x="333" y="170"/>
+				<Point x="332" y="181"/>
+				<Point x="305" y="186"/>
+				<Point x="306" y="179"/>
+				<Point x="299" y="178"/>
+				<Point x="284" y="180"/>
+				<Point x="284" y="162"/>
+				<Point x="293" y="155"/>
+				<Point x="303" y="155"/>
+				<Point x="297" y="134"/>
+				<Point x="304" y="123"/>
+			</Polygon>
+		</Country>
+		<Country name="Mitteleuropa">
+			<Point x="380" y="175"/>
+			<Polygon>
+				<Point x="344" y="184"/>
+				<Point x="362" y="153"/>
+				<Point x="363" y="135"/>
+				<Point x="366" y="135"/>
+				<Point x="370" y="147"/>
+				<Point x="399" y="144"/>
+				<Point x="407" y="147"/>
+				<Point x="407" y="177"/>
+				<Point x="401" y="187"/>
+				<Point x="389" y="190"/>
+				<Point x="354" y="201"/>
+			</Polygon>
+		</Country>
+		<Country name="Westeuropa">
+			<Point x="320" y="238"/>
+			<Polygon>
+				<Point x="312" y="202"/>	<!-- (Groß-Britannien) -->
+				<Point x="344" y="184"/>	<!-- Mitteleuropa -->
+				<Point x="354" y="201"/>	<!-- Mitteleuropa / Südeuropa -->
+				<Point x="352" y="225"/>	<!-- Südeuropa -->
+				<Point x="336" y="237"/>
+				<Point x="339" y="250"/>
+				<Point x="328" y="266"/>	<!-- Nordwestafrika -->
+				<Point x="322" y="267"/>	<!-- Nordwestafrika -->
+				<Point x="299" y="253"/>
+				<Point x="298" y="228"/>
+				<Point x="320" y="220"/>
+			</Polygon>
+		</Country>
+		<Country name="Südeuropa">
+			<Polygon>
+				<Point x="354" y="201"/>	<!-- Westeuropa -->
+				<Point x="389" y="190"/>
+				<Point x="401" y="187"/>
+				<Point x="414" y="210"/>
+				<Point x="414" y="210"/>
+				<Point x="411" y="226"/>	<!-- mittlerer Osten -->
+				<Point x="406" y="238"/>	<!-- mittlerer Osten -->
+				<Point x="399" y="242"/>
+				<Point x="401" y="257"/>	<!-- (Ägypten) -->
+				<Point x="393" y="257"/>	<!-- (Ägypten) -->
+				<Point x="390" y="242"/>
+				<Point x="377" y="244"/>
+				<Point x="368" y="257"/>	<!-- Nordwestafrika -->
+				<Point x="363" y="257"/>	<!-- Nordwestafrika -->
+				<Point x="370" y="242"/>
+				<Point x="352" y="225"/>	<!-- Westeuropa -->
+			</Polygon>
+		</Country>
+		<Border>
+			<Point x="324" y="115"/>	<!-- Island -->
+			<Point x="359" y="112"/>	<!-- Skandinavien -->
+		</Border>
+		<Border>
+			<Point x="319" y="150"/>	<!-- Groß-Britannien -->
+			<Point x="359" y="112"/>	<!-- Skandinavien -->
+		</Border>
+		<Border>
+			<Point x="319" y="150"/>	<!-- Groß-Britannien -->
+			<Point x="324" y="115"/>	<!-- Island -->
+		</Border>
+		<Border>
+			<Point x="319" y="150"/>	<!-- Groß-Britannien -->
+			<Point x="355" y="166"/>	<!-- Mitteleuropa -->
+		</Border>
+		<Border>
+			<Point x="355" y="166"/>	<!-- Mitteleuropa -->
+			<Point x="359" y="112"/>	<!-- Skandinavien -->
+		</Border>
+		<Border>
+			<Point x="325" y="181"/>	<!-- Groß-Britannien -->
+			<Point x="333" y="192"/>	<!-- Westeuropa -->
+		</Border>
+	</Continent>
+	<Border>
+		<Point x="280" y="74"/>		<!-- Grönland -->
+		<Point x="307" y="89"/>		<!-- Island -->
+	</Border>
 </map>

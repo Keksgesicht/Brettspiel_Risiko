@@ -274,7 +274,7 @@ public class PolygonMapPanel extends JPanel {
 		// draw not land borders
 		g.setColor(Color.BLACK);
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setStroke(new BasicStroke(3.3f));
+		g2.setStroke(new BasicStroke((float) (2f * GUImanager.SCALE)));
 		List<Point> bl = MapReader.getBorderLines();
 		for (int i = 0; i < bl.size(); i++) {
 			Point p1 = bl.get(i++);
@@ -290,7 +290,7 @@ public class PolygonMapPanel extends JPanel {
 		// draw Country border
 		g.setColor(Color.BLACK);
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setStroke(new BasicStroke(1.5f));
+		g2.setStroke(new BasicStroke((float) (1f * GUImanager.SCALE)));
 		g2.drawPolygon(poly);
 		// draw Country with Player color
 		Player ply = cotyP.king();

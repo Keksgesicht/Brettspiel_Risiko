@@ -1,42 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map name="default" zoom="2.0">
-	<Continent name="Europa" soldiers="5" countries="7">
-		<Country id="9" name="Island">
-			<Polygon>
-				<Point x="0" y="0"/>
-			</Polygon>
-		</Country>
-		<Country name="Skandinavien">
-			<Polygon>
-				<Point x="0" y="0"/>
-			</Polygon>
-		</Country>
-		<Country name="Ukraine">
-			<Polygon>
-				<Point x="0" y="0"/>
-			</Polygon>
-		</Country>
-		<Country name="Groß-Britannien">
-			<Polygon>
-				<Point x="0" y="0"/>
-			</Polygon>
-		</Country>
-		<Country name="Mitteleuropa">
-			<Polygon>
-				<Point x="0" y="0"/>
-			</Polygon>
-		</Country>
-		<Country name="Westeuropa">
-			<Polygon>
-				<Point x="0" y="0"/>
-			</Polygon>
-		</Country>
-		<Country name="Südeuropa">
-			<Polygon>
-				<Point x="0" y="0"/>
-			</Polygon>
-		</Country>
-	</Continent>
+<map name="default" zoom="1.75">
 	<Continent name="Afrika" soldiers="3" countries="6">
 		<Country name="Nordwestafrika">
 			<Polygon>

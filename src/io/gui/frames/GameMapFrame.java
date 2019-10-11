@@ -46,7 +46,7 @@ public class GameMapFrame extends JFrame {
 		newArmy = currentPlayer.getNewTroops();
 		Font risikoFont = new Font("Courier", Font.BOLD, 32);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 950, 75);
+		setBounds(100, 100, 950, 30 + 42 + 10);
 		setResizable(false);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -130,7 +130,7 @@ public class GameMapFrame extends JFrame {
 		mapPanel = new PolygonMapPanel(this);
 		mapPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
-		setSize(900, 100);
+		updateSize(950, 0);
 		contentPane.add(currentPlayerTF);
 		contentPane.add(newArmyCounter);
 		contentPane.add(attDices);
@@ -145,7 +145,6 @@ public class GameMapFrame extends JFrame {
 		int txtWidth = 42;
 		int margin = 10;
 		width = Math.max(width, 950);
-		height = Math.max(height, 75);
 		currentPlayerTF.setBounds(5, 5, 280, txtWidth);
 		newArmyCounter.setBounds(280 + margin, 5, txtWidth, txtWidth);
 		attDices.setBounds(280 + txtWidth + 2 * margin, 5, 120, txtWidth);
@@ -154,7 +153,7 @@ public class GameMapFrame extends JFrame {
 		useUlti.setBounds(width - 190 - margin - 140, 5, 140, txtWidth);
 		nextPlayerStatus.setBounds(width - 190, 5, 190, txtWidth);
 		mapPanel.setBounds(5, txtWidth + margin, width, height);
-		setSize((int) (width + 1.5 * margin), height + 2 * txtWidth);
+		setSize((int) (width + 1.5 * margin), 30 + Math.max(height + txtWidth + margin + 3, txtWidth + margin));
 	}
 
 	public void updateCurrentPlayer() {

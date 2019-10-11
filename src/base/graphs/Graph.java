@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 /**
@@ -120,10 +121,22 @@ public class Graph<Edge extends Comparable<Edge>, Node> {
 		List<Edge> adjRow = adjazenzmatrizen.get(name).getAdjazenzListe(nodes.get(row));
 		for (int i = 0; i < adjRow.size(); i++) {
 			final Integer j = new Integer(i);
-			if (adjRow.get(j) != NaN)
-				neighboors.add(nodes.keySet().stream().filter(n -> nodes.get(n).equals(j)).findFirst().get());
+			if (adjRow.get(j) != NaN) {
+				Node n = getNode(j);
+				if (n != null)
+					neighboors.add(n);
+			}
 		}
 		return neighboors;
+	}
+
+	private Node getNode(Integer value) {
+		for (Entry<Node, Integer> entry : nodes.entrySet()) {
+			if (entry.getValue().equals(value)) {
+				return entry.getKey();
+			}
+		}
+		return null;
 	}
 
 	/**
