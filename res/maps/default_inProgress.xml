@@ -37,28 +37,6 @@
 			</Polygon>
 		</Country>
 	</Continent>
-	<Continent name="Süd-Amerika" soldiers="2" countries="4">
-		<Country name="Venezuela">
-			<Polygon>
-				<Point x="0" y="0"/>
-			</Polygon>
-		</Country>
-		<Country name="Peru">
-			<Polygon>
-				<Point x="0" y="0"/>
-			</Polygon>
-		</Country>
-		<Country name="Brasilien">
-			<Polygon>
-				<Point x="0" y="0"/>
-			</Polygon>
-		</Country>
-		<Country name="Argentinien">
-			<Polygon>
-				<Point x="0" y="0"/>
-			</Polygon>
-		</Country>
-	</Continent>
 	<Continent name="Afrika" soldiers="3" countries="6">
 		<Country name="Nordwestafrika">
 			<Polygon>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map name="default" zoom="1.75">
+<map name="default" scale="1.75">
 	<Continent name="Nord-Amerika" soldiers="5" countries="9">
 		<Country name="Alaska">
 			<Point x="44" y="75"/>
@@ -33,6 +33,7 @@
 			</Polygon>
 		</Country>
 		<Country name="Grönland">
+		<Point x="265" y="47"/>
 			<Polygon>
 				<Point x="205" y="42"/>
 				<Point x="258" y="6"/>
@@ -94,6 +95,7 @@
 			</Polygon>
 		</Country>
 		<Country name="Oststaaten">
+		<Point x="180" y="190"/>
 			<Polygon>
 				<Point x="154" y="145"/>
 				<Point x="163" y="148"/>
@@ -114,14 +116,16 @@
 			</Polygon>
 		</Country>
 		<Country name="Mittel-Amerika">
+			<Point x="128" y="235"/>
 			<Polygon>
 				<Point x="90" y="207"/>
 				<Point x="129" y="216"/>
 				<Point x="133" y="225"/>
-				<Point x="135" y="246"/>
+				<Point x="145" y="216"/>
+				<Point x="155" y="217"/>
 				<Point x="153" y="241"/>
-				<Point x="151" y="259"/>
-				<Point x="147" y="277"/>
+				<Point x="147" y="262"/>
+				<Point x="152" y="278"/>
 				<Point x="149" y="283"/>
 				<Point x="134" y="258"/>
 				<Point x="113" y="245"/>
@@ -139,5 +143,68 @@
 			<Point x="227" y="100"/>
 			<Point x="244" y="53"/>
 		</Border>
+	</Continent>
+	<Continent name="Süd-Amerika" soldiers="2" countries="4">
+		<Country name="Venezuela">
+			<Polygon>	<!-- 484 -->
+				<Point x="152" y="278"/>
+				<Point x="178" y="257"/>
+				<Point x="202" y="260"/>
+				<Point x="235" y="280"/>
+				<Point x="207" y="285"/>
+				<Point x="205" y="277"/>
+				<Point x="173" y="304"/>
+				<Point x="150" y="291"/>
+				<Point x="149" y="283"/>
+			</Polygon>
+		</Country>
+		<Country name="Peru">
+			<Point x="183" y="345"/> 
+			<Polygon>
+				<Point x="150" y="291"/>
+				<Point x="173" y="304"/>
+				<Point x="161" y="315"/>
+				<Point x="174" y="328"/>
+				<Point x="190" y="324"/>
+				<Point x="230" y="373"/>
+				<Point x="222" y="383"/>
+				<Point x="205" y="361"/>
+				<Point x="176" y="352"/>
+				<Point x="143" y="315"/>
+			</Polygon>
+		</Country>
+		<Country name="Brasilien">
+			<Polygon>
+				<Point x="173" y="304"/>
+				<Point x="205" y="277"/>
+				<Point x="207" y="285"/>
+				<Point x="235" y="280"/>
+				<Point x="284" y="309"/>
+				<Point x="263" y="363"/>
+				<Point x="246" y="369"/>
+				<Point x="234" y="395"/>
+				<Point x="222" y="383"/>
+				<Point x="230" y="373"/>
+				<Point x="190" y="324"/>
+				<Point x="174" y="328"/>
+				<Point x="161" y="315"/>
+			</Polygon>
+		</Country>
+		<Country name="Argentinien">
+			<Point x="200" y="404"/>
+			<Polygon>
+				<Point x="176" y="352"/>
+				<Point x="205" y="361"/>
+				<Point x="222" y="383"/>
+				<Point x="234" y="395"/>
+				<Point x="224" y="410"/>
+				<Point x="212" y="415"/>
+				<Point x="198" y="462"/>
+				<Point x="205" y="468"/>
+				<Point x="203" y="473"/>
+				<Point x="183" y="462"/>
+				<Point x="176" y="445"/>
+			</Polygon>
+		</Country>
 	</Continent>
 </map>

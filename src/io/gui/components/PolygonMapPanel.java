@@ -303,7 +303,11 @@ public class PolygonMapPanel extends JPanel {
 		}
 		// draw country name and soldier count
 		Point polyP = middlePoint(poly);
-		System.out.println(polyP.x + " " + polyP.y);
+
+		int midX = (int) (polyP.x / GUImanager.SCALE);
+		int midY = (int) (polyP.y / GUImanager.SCALE);
+		System.out.println(cpMap.get(poly).name + ": " + midX + " " + midY);
+
 		String army = String.valueOf(cotyP.getSoldiers());
 		int nameX = polyP.x - g.getFontMetrics().stringWidth(cotyP.name) / 2;
 		int armyX = polyP.x - g.getFontMetrics().stringWidth(army) / 2;

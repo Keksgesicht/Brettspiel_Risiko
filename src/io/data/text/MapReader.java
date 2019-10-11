@@ -76,7 +76,7 @@ public abstract class MapReader {
 		Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(mapXML);
 		Element root = doc.getDocumentElement();
 		root.normalize();
-		GUImanager.SCALE = Double.parseDouble(root.getAttribute("zoom"));
+		GUImanager.SCALE = Double.parseDouble(root.getAttribute("scale"));
 		List<Continent> alc = new ArrayList<Continent>();
 		Map<Polygon, Country> poco = new HashMap<Polygon, Country>();
 		
@@ -127,6 +127,12 @@ public abstract class MapReader {
 	
 	public static Map<Polygon, Country> loadMap(String mapName) throws ParserConfigurationException, SAXException, IOException {
 		Map<Polygon, Country> poco = parseMap(mapFiles.get(mapName));
+		detectBorders(poco);
+		// ContinentOutlinePolygon();
+		return poco;
+	}
+
+	private static void detectBorders(Map<Polygon, Country> poco) {
 		new Thread() {
 			
 			@Override
@@ -168,7 +174,17 @@ public abstract class MapReader {
 			}
 			
 		}.start();
-		return poco;
+	}
+
+	private static void ContinentOutlinePolygon(Continent cont, List<Polygon> polies) {
+		new Thread() {
+			
+			@Override
+			public void run() {
+				// TODO
+			}
+			
+		}.start();
 	}
 
 	public static Polygon getPolyWithPoint(Point p) {

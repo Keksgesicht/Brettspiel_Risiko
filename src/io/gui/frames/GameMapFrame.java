@@ -46,7 +46,7 @@ public class GameMapFrame extends JFrame {
 		newArmy = currentPlayer.getNewTroops();
 		Font risikoFont = new Font("Courier", Font.BOLD, 32);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1000, 75);
+		setBounds(100, 100, 950, 75);
 		setResizable(false);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -144,7 +144,7 @@ public class GameMapFrame extends JFrame {
 	public void updateSize(int width, int height) {
 		int txtWidth = 42;
 		int margin = 10;
-		width = Math.max(width, 1000);
+		width = Math.max(width, 950);
 		height = Math.max(height, 75);
 		currentPlayerTF.setBounds(5, 5, 280, txtWidth);
 		newArmyCounter.setBounds(280 + margin, 5, txtWidth, txtWidth);
