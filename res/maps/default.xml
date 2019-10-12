@@ -351,4 +351,115 @@
 		<Point x="280" y="74"/>		<!-- Grönland -->
 		<Point x="307" y="89"/>		<!-- Island -->
 	</Border>
+	<Continent name="Afrika" soldiers="3" countries="6">
+		<Country name="Nordwestafrika">
+			<Point x="357" y="322"/>
+			<Polygon>
+				<Point x="322" y="267"/>	<!-- Westeuropa -->			
+				<Point x="328" y="266"/>	<!-- Westeuropa -->
+				<Point x="363" y="257"/>	<!-- Südeuropa -->
+				<Point x="368" y="257"/>	<!-- Südeuropa -->
+				<Point x="380" y="273"/>	<!-- Ägypten -->
+				<Point x="377" y="303"/>	<!-- Ägypten -->
+				<Point x="410" y="317"/>	<!-- Ägypten/Ostafrika -->
+				<Point x="409" y="345"/>
+				<Point x="389" y="356"/>
+				<Point x="389" y="371"/>
+				<Point x="375" y="370"/>
+				<Point x="366" y="358"/>
+				<Point x="332" y="357"/>
+				<Point x="309" y="320"/>				
+			</Polygon>
+		</Country>
+		<Country name="Ägypten">
+			<Point x="411" y="294" />
+			<Polygon>
+				<Point x="380" y="273"/>	<!-- Ägypten -->
+				<Point x="406" y="272"/>	
+				<Point x="438" y="278"/>	<!-- Mittlerer Osten -->
+				<Point x="439" y="285"/>	<!-- Mittlerer Osten -->
+				<Point x="437" y="291"/>
+				<Point x="430" y="285"/>
+				<Point x="444" y="308"/>	<!-- Ostafrika -->					
+				<Point x="410" y="317"/>	<!-- Ägypten/Ostafrika -->
+				<Point x="377" y="303"/>	<!-- Ägypten -->
+			</Polygon>
+		</Country>
+		<Country name="Ostafrika">
+			<Point x="455" y="358" />
+			<Polygon>
+				<Point x="410" y="317"/>	<!-- Ägypten/Ostafrika -->
+				<Point x="444" y="308"/>	<!-- Ostafrika -->
+				<Point x="464" y="341"/>
+				<Point x="484" y="343"/>
+				<Point x="453" y="391"/>
+				<Point x="453" y="406"/> 	<!-- Südafrika -->
+				<Point x="442" y="414"/>	<!-- Südafrika -->
+				<Point x="439" y="426"/>	<!-- Südafrika -->
+				<Point x="437" y="409"/>	<!-- Südafrika -->
+				<Point x="428" y="401"/>	<!-- Kongo/Südafrika/Ostafrika -->
+				<Point x="441" y="368"/>	<!-- Kongo -->			
+				<Point x="409" y="345"/>					
+			</Polygon>
+		</Country>
+		<Country name="Kongo">
+			<Point x="411" y="380" />
+			<Polygon>
+				<Point x="409" y="345"/>			
+				<Point x="441" y="368"/>	<!-- Kongo -->			
+				<Point x="428" y="401"/>	<!-- Kongo/Südafrika/Ostafrika -->
+				<Point x="425" y="415"/>
+				<Point x="408" y="407"/>
+				<Point x="405" y="399"/>
+				<Point x="381" y="391"/>		
+				<Point x="375" y="370"/>
+				<Point x="389" y="371"/>
+				<Point x="389" y="356"/>				
+			</Polygon>
+		</Country>
+		<Country name="Südafrika">
+			<Point x="416" y="444" />		
+			<Polygon>
+				<Point x="381" y="391"/>	
+				<Point x="405" y="399"/>	
+				<Point x="408" y="407"/>
+				<Point x="425" y="415"/>
+				<Point x="428" y="401"/>	<!-- Kongo/Südafrika/Ostafrika -->
+				<Point x="437" y="409"/>	<!-- Südafrika -->
+				<Point x="439" y="426"/>	<!-- Südafrika -->
+				<Point x="442" y="414"/>	<!-- Südafrika -->
+				<Point x="453" y="406"/> 	<!-- Südafrika -->
+				<Point x="441" y="437"/>
+				<Point x="428" y="478"/>
+				<Point x="398" y="486"/>	
+				<Point x="380" y="434"/>
+			</Polygon>
+		</Country>
+		<Country name="Madagaskar">
+			<Point x="470" y="450"/>
+			<Polygon>
+				<Point x="491" y="413"/>
+				<Point x="475" y="468"/>
+				<Point x="463" y="467"/>	
+				<Point x="463" y="436"/>
+				<Point x="465" y="430"/>
+			</Polygon>	
+		</Country>
+		<Border>
+			<Point x="453" y="391"/>
+			<Point x="465" y="430"/>
+		</Border>
+		<Border>
+			<Point x="441" y="437"/>
+			<Point x="463" y="436"/>		
+		</Border>								
+	</Continent>
+	<Border>
+		<Point x="284" y="309"/>	<!-- Brasilien -->
+		<Point x="309" y="320"/>		<!-- Nordwestafrika -->
+	</Border>
+	<Border>
+		<Point x="401" y="257"/>	<!-- (Ägypten) -->
+		<Point x="406" y="273"/>		
+	</Border>	
 </map>
