@@ -446,20 +446,92 @@
 			</Polygon>	
 		</Country>
 		<Border>
-			<Point x="453" y="391"/>
-			<Point x="465" y="430"/>
+			<Point x="450" y="391"/>
+			<Point x="468" y="431"/>
 		</Border>
 		<Border>
-			<Point x="441" y="437"/>
-			<Point x="463" y="436"/>		
+			<Point x="437" y="437"/>
+			<Point x="465" y="436"/>		
 		</Border>								
 	</Continent>
 	<Border>
-		<Point x="284" y="309"/>	<!-- Brasilien -->
-		<Point x="309" y="320"/>		<!-- Nordwestafrika -->
+		<Point x="280" y="309"/>	<!-- Brasilien -->
+		<Point x="313" y="320"/>		<!-- Nordwestafrika -->
 	</Border>
 	<Border>
-		<Point x="401" y="257"/>	<!-- (Ägypten) -->
-		<Point x="406" y="273"/>		
-	</Border>	
+		<Point x="397" y="253"/>	<!-- (Ägypten) -->
+		<Point x="406" y="277"/>		
+	</Border>
+	<Continent name="Australien" soldiers="2" countries="4">
+		<Country name="Westaustralien">
+			<Point x="663" y="454"/>
+			<Polygon>
+				<Point x="698" y="490"/>
+				<Point x="698" y="438"/>
+				<Point x="669" y="438"/>
+				<Point x="668" y="401"/>
+				<Point x="658" y="401"/>
+				<Point x="621" y="425"/>
+				<Point x="625" y="474"/>
+				<Point x="675" y="465"/>
+			</Polygon>
+		</Country>
+		<Country name="Ostaustralien">
+			<Polygon>
+				<Point x="676" y="389"/>
+				<Point x="696" y="390"/>			
+				<Point x="690" y="398"/>
+				<Point x="703" y="404"/>
+				<Point x="711" y="385"/>
+				<Point x="738" y="437"/>
+				<Point x="722" y="479"/>
+				<Point x="698" y="490"/>
+				<Point x="698" y="438"/>
+				<Point x="669" y="438"/>
+				<Point x="668" y="401"/>
+			</Polygon>
+		</Country>
+		<Country name="Neu-Guinea">
+			<Polygon>
+				<Point x="667" y="333"/>
+				<Point x="691" y="338"/>
+				<Point x="704" y="347"/>
+				<Point x="714" y="376"/>
+				<Point x="674" y="368"/>
+				<Point x="674" y="354"/>
+				<Point x="664" y="350"/>
+				<Point x="657" y="337"/>
+			</Polygon>
+		</Country>
+		<Country name="Indonesien">
+			<Polygon>
+				<Point x="630" y="340"/>
+				<Point x="606" y="368"/>
+				<Point x="583" y="352"/>
+				<Point x="579" y="356"/>
+				<Point x="609" y="399"/>
+				<Point x="642" y="401"/>
+				<Point x="648" y="392"/>
+				<Point x="655" y="363"/>
+				<Point x="639" y="368"/>
+				<Point x="641" y="345"/>
+			</Polygon>
+		</Country>
+		<Border>
+			<Point x="658" y="404"/>
+			<Point x="646" y="390"/>
+		</Border>
+		<Border>
+			<Point x="658" y="404"/>
+			<Point x="664" y="347"/>
+		</Border>
+		<Border>
+			<Point x="664" y="347"/>
+			<Point x="638" y="345"/>
+		</Border>
+		<Border>
+			<Point x="664" y="347"/>
+			<Point x="678" y="391"/>
+		</Border>	
+	</Continent>	
 </map>
