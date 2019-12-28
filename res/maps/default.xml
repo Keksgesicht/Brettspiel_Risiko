@@ -236,8 +236,10 @@
 		<Country name="Ukraine">
 			<Polygon>
 				<Point x="417" y="65"/>
-				<Point x="508" y="65"/>		<!-- Ural -->
-				<Point x="507" y="145"/>	<!-- Ural / Afghanistan -->
+				<Point x="508" y="65"/>		<!-- Ural/ Ukraine -->
+				<Point x="508" y="76"/>		<!-- Ural/ Ukraine -->
+				<Point x="502" y="86"/>		<!-- Ural/ Ukraine -->
+				<Point x="507" y="145"/>	<!-- Ural / Afghanistan / -->
 				<Point x="472" y="158"/>	<!-- Afghanistan -->
 				<Point x="471" y="188"/>	<!-- Afghanistan -->
 				<Point x="475" y="224"/>	<!-- mittlerer Osten -->
@@ -533,5 +535,203 @@
 			<Point x="664" y="347"/>
 			<Point x="678" y="391"/>
 		</Border>	
+	</Continent>
+	<Continent name="Asien" soldiers="7" countries="12">
+		<Country name="Mittlerer Osten">
+			<Point x="467" y="253"/>
+			<Polygon>
+				<Point x="411" y="226"/>	<!-- mittlerer Osten -->
+				<Point x="439" y="225"/>
+				<Point x="455" y="230"/>	<!-- mittlerer Osten -->
+				<Point x="475" y="224"/>	<!-- mittlerer Osten -->
+				<Point x="482" y="231"/>
+				<Point x="490" y="225"/>	<!-- Afghanistan/Mittlerer Osten -->
+				<Point x="511" y="235"/>	<!-- Indien/Afghanistan/Mittlerer Osten -->
+				<Point x="516" y="273"/>	<!-- Indien unten -->
+				<Point x="506" y="280"/>
+				<Point x="493" y="280"/>
+				<Point x="488" y="265"/>
+				<Point x="480" y="268"/>
+				<Point x="490" y="288"/>
+				<Point x="498" y="283"/>
+				<Point x="507" y="295"/>
+				<Point x="495" y="322"/>
+				<Point x="468" y="333"/>
+				<Point x="439" y="285"/>
+				<Point x="439" y="285"/>	<!-- Mittlerer Osten -->
+				<Point x="438" y="278"/>	<!-- Mittlerer Osten -->
+				<Point x="440" y="255"/>
+				<Point x="409" y="252"/>
+				<Point x="406" y="238"/>	<!-- mittlerer Osten -->
+			</Polygon>
+		</Country>
+		<Country name="Indien">
+			<Polygon>
+				<Point x="511" y="235"/>	<!-- Indien/Afghanistan/Mittlerer Osten -->
+				<Point x="527" y="220"/>	<!-- Indien/Afghanistan -->
+				<Point x="536" y="223"/>	<!-- Indien/Afghanistan -->
+				<Point x="540" y="219"/>	<!-- Indien/Afghanistan/China -->
+				<Point x="554" y="221"/>	<!-- Indien/China -->
+				<Point x="552" y="238"/>	<!-- Indien/China -->
+				<Point x="590" y="252"/>	<!-- Indien/China -->
+				<Point x="594" y="260"/>	<!-- Indien/China/Siam -->
+				<Point x="584" y="278"/>	<!-- Indien/Siam -->
+				<Point x="574" y="285"/>
+				<Point x="556" y="340"/>
+				<Point x="538" y="303"/>
+				<Point x="538" y="289"/>
+				<Point x="522" y="273"/>
+				<Point x="516" y="273"/>	<!-- Indien/Mittlerer Osten unten -->
+			</Polygon>
+		</Country>
+		<Country name="Siam">
+			<Polygon>
+				<Point x="594" y="260"/>	<!-- Indien/China/Siam -->
+				<Point x="613" y="272"/>	<!-- China/Siam -->
+				<Point x="622" y="263"/>	<!-- China/Siam -->
+				<Point x="630" y="271"/>	<!-- China/Siam -->
+				
+				<Point x="6" y="2"/>
+				<Point x="6" y="2"/>
+				<Point x="6" y="2"/>
+				<Point x="6" y="2"/>
+				<Point x="6" y="2"/>
+				
+				
+				<Point x="584" y="278"/>	<!-- Indien/Siam -->
+			</Polygon>
+		</Country>
+		<Country name="China">
+			<Polygon>
+				<Point x="581" y="176"/>	<!-- Sibirien / China / Mongolei-->
+				<Point x="574" y="168"/>	<!-- Sibirien / China-->
+				<Point x="562" y="160"/>	<!-- Ural / Sibirien / China-->
+				<Point x="549" y="178"/>	<!-- Ural / Afghanistan / China-->
+				<Point x="543" y="202"/>	<!-- Afghanistan / China-->
+				<Point x="538" y="201"/>	<!-- Afghanistan / China-->
+				<Point x="540" y="219"/>	<!-- Indien/Afghanistan/China -->
+				<Point x="554" y="221"/>	<!-- Indien/China -->
+				<Point x="552" y="238"/>	<!-- Indien/China -->
+				<Point x="590" y="252"/>	<!-- Indien/China -->
+				<Point x="594" y="260"/>	<!-- Indien/China/Siam -->
+				<Point x="613" y="272"/>	<!-- China/Siam -->
+				<Point x="622" y="263"/>	<!-- China/Siam -->
+				<Point x="630" y="271"/>	<!-- China/Siam -->
+				<Point x="636" y="275"/>
+				<Point x="655" y="250"/>
+				<Point x="657" y="218"/>
+				<Point x="646" y="208"/>	<!-- China/Mongolei -->
+				<Point x="600" y="207"/>	<!-- China/Mongolei -->
+				<Point x="583" y="186"/>	<!-- China/Mongolei -->
+			</Polygon>
+		</Country>
+		<Country name="Afghanistan">
+			<Polygon>
+				<Point x="507" y="145"/>	<!-- Ural / Afghanistan -->
+				<Point x="513" y="146"/>	<!-- Ural / Afghanistan -->
+				<Point x="544" y="170"/>	<!-- Ural / Afghanistan -->
+				<Point x="549" y="178"/>	<!-- Ural / Afghanistan / China-->
+				<Point x="543" y="202"/>	<!-- Afghanistan / China-->
+				<Point x="538" y="201"/>	<!-- Afghanistan / China-->
+				<Point x="540" y="219"/>	<!-- Indien/Afghanistan/China -->
+				<Point x="536" y="223"/>	<!-- Indien/Afghanistan -->
+				<Point x="527" y="220"/>	<!-- Indien/Afghanistan -->
+				<Point x="511" y="235"/>	<!-- Indien/Afghanistan/Mittlerer Osten -->
+				<Point x="490" y="225"/>	<!-- Afghanistan/Mittlerer Osten -->
+				<Point x="480" y="201"/>
+				<Point x="481" y="191"/>
+				<Point x="484" y="191"/>
+				<Point x="485" y="181"/>
+				<Point x="478" y="182"/>
+				<Point x="471" y="188"/>	<!-- Afghanistan / Ukraine -->
+				<Point x="472" y="158"/>	<!-- Afghanistan / Ukraine -->
+			</Polygon>
+		</Country>
+		
+		<Country name="Ural">
+			<Polygon>
+				<Point x="508" y="65"/>		<!-- Ural/ Ukraine -->
+				<Point x="505" y="38"/>
+				<Point x="514" y="45"/>
+				<Point x="519" y="64"/>
+				<Point x="511" y="77"/>
+				<Point x="525" y="65"/>	
+				<Point x="532" y="74"/>		<!-- Ural / Sibirien -->
+				<Point x="557" y="122"/>	<!-- Ural / Sibirien -->
+				<Point x="545" y="135"/>	<!-- Ural / Sibirien -->
+				<Point x="552" y="136"/>	<!-- Ural / Sibirien -->
+				<Point x="562" y="160"/>	<!-- Ural / Sibirien / China-->
+				<Point x="549" y="178"/>	<!-- Ural / Afghanistan / China-->
+				<Point x="544" y="170"/>	<!-- Ural / Afghanistan -->
+				<Point x="513" y="146"/>	<!-- Ural / Afghanistan -->
+				<Point x="507" y="145"/>	<!-- Ural / Afghanistan / -->
+				<Point x="502" y="86"/>		<!-- Ural/ Ukraine -->
+				<Point x="508" y="76"/>		<!-- Ural/ Ukraine -->
+			</Polygon>
+		</Country>
+		 
+		<Country name="Sibirien">
+			<Polygon>
+				<Point x="532" y="74"/>		<!-- Ural / Sibirien -->
+				<Point x="557" y="122"/>	<!-- Ural / Sibirien -->
+				<Point x="545" y="135"/>	<!-- Ural / Sibirien -->
+				<Point x="552" y="136"/>	<!-- Ural / Sibirien -->
+				<Point x="562" y="160"/>	<!-- Ural / Sibirien / China-->
+				<Point x="574" y="168"/>	<!-- Sibirien / China-->
+				<Point x="581" y="176"/>	<!-- Sibirien / China / Mongolei-->
+				<Point x="581" y="152"/>	<!-- Sibirien / Irkutsk / Mongolei-->
+				<Point x="578" y="127"/>	<!-- Sibirien / Irkutsk -->
+				<Point x="590" y="117"/>	<!-- Sibirien / Irkutsk -->
+				<Point x="598" y="125"/>	<!-- Sibirien / Irkutsk -->
+				<Point x="604" y="98"/>	<!-- Sibirien / Irkutsk / Jakutien -->
+				<Point x="592" y="63"/>	<!-- Sibirien /  Jakutien -->
+				<Point x="608" y="59"/>	<!-- Sibirien /  Jakutien -->
+				<Point x="608" y="32"/>	<!-- Sibirien /  Jakutien -->
+				<Point x="581" y="17"/>
+				<Point x="540" y="25"/>
+				<Point x="522" y="42"/>
+			</Polygon>
+		</Country>
+		<!--
+		<Country name="Mongolei">
+		<Point x="180" y="190"/>
+			<Polygon>
+
+			</Polygon>
+		</Country>
+		<Country name="Japan">
+			<Point x="128" y="235"/>
+			<Polygon>
+
+			</Polygon>
+		</Country>
+		<Country name="Irkutsk">
+			<Point x="128" y="235"/>
+			<Polygon>
+
+			</Polygon>
+		</Country>
+		<Country name="Kamtschatka">
+			<Point x="128" y="235"/>
+			<Polygon>
+
+			</Polygon>
+		</Country>
+		<Country name="Jakutien">
+			<Point x="128" y="235"/>
+			<Polygon>
+
+			</Polygon>
+		</Country>
+		<Border>
+
+		</Border>
+		<Border>
+
+		</Border>
+		<Border>
+
+		</Border>
+		 -->
 	</Continent>	
 </map>
