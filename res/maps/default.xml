@@ -566,6 +566,7 @@
 			</Polygon>
 		</Country>
 		<Country name="Indien">
+			<Point x="548" y="265"/>
 			<Polygon>
 				<Point x="511" y="235"/>	<!-- Indien/Afghanistan/Mittlerer Osten -->
 				<Point x="527" y="220"/>	<!-- Indien/Afghanistan -->
@@ -585,23 +586,22 @@
 			</Polygon>
 		</Country>
 		<Country name="Siam">
+			<Point x="610" y="288"/>
 			<Polygon>
 				<Point x="594" y="260"/>	<!-- Indien/China/Siam -->
 				<Point x="613" y="272"/>	<!-- China/Siam -->
 				<Point x="622" y="263"/>	<!-- China/Siam -->
 				<Point x="630" y="271"/>	<!-- China/Siam -->
-				
-				<Point x="6" y="2"/>
-				<Point x="6" y="2"/>
-				<Point x="6" y="2"/>
-				<Point x="6" y="2"/>
-				<Point x="6" y="2"/>
-				
-				
+				<Point x="623" y="279"/>
+				<Point x="638" y="305"/>
+				<Point x="633" y="319"/>
+				<Point x="618" y="331"/>
+				<Point x="608" y="306"/>
 				<Point x="584" y="278"/>	<!-- Indien/Siam -->
 			</Polygon>
 		</Country>
 		<Country name="China">
+			<Point x="601" y="235"/>
 			<Polygon>
 				<Point x="581" y="176"/>	<!-- Sibirien / China / Mongolei-->
 				<Point x="574" y="168"/>	<!-- Sibirien / China-->
@@ -626,6 +626,7 @@
 			</Polygon>
 		</Country>
 		<Country name="Afghanistan">
+			<Point x="513" y="191"/>
 			<Polygon>
 				<Point x="507" y="145"/>	<!-- Ural / Afghanistan -->
 				<Point x="513" y="146"/>	<!-- Ural / Afghanistan -->
@@ -647,8 +648,8 @@
 				<Point x="472" y="158"/>	<!-- Afghanistan / Ukraine -->
 			</Polygon>
 		</Country>
-		
 		<Country name="Ural">
+			<Point x="526" y="116"/>
 			<Polygon>
 				<Point x="508" y="65"/>		<!-- Ural/ Ukraine -->
 				<Point x="505" y="38"/>
@@ -669,7 +670,6 @@
 				<Point x="508" y="76"/>		<!-- Ural/ Ukraine -->
 			</Polygon>
 		</Country>
-		 
 		<Country name="Sibirien">
 			<Polygon>
 				<Point x="532" y="74"/>		<!-- Ural / Sibirien -->
@@ -692,46 +692,118 @@
 				<Point x="522" y="42"/>
 			</Polygon>
 		</Country>
-		<!--
 		<Country name="Mongolei">
-		<Point x="180" y="190"/>
 			<Polygon>
-
+				<Point x="581" y="152"/>	<!-- Sibirien / Irkutsk / Mongolei-->
+				<Point x="625" y="155"/> <!-- Irkutsk / Mongolei-->
+				<Point x="629" y="135"/> <!-- Irkutsk / Mongolei-->
+				<Point x="642" y="134"/> <!-- Irkutsk / Mongolei-->
+				<Point x="656" y="151"/>	<!-- Irkutsk / Mongolei / Kamtschatka-->
+				<Point x="664" y="170"/>	<!-- Mongolei / Kamtschatka-->
+				<Point x="660" y="184"/>
+				<Point x="646" y="208"/>	<!-- China/Mongolei -->
+				<Point x="600" y="207"/>	<!-- China/Mongolei -->
+				<Point x="583" y="186"/>	<!-- China/Mongolei -->
+				<Point x="581" y="176"/>	<!-- Sibirien / China / Mongolei-->
 			</Polygon>
 		</Country>
 		<Country name="Japan">
-			<Point x="128" y="235"/>
+			<Point x="705" y="178"/>
 			<Polygon>
-
+				<Point x="699" y="134"/>
+				<Point x="717" y="140"/>
+				
+				<Point x="713" y="184"/>
+				<Point x="680" y="220"/>
+				<Point x="671" y="212"/>
+				<Point x="694" y="179"/>
 			</Polygon>
 		</Country>
 		<Country name="Irkutsk">
-			<Point x="128" y="235"/>
 			<Polygon>
-
+				<Point x="656" y="151"/>	<!-- Irkutsk / Mongolei / Kamtschatka-->
+				<Point x="642" y="134"/> 	<!-- Irkutsk / Mongolei-->
+				<Point x="629" y="135"/> 	<!-- Irkutsk / Mongolei-->
+				<Point x="625" y="155"/> 	<!-- Irkutsk / Mongolei-->
+				<Point x="581" y="152"/>	<!-- Sibirien / Irkutsk / Mongolei-->
+				<Point x="578" y="127"/>	<!-- Sibirien / Irkutsk -->
+				<Point x="590" y="117"/>	<!-- Sibirien / Irkutsk -->
+				<Point x="598" y="125"/>	<!-- Sibirien / Irkutsk -->
+				<Point x="604" y="98"/>		<!-- Sibirien / Irkutsk / Jakutien -->
+				<Point x="612" y="88"/>		<!-- Irkutsk / Jakutien -->
+				<Point x="632" y="87"/>		<!-- Irkutsk / Jakutien / Kamtschatka -->
+				<Point x="633" y="113"/>	<!-- Irkutsk / Kamtschatka -->
+				<Point x="659" y="127"/>	<!-- Irkutsk / Kamtschatka -->
 			</Polygon>
-		</Country>
+		</Country> 
 		<Country name="Kamtschatka">
-			<Point x="128" y="235"/>
+			<Point x="695" y="74"/>
 			<Polygon>
-
+				<Point x="667" y="38"/> 	<!-- Jakutien / Kamtschatka --> 
+				<Point x="656" y="50"/> 	<!-- Jakutien / Kamtschatka -->
+				<Point x="656" y="60"/> 	<!-- Jakutien / Kamtschatka -->
+				<Point x="664" y="62"/> 	<!-- Jakutien / Kamtschatka -->
+				<Point x="662" y="73"/> 	<!-- Jakutien / Kamtschatka -->
+				<Point x="640" y="73"/> 	<!-- Jakutien / Kamtschatka -->		
+				<Point x="632" y="87"/>		<!-- Irkutsk / Jakutien / Kamtschatka -->
+				<Point x="633" y="113"/>	<!-- Irkutsk / Kamtschatka -->
+				<Point x="659" y="127"/>	<!-- Irkutsk / Kamtschatka -->
+				<Point x="656" y="151"/>	<!-- Irkutsk / Mongolei / Kamtschatka-->
+				<Point x="664" y="170"/>	<!-- Mongolei / Kamtschatka-->	
+				<Point x="669" y="168"/>
+				<Point x="674" y="148"/>
+				<Point x="670" y="120"/>
+				<Point x="652" y="111"/>
+				<Point x="659" y="97"/>
+				<Point x="686" y="92"/>
+				<Point x="699" y="127"/>
+				<Point x="703" y="127"/>
+				<Point x="707" y="88"/>
+				<Point x="740" y="66"/>
+				<Point x="741" y="55"/>
+				<Point x="707" y="38"/>
 			</Polygon>
 		</Country>
 		<Country name="Jakutien">
-			<Point x="128" y="235"/>
 			<Polygon>
-
+				<Point x="609" y="26"/>
+				<Point x="652" y="30"/>
+				<Point x="667" y="38"/> <!-- Jakutien / Kamtschatka -->
+				<Point x="656" y="50"/> <!-- Jakutien / Kamtschatka -->
+				<Point x="656" y="60"/> <!-- Jakutien / Kamtschatka -->
+				<Point x="664" y="62"/> <!-- Jakutien / Kamtschatka -->
+				<Point x="662" y="73"/> <!-- Jakutien / Kamtschatka -->
+				<Point x="640" y="73"/> <!-- Jakutien / Kamtschatka -->		
+				<Point x="632" y="87"/>	<!-- Irkutsk / Jakutien / Kamtschatka -->
+				<Point x="612" y="88"/>	<!-- Irkutsk / Jakutien -->
+				<Point x="604" y="98"/>	<!-- Sibirien / Irkutsk / Jakutien -->
+				<Point x="592" y="63"/>	<!-- Sibirien /  Jakutien -->
+				<Point x="608" y="59"/>	<!-- Sibirien /  Jakutien -->
+				<Point x="608" y="32"/>	<!-- Sibirien /  Jakutien -->
 			</Polygon>
 		</Country>
 		<Border>
-
+			<Point x="697" y="175"/> 	<!-- Japan -->
+			<Point x="671" y="155"/> <!-- Kamtschatka-->
 		</Border>
 		<Border>
-
+			<Point x="697" y="175"/> 	<!-- Japan -->
+			<Point x="658" y="184"/>	<!-- Mongolei -->
 		</Border>
+	</Continent>
+	<!-- 
+	<Border>
+		<Point x="700" y="93"/> 	
+		<Point x="17" y="93"/> 
+		Hier fehlt Kamtschatka / Alaska
+	</Border>
+	 -->
+	<Border>
+		<Point x="464" y="320"/> <!-- Mittlerer Osten-->
+		<Point x="455" y="333"/> <!-- Ostafrika-->
+	</Border>
 		<Border>
-
-		</Border>
-		 -->
-	</Continent>	
+		<Point x="633" y="318"/> <!-- Siam -->
+		<Point x="638" y="345"/> <!-- Indonesien -->
+	</Border>		
 </map>
