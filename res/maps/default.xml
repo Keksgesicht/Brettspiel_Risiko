@@ -791,18 +791,17 @@
 			<Point x="658" y="184"/>	<!-- Mongolei -->
 		</Border>
 	</Continent>
-	<!-- 
 	<Border>
-		<Point x="700" y="93"/> 	
-		<Point x="17" y="93"/> 
-		Hier fehlt Kamtschatka / Alaska
+		<Point x="700" y="93"/> <!-- Kamptschatka -->
+		<Point x="800" y="93"/>
+		<Point x="-17" y="93"/>	
+		<Point x="17" y="93"/>	<!-- Alaska -->
 	</Border>
-	 -->
 	<Border>
 		<Point x="464" y="320"/> <!-- Mittlerer Osten-->
 		<Point x="455" y="333"/> <!-- Ostafrika-->
 	</Border>
-		<Border>
+	<Border>
 		<Point x="633" y="318"/> <!-- Siam -->
 		<Point x="638" y="345"/> <!-- Indonesien -->
 	</Border>		

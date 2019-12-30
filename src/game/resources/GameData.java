@@ -64,6 +64,7 @@ class GameData {
 		return goldenCavalier;
 	}
 
+	@Override
 	protected GameData clone() {
 		// TODO
 		return null;

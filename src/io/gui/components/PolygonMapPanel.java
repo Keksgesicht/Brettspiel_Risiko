@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -275,11 +276,30 @@ public class PolygonMapPanel extends JPanel {
 		g.setColor(Color.BLACK);
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setStroke(new BasicStroke((float) (2f * GUImanager.SCALE)));
-		List<Point> bl = MapReader.getBorderLines();
+		List<ArrayList<Point>> bl = MapReader.getBorderLines();
 		for (int i = 0; i < bl.size(); i++) {
-			Point p1 = bl.get(i++);
-			Point p2 = bl.get(i);
-			g2.drawLine(p1.x, p1.y, p2.x, p2.y);
+			ArrayList<Point> cocain = bl.get(i);
+			int cocSize = cocain.size();
+			if(cocSize == 2) {
+				Point p1 = cocain.get(0);
+				Point p2 = cocain.get(1);
+				g2.drawLine(p1.x, p1.y, p2.x, p2.y);
+			} else {
+				int cocSize2 = cocSize / 2;
+				Point p1 = cocain.get(0);
+				Point p2;
+				for (int j = 1; j < cocSize2; j++) {
+					p2 = cocain.get(j);
+					g2.drawLine(p1.x, p1.y, p2.x, p2.y);
+					p1 = p2;
+				}
+				p1 = cocain.get(cocSize2);
+				for (int j = cocSize2 + 1; j < cocSize; j++) {
+					p2 = cocain.get(j);
+					g2.drawLine(p1.x, p1.y, p2.x, p2.y);
+					p1 = p2;
+				}
+			}
 		}
 		// draw countries
 		g.setFont(gFont);
@@ -329,9 +349,11 @@ public class PolygonMapPanel extends JPanel {
 			for (int i = 0; i < n; i++)
 				poly.addPoint((int) (x[i] * scale), (int) (y[i] * scale));
 		}
-		for (Point point : MapReader.getBorderLines()) {
-			point.x *= scale;
-			point.y *= scale;
+		for (ArrayList<Point> cocain : MapReader.getBorderLines()) {
+			for (Point point : cocain) {
+				point.x *= scale;
+				point.y *= scale;
+			}
 		}
 		for (Point point : MapReader.getStringPoints().values()) {
 			point.x *= scale;

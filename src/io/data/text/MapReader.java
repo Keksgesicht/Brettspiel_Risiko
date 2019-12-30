@@ -35,7 +35,7 @@ public abstract class MapReader {
 	private static List<Continent> continents;
 	private static Map<String, File> mapFiles = new HashMap<String, File>();
 	private static Map<Polygon, Point> stringPoints = new HashMap<Polygon, Point>();
-	private static List<Point> borderLines = new ArrayList<Point>();
+	private static List<ArrayList<Point>> borderLines = new ArrayList<ArrayList<Point>>();
 	
 	static {
 		ClassLoader cl = MapReader.class.getClassLoader();
@@ -55,7 +55,7 @@ public abstract class MapReader {
 		return stringPoints;
 	}
 
-	public static List<Point> getBorderLines() {
+	public static List<ArrayList<Point>> getBorderLines() {
 		return borderLines;
 	}
 
@@ -115,11 +115,13 @@ public abstract class MapReader {
 		for (int i = 0; i < borders.getLength(); i++) {
 			Element border = (Element) borders.item(i);
 			NodeList points = border.getElementsByTagName("Point");
-			for (int j = 0; j < 2; j++) {
+			ArrayList<Point> line = new ArrayList<Point>();
+			for (int j = 0; j < points.getLength(); j++) {
 				Element p = (Element) points.item(j);
-				borderLines.add(new Point((int) (Integer.valueOf(p.getAttribute("x")) * GUImanager.SCALE),
+				line.add(new Point((int) (Integer.valueOf(p.getAttribute("x")) * GUImanager.SCALE),
 						(int) (Integer.valueOf(p.getAttribute("y")) * GUImanager.SCALE)));
 			}
+			borderLines.add(line);
 		}
 		MapReader.continents = alc;
 		return poco;
@@ -156,8 +158,9 @@ public abstract class MapReader {
 					}
 				}
 				for (int i = 0; i < borderLines.size(); i++) {
-					Country coty1 = getCotyWithPoint(borderLines.get(i++));
-					Country coty2 = getCotyWithPoint(borderLines.get(i));
+					ArrayList<Point> line = borderLines.get(i);
+					Country coty1 = getCotyWithPoint(line.get(0));
+					Country coty2 = getCotyWithPoint(line.get(line.size() - 1));
 					CountryBorder.addBorder(coty1, coty2);
 				}
 				maxX += 10;
