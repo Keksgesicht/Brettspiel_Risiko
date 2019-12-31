@@ -1,5 +1,6 @@
 package game.map;
 
+import java.awt.Polygon;
 import java.util.Comparator;
 import java.util.List;
 import java.util.PriorityQueue;
@@ -7,6 +8,7 @@ import java.util.Random;
 
 import base.collections.IntegerComparator;
 import base.graphs.Graph;
+import io.data.text.MapReader;
 import io.gui.frames.GameMapFrame;
 
 public abstract class CountryBorder {
@@ -37,15 +39,17 @@ public abstract class CountryBorder {
 	 * @param frame
 	 * @return whether the fight can go on
 	 */
-	public static boolean fight(Country attacker, Country defender, boolean ff, GameMapFrame frame) {
+	public static boolean fight(Polygon attackerPoly, Polygon defenderPoly, boolean ff, GameMapFrame frame) {
 		Random r = new Random(System.nanoTime());
+		Country attackerCoty = MapReader.getCotyWithPoint(attackerPoly);
+		Country defenderCoty = MapReader.getCotyWithPoint(defenderPoly);
 		do {
 			Thread t = new Thread() {
 
 				@Override
 				public void run() {
-					int att = attacker.getSoldiers() - 1;
-					int def = defender.getSoldiers();
+					int att = attackerCoty.getSoldiers() - 1;
+					int def = defenderCoty.getSoldiers();
 					if (3 < att)
 						att = 3;
 					if (2 < def)
@@ -70,12 +74,14 @@ public abstract class CountryBorder {
 
 					do {
 						if (queueDef.remove() < queueAtt.remove())
-							defender.subSoldiers();
+							defenderCoty.subSoldiers();
 						else
-							attacker.subSoldiers();
-						frame.mapPanel.repaint(200);
+							attackerCoty.subSoldiers();
 					} while (!queueAtt.isEmpty() && !queueDef.isEmpty());
-					again = (1 < attacker.getSoldiers() && 0 < defender.getSoldiers());
+					again = (1 < attackerCoty.getSoldiers() && 0 < defenderCoty.getSoldiers());
+
+					frame.mapPanel.fillOnePolygon(frame.mapPanel.getGraphics(), attackerPoly, attackerCoty);
+					frame.mapPanel.fillOnePolygon(frame.mapPanel.getGraphics(), defenderPoly, defenderCoty);
 				}
 
 			};
@@ -85,7 +91,6 @@ public abstract class CountryBorder {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			
 		} while(ff && again);
 		return again;
 	}

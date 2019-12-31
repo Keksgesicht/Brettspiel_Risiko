@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map name="default" scale="1.75">
+<map name="default" scale="1.87">
 	<Continent name="Nord-Amerika" soldiers="5" countries="9">
 		<Country name="Alaska">
 			<Point x="44" y="75"/>
@@ -506,6 +506,7 @@
 			</Polygon>
 		</Country>
 		<Country name="Indonesien">
+			<Point x="622" y="383"/>
 			<Polygon>
 				<Point x="630" y="340"/>
 				<Point x="606" y="368"/>

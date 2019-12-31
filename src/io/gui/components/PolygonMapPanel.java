@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -44,6 +45,8 @@ public class PolygonMapPanel extends JPanel {
 	private Set<Country> antiGreyCoties;
 	private Country cotyOld;
 	private Country coty;
+	private Polygon polyOld;
+	private Polygon poly;
 	private Font gFont;
 
 	public PolygonMapPanel(GameMapFrame frame) {
@@ -57,7 +60,7 @@ public class PolygonMapPanel extends JPanel {
 			public void actionPerformed(ActionEvent evt) {
 				int t = Integer.parseInt(((JMenuItem) evt.getSource()).getText());
 				frame.placeTroops(t, coty);
-				repaint();
+				fillOnePolygon(getGraphics(), poly, coty);
 			}
 
 		};
@@ -72,7 +75,8 @@ public class PolygonMapPanel extends JPanel {
 			public void getMouseMapInfo(MouseEvent e) {
 				mouseP = e.getPoint();
 				currentPlayer = GameCreator.getCurrentPlayer();
-				coty = MapReader.getCotyWithPoint(mouseP);
+				poly = MapReader.getPolyWithPoint(mouseP);
+				coty = MapReader.getCotyWithPoint(poly);
 			}
 
 			@Override
@@ -86,7 +90,8 @@ public class PolygonMapPanel extends JPanel {
 					if (coty.king() != null)
 						break;
 					currentPlayer.addCountry(coty);
-					addAndRepaint();
+					addTroop();
+					fillOnePolygon(getGraphics(), poly, coty);
 					if (GameCreator.getCountries().stream().filter(c -> c.king() == null).count() == 0) {
 						GameCreator.updateGameStatus();
 					}
@@ -94,7 +99,7 @@ public class PolygonMapPanel extends JPanel {
 				case START:
 					if (coty.king() != currentPlayer)
 						break;
-					addAndRepaint();
+					addTroop();
 					break;
 				case PLAY:
 					if (currentPlayer.getStatus() != PlayerStatus.INIT)
@@ -128,9 +133,8 @@ public class PolygonMapPanel extends JPanel {
 				}
 			}
 
-			private void addAndRepaint() {
+			private void addTroop() {
 				coty.addSoldiers();
-				repaint();
 				frame.updateCurrentPlayer();
 			}
 
@@ -146,11 +150,13 @@ public class PolygonMapPanel extends JPanel {
 					antiGreyCoties = coty.getNeighboringEnemyCountries();
 					repaint();
 					cotyOld = coty;
+					polyOld = poly;
 					break;
 				case END:
 					antiGreyCoties = coty.getNearFriendlyCountries();
 					repaint();
 					cotyOld = coty;
+					polyOld = poly;
 					break;
 				default:
 					break;
@@ -188,16 +194,19 @@ public class PolygonMapPanel extends JPanel {
 			}
 
 			private void fight() {
+				antiGreyCoties = new HashSet<Country>();
+				antiGreyCoties.add(cotyOld);
+				antiGreyCoties.add(coty);
 				while (true) {
 					switch (fightOptionPane()) {
 					case 0:
-						if (!CountryBorder.fight(cotyOld, coty, false, frame)) {
+						if (!CountryBorder.fight(polyOld, poly, false, frame)) {
 							victory();
 							return;
 						}
 						break;
 					case 1:
-						CountryBorder.fight(cotyOld, coty, true, frame);
+						CountryBorder.fight(polyOld, poly, true, frame);
 						victory();
 						return;
 					default:
@@ -306,7 +315,7 @@ public class PolygonMapPanel extends JPanel {
 		cpMap.entrySet().stream().forEach(pc -> fillOnePolygon(g, pc.getKey(), pc.getValue()));
 	}
 
-	private void fillOnePolygon(Graphics g, Polygon poly, Country cotyP) {
+	public void fillOnePolygon(Graphics g, Polygon poly, Country cotyP) {
 		// draw Country border
 		g.setColor(Color.BLACK);
 		Graphics2D g2 = (Graphics2D) g;
@@ -326,7 +335,7 @@ public class PolygonMapPanel extends JPanel {
 
 		int midX = (int) (polyP.x / GUImanager.SCALE);
 		int midY = (int) (polyP.y / GUImanager.SCALE);
-		System.out.println(cpMap.get(poly).name + ": " + midX + " " + midY);
+		// System.out.println(cpMap.get(poly).name + ": " + midX + " " + midY);
 
 		String army = String.valueOf(cotyP.getSoldiers());
 		int nameX = polyP.x - g.getFontMetrics().stringWidth(cotyP.name) / 2;

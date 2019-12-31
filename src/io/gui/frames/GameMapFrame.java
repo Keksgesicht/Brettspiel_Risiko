@@ -24,7 +24,7 @@ import io.gui.components.PolygonMapPanel;
 @SuppressWarnings("serial")
 public class GameMapFrame extends JFrame {
 
-	public final JPanel mapPanel;
+	public final PolygonMapPanel mapPanel;
 	public final DicePanel attDices;
 	public final DicePanel defDices;
 	public final JButton nextPlayerStatus;

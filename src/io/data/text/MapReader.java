@@ -159,8 +159,8 @@ public abstract class MapReader {
 				}
 				for (int i = 0; i < borderLines.size(); i++) {
 					ArrayList<Point> line = borderLines.get(i);
-					Country coty1 = getCotyWithPoint(line.get(0));
-					Country coty2 = getCotyWithPoint(line.get(line.size() - 1));
+					Country coty1 = getCotyWithPoint(getPolyWithPoint(line.get(0)));
+					Country coty2 = getCotyWithPoint(getPolyWithPoint(line.get(line.size() - 1)));
 					CountryBorder.addBorder(coty1, coty2);
 				}
 				maxX += 10;
@@ -199,8 +199,8 @@ public abstract class MapReader {
 		return null;
 	}
 
-	public static Country getCotyWithPoint(Point p) {
-		return GameCreator.getCPMap().get(getPolyWithPoint(p));
+	public static Country getCotyWithPoint(Polygon p) {
+		return GameCreator.getCPMap().get(p);
 	}
 
 }
