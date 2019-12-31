@@ -197,6 +197,8 @@ public class PolygonMapPanel extends JPanel {
 				antiGreyCoties = new HashSet<Country>();
 				antiGreyCoties.add(cotyOld);
 				antiGreyCoties.add(coty);
+				repaint();
+
 				while (true) {
 					switch (fightOptionPane()) {
 					case 0:
@@ -332,9 +334,9 @@ public class PolygonMapPanel extends JPanel {
 		}
 		// draw country name and soldier count
 		Point polyP = middlePoint(poly);
-
-		int midX = (int) (polyP.x / GUImanager.SCALE);
-		int midY = (int) (polyP.y / GUImanager.SCALE);
+		
+		// int midX = (int) (polyP.x / GUImanager.SCALE);
+		// int midY = (int) (polyP.y / GUImanager.SCALE);
 		// System.out.println(cpMap.get(poly).name + ": " + midX + " " + midY);
 
 		String army = String.valueOf(cotyP.getSoldiers());

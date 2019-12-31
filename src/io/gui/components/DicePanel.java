@@ -64,6 +64,11 @@ public class DicePanel extends JPanel {
 			int y = margin;
 			int value = (diceValues[i] - 1) % 6;
 			g.drawImage(getDice(value), x, y, diceSize, diceSize, null);
+			try {
+				Thread.sleep(33);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 

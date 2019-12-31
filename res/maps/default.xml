@@ -793,10 +793,10 @@
 		</Border>
 	</Continent>
 	<Border>
-		<Point x="700" y="93"/> <!-- Kamptschatka -->
+		<Point x="705" y="93"/> <!-- Kamptschatka -->
 		<Point x="800" y="93"/>
-		<Point x="-17" y="93"/>	
-		<Point x="17" y="93"/>	<!-- Alaska -->
+		<Point x="-13" y="93"/>	
+		<Point x="13" y="93"/>	<!-- Alaska -->
 	</Border>
 	<Border>
 		<Point x="464" y="320"/> <!-- Mittlerer Osten-->

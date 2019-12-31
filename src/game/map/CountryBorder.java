@@ -1,10 +1,12 @@
 package game.map;
 
 import java.awt.Polygon;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import base.collections.IntegerComparator;
 import base.graphs.Graph;
@@ -64,10 +66,19 @@ public abstract class CountryBorder {
 						queueDef.add((int) (r.nextDouble() * 6 + 1));
 
 					try {
-						sleep(750);
-						frame.attDices.drawDices(queueAtt.stream().sorted(intComp).toArray(Integer[]::new));
-						sleep(750);
-						frame.defDices.drawDices(queueDef.stream().sorted(intComp).toArray(Integer[]::new));
+						sleep(911);
+						Integer[] attDicesValues = queueAtt.stream().sorted(intComp).toArray(Integer[]::new);
+						frame.attDices.drawDices(attDicesValues);
+						String attDiceString = Arrays.stream(attDicesValues).map(String::valueOf)
+								.collect(Collectors.joining(", "));
+						System.out.println("ATTACKER " + attackerCoty.name + ": " + attDiceString);
+
+						sleep(911);
+						Integer[] defDicesValues = queueDef.stream().sorted(intComp).toArray(Integer[]::new);
+						frame.defDices.drawDices(defDicesValues);
+						String defDiceString = Arrays.stream(defDicesValues).map(String::valueOf)
+								.collect(Collectors.joining(", "));
+						System.out.println("DEFENDER " + defenderCoty.name + ": " + defDiceString);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -78,7 +89,7 @@ public abstract class CountryBorder {
 						else
 							attackerCoty.subSoldiers();
 					} while (!queueAtt.isEmpty() && !queueDef.isEmpty());
-					again = (1 < attackerCoty.getSoldiers() && 0 < defenderCoty.getSoldiers());
+					again = 1 < attackerCoty.getSoldiers() && 0 < defenderCoty.getSoldiers();
 
 					frame.mapPanel.fillOnePolygon(frame.mapPanel.getGraphics(), attackerPoly, attackerCoty);
 					frame.mapPanel.fillOnePolygon(frame.mapPanel.getGraphics(), defenderPoly, defenderCoty);

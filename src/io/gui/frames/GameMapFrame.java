@@ -46,7 +46,7 @@ public class GameMapFrame extends JFrame {
 		newArmy = currentPlayer.getNewTroops();
 		Font risikoFont = new Font("Courier", Font.BOLD, 32);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 950, 30 + 42 + 10);
+		setBounds(100, 100, 960, 30 + 42 + 10);
 		setResizable(false);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -130,7 +130,7 @@ public class GameMapFrame extends JFrame {
 		mapPanel = new PolygonMapPanel(this);
 		mapPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
-		updateSize(950, 0);
+		updateSize(0, 0);
 		contentPane.add(currentPlayerTF);
 		contentPane.add(newArmyCounter);
 		contentPane.add(attDices);
@@ -142,17 +142,24 @@ public class GameMapFrame extends JFrame {
 	}
 
 	public void updateSize(int width, int height) {
+		width = Math.max(width, 960);
 		int txtWidth = 42;
 		int margin = 10;
-		width = Math.max(width, 950);
-		currentPlayerTF.setBounds(5, 5, 280, txtWidth);
-		newArmyCounter.setBounds(280 + margin, 5, txtWidth, txtWidth);
-		attDices.setBounds(280 + txtWidth + 2 * margin, 5, 120, txtWidth);
-		defDices.setBounds(280 + txtWidth + 120 + 3 * margin, 5, 80, txtWidth);
-		calvalierCounter.setBounds(width - 190 - margin - 140 - margin - txtWidth, 5, txtWidth, txtWidth);
-		useUlti.setBounds(width - 190 - margin - 140, 5, 140, txtWidth);
-		nextPlayerStatus.setBounds(width - 190, 5, 190, txtWidth);
+
+		int playerTFwidth = 250;
+		int nextPlayerStatusWidth = 220;
+		int ultiWidth = 150;
+
+		currentPlayerTF.setBounds(5, 5, playerTFwidth, txtWidth);
+		newArmyCounter.setBounds(playerTFwidth + margin, 5, txtWidth, txtWidth);
+		attDices.setBounds(playerTFwidth + txtWidth + 2 * margin, 5, 120, txtWidth);
+		defDices.setBounds(playerTFwidth + txtWidth + 120 + 3 * margin, 5, 80, txtWidth);
+		calvalierCounter.setBounds(width - nextPlayerStatusWidth - margin - ultiWidth - margin - txtWidth, 5, txtWidth,
+				txtWidth);
+		useUlti.setBounds(width - nextPlayerStatusWidth - margin - ultiWidth, 5, ultiWidth, txtWidth);
+		nextPlayerStatus.setBounds(width - nextPlayerStatusWidth, 5, nextPlayerStatusWidth, txtWidth);
 		mapPanel.setBounds(5, txtWidth + margin, width, height);
+
 		setSize((int) (width + 1.5 * margin), 30 + Math.max(height + txtWidth + margin + 3, txtWidth + margin));
 	}
 
