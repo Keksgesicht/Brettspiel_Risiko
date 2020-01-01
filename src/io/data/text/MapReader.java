@@ -3,14 +3,13 @@ package io.data.text;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Polygon;
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -33,14 +32,14 @@ import io.gui.frames.GameMapFrame;
 public abstract class MapReader {
 
 	private static List<Continent> continents;
-	private static Map<String, File> mapFiles = new HashMap<String, File>();
+	private static Map<String, InputStream> mapFiles = new HashMap<String, InputStream>();
 	private static Map<Polygon, Point> stringPoints = new HashMap<Polygon, Point>();
 	private static List<ArrayList<Point>> borderLines = new ArrayList<ArrayList<Point>>();
 	
 	static {
 		ClassLoader cl = MapReader.class.getClassLoader();
 		try {
-			mapFiles.put("default", new File(cl.getResource("maps/default.xml").getFile()));
+			mapFiles.put("default", cl.getResourceAsStream("maps/default.xml"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -59,20 +58,8 @@ public abstract class MapReader {
 		return borderLines;
 	}
 
-	public static Set<String> addMapFile(File mapFile) throws SAXException, IOException, ParserConfigurationException {
-		for(Entry<String, File> sf : mapFiles.entrySet()) {
-			File f = sf.getValue();
-			if (!f.exists() || !f.isFile() || !f.canRead())
-				mapFiles.remove(sf.getKey());
-		}
-		Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(mapFile);
-		Element root = doc.getDocumentElement();
-		root.normalize();
-		mapFiles.put(root.getAttribute("name"), mapFile);
-		return mapFiles.keySet();
-	}
-
-	protected static Map<Polygon, Country> parseMap(File mapXML) throws ParserConfigurationException, SAXException, IOException {
+	protected static Map<Polygon, Country> parseMap(InputStream mapXML)
+			throws ParserConfigurationException, SAXException, IOException {
 		Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(mapXML);
 		Element root = doc.getDocumentElement();
 		root.normalize();
@@ -130,7 +117,6 @@ public abstract class MapReader {
 	public static Map<Polygon, Country> loadMap(String mapName) throws ParserConfigurationException, SAXException, IOException {
 		Map<Polygon, Country> poco = parseMap(mapFiles.get(mapName));
 		detectBorders(poco);
-		// ContinentOutlinePolygon();
 		return poco;
 	}
 
@@ -174,17 +160,6 @@ public abstract class MapReader {
 					}
 				}
 				((GameMapFrame) GUImanager.getFrame()).updateSize(maxX, maxY);
-			}
-			
-		}.start();
-	}
-
-	private static void ContinentOutlinePolygon(Continent cont, List<Polygon> polies) {
-		new Thread() {
-			
-			@Override
-			public void run() {
-				// TODO
 			}
 			
 		}.start();

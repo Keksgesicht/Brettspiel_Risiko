@@ -103,7 +103,7 @@ public abstract class GameCreator {
 				col = Color.ORANGE;
 				break;
 			case 5:
-				col = Color.PINK;
+				col = Color.CYAN;
 				break;
 			default:
 				col = Color.GREEN;
