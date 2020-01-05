@@ -145,7 +145,7 @@ public class GameMapFrame extends JFrame {
 		int txtWidth = 42;
 		int margin = 10;
 
-		int playerTFwidth = 250;
+		int playerTFwidth = 340;
 		int nextPlayerStatusWidth = 220;
 		int ultiWidth = 150;
 

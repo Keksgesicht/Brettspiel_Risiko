@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -21,6 +22,9 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.PlainDocument;
 
 import game.player.Player;
 import game.resources.GameCreator;
@@ -62,12 +66,11 @@ public class PlayerCustomizationFrame extends JFrame {
 			playerNameLabel[i] = new JLabel("Name of Player " + String.valueOf(i + 1) + ":");
 
 			playerNameFields[i] = new JTextField();
-			playerNameFields[i].setText("Player" + String.valueOf(i + 1));
 			playerNameFields[i].setPreferredSize(new Dimension(width, height));
+			playerNameFields[i].setDocument(new JTextFieldLimit(15));
+			playerNameFields[i].setText("Player" + String.valueOf(i + 1));
 			playerNameFields[i].addFocusListener(new myTextFieldFocus(playerNameFields[i]));
 
-			// frameContainer.add(playerNameFields[i]);
-			// Do some more stuff like adding Listeners
 			Color initialColor;
 			switch (i) {
 			case 0:
@@ -110,6 +113,29 @@ public class PlayerCustomizationFrame extends JFrame {
 
 			allPlayersPanel.addTab("Player" + String.valueOf(i + 1), null, playerPanels[i],
 					"Customization of Player" + String.valueOf(i + 1));
+
+			switch (i) {
+			case 0:
+				allPlayersPanel.setMnemonicAt(i, KeyEvent.VK_1);
+				break;
+			case 1:
+				allPlayersPanel.setMnemonicAt(i, KeyEvent.VK_2);
+				break;
+			case 2:
+				allPlayersPanel.setMnemonicAt(i, KeyEvent.VK_3);
+				break;
+			case 3:
+				allPlayersPanel.setMnemonicAt(i, KeyEvent.VK_4);
+				break;
+			case 4:
+				allPlayersPanel.setMnemonicAt(i, KeyEvent.VK_5);
+				break;
+			case 5:
+				allPlayersPanel.setMnemonicAt(i, KeyEvent.VK_6);
+				break;
+			default:
+				break;
+			}
 		}
 
 		JButton startGameButton = new JButton("Start Game");
@@ -183,4 +209,23 @@ class myTextFieldFocus implements FocusListener {
 		}
 	}
 
+}
+
+@SuppressWarnings("serial")
+class JTextFieldLimit extends PlainDocument {
+	private int limit;
+
+	JTextFieldLimit(int limit) {
+		super();
+		this.limit = limit;
+	}
+
+	@Override
+	public void insertString(int offset, String str, AttributeSet attr) throws BadLocationException {
+		if (str == null)
+			return;
+		if ((getLength() + str.length()) <= limit) {
+			super.insertString(offset, str, attr);
+		}
+	}
 }
