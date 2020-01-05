@@ -53,13 +53,13 @@ public class InitFrame extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		contentPane.setBackground(Color.BLACK);
-		
+
 		JButton btnLoadLastGame = new JButton("load last Game");
 		btnLoadLastGame.setBounds(10, 120, 190, 25);
 		btnLoadLastGame.setBackground(Color.DARK_GRAY);
 		btnLoadLastGame.setForeground(Color.WHITE);
 		contentPane.add(btnLoadLastGame);
-		
+
 		JButton btnCreateNewGame = new JButton("create new Game");
 		btnCreateNewGame.setBounds(210, 120, 190, 25);
 		btnCreateNewGame.setBackground(Color.DARK_GRAY);
@@ -69,34 +69,28 @@ public class InitFrame extends JFrame {
 			public void actionPerformed(ActionEvent evt) {
 				int n = 5;
 				Object[] options = new Object[n];
-				for(int i=0; i<5; i++) {
-					options[i] = String.valueOf(i+2);
+				for (int i = 0; i < n; i++) {
+					options[i] = String.valueOf(i + 2);
 				}
-				int playerCount = JOptionPane.showOptionDialog(InitFrame.this,
-				    "How many Players?",
-				    "Player Count",
-				    JOptionPane.YES_NO_CANCEL_OPTION,
-				    JOptionPane.QUESTION_MESSAGE,
-				    null,
-				    options,
-				    options[0]);
-				GUImanager.setFrame(new GameMapFrame(playerCount));
+				int playerCount = JOptionPane.showOptionDialog(InitFrame.this, "How many Players?", "Player Count",
+						JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+				GUImanager.setFrame(new PlayerCustomizationFrame(playerCount + 2));
 				InitFrame.this.dispose();
 			}
 		});
 		contentPane.add(btnCreateNewGame);
-		
+
 		txtRisiko = new JTextField();
 		txtRisiko.setHorizontalAlignment(SwingConstants.CENTER);
 		txtRisiko.setEditable(false);
 		txtRisiko.setText("RISIKO");
 		txtRisiko.setBounds(10, 10, 390, 100);
-		contentPane.add(txtRisiko);
 		txtRisiko.setColumns(10);
-		Font risikoFont = new Font("Courier", Font.BOLD,100);
+		Font risikoFont = new Font("Courier", Font.BOLD, 100);
 		txtRisiko.setFont(risikoFont);
 		txtRisiko.setForeground(Color.RED);
 		txtRisiko.setBackground(Color.BLACK);
 		txtRisiko.setBorder(BorderFactory.createLineBorder(Color.black));
+		contentPane.add(txtRisiko);
 	}
 }

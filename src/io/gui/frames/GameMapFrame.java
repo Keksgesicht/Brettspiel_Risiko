@@ -40,8 +40,7 @@ public class GameMapFrame extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public GameMapFrame(int playerCount) {
-		GameCreator.createNewGame(playerCount + 2);
+	public GameMapFrame() {
 		currentPlayer = GameCreator.getCurrentPlayer();
 		newArmy = currentPlayer.getNewTroops();
 		Font risikoFont = new Font("Courier", Font.BOLD, 32);
