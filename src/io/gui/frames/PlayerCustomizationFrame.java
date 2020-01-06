@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JColorChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -42,7 +43,7 @@ public class PlayerCustomizationFrame extends JFrame {
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
-				| UnsupportedLookAndFeelException e1) { // TODO Auto-generated catch block
+				| UnsupportedLookAndFeelException e1) {
 			e1.printStackTrace();
 		}
 
@@ -138,6 +139,24 @@ public class PlayerCustomizationFrame extends JFrame {
 			}
 		}
 
+		// JPanel advancedPanel = new JPanel();
+		// advancedPanel.setBackground(Color.GREEN);
+
+		/*
+		 * showAdvancedCheckBox.addItemListener(new ItemListener() {
+		 * 
+		 * @Override public void itemStateChanged(ItemEvent e) { PlayerCustomizationFrame
+		 * currentFrame = PlayerCustomizationFrame.this; Rectangle tempRectangle =
+		 * currentFrame.getBounds(); if (e.getStateChange() == ItemEvent.SELECTED) {
+		 * tempRectangle.height += 100; currentFrame.add(advancedPanel, BorderLayout.SOUTH);
+		 * currentFrame.setBounds(tempRectangle); } else { // disables the rest of the Frame
+		 * tempRectangle.height -= 100; currentFrame.remove(advancedPanel);
+		 * currentFrame.setBounds(tempRectangle); } PlayerCustomizationFrame.this.validate(); }
+		 * });
+		 */
+
+		JCheckBox distributeCountriesRandomlyCheckBox = new JCheckBox("Distribute countries randomly");
+
 		JButton startGameButton = new JButton("Start Game");
 		startGameButton.addActionListener(new ActionListener() {
 			@Override
@@ -149,30 +168,14 @@ public class PlayerCustomizationFrame extends JFrame {
 							new Player(playerNameFields[j].getText(), colorChooser[j].getColor(), 50 - 5 * players));
 				}
 				GameCreator.createNewGame(playerList);
-				GUImanager.setFrame(new GameMapFrame());
+				GUImanager.setFrame(new GameMapFrame(distributeCountriesRandomlyCheckBox.isSelected()));
 				dispose();
 			}
 		});
 
-		JPanel advancedPanel = new JPanel();
-		advancedPanel.setBackground(Color.GREEN);
-
-		/*
-		 * JCheckBox showAdvancedCheckBox = new JCheckBox("Show advanced options");
-		 * showAdvancedCheckBox.addItemListener(new ItemListener() {
-		 * 
-		 * @Override public void itemStateChanged(ItemEvent e) { PlayerCustomizationFrame
-		 * currentFrame = PlayerCustomizationFrame.this.; Rectangle tempRectangle =
-		 * currentFrame.getBounds(); if (e.getStateChange() == ItemEvent.SELECTED) {
-		 * tempRectangle.height += 100; currentFrame.add(advancedPanel, BorderLayout.SOUTH);
-		 * currentFrame.setBounds(tempRectangle); } else { // disables the rest of the Frame
-		 * tempRectangle.height -= 100; currentFrame.remove(advancedPanel);
-		 * currentFrame.setBounds(tempRectangle); } PlayerCustomizationFrame.this.validate(); }
-		 * }); bottomPanel.add(showAdvancedCheckBox);
-		 */
-
 		JPanel bottomPanel = new JPanel();
 
+		bottomPanel.add(distributeCountriesRandomlyCheckBox);
 		bottomPanel.add(startGameButton);
 
 		this.add(allPlayersPanel);
@@ -180,7 +183,6 @@ public class PlayerCustomizationFrame extends JFrame {
 
 		allPlayersPanel.validate();
 		this.validate();
-		setVisible(true);
 	}
 
 }

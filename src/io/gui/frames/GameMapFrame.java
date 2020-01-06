@@ -2,8 +2,16 @@ package io.gui.frames;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Point;
+import java.awt.Polygon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -39,7 +47,16 @@ public class GameMapFrame extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * 
+	 * @param distributeRandomly true, if the countries should be distributed randomly
 	 */
+	public GameMapFrame(boolean distributeRandomly) {
+		this();
+		if (distributeRandomly) {
+			distributeRandomly();
+		}
+	}
+
 	public GameMapFrame() {
 		currentPlayer = GameCreator.getCurrentPlayer();
 		newArmy = currentPlayer.getNewTroops();
@@ -138,6 +155,23 @@ public class GameMapFrame extends JFrame {
 		contentPane.add(useUlti);
 		contentPane.add(nextPlayerStatus);
 		contentPane.add(mapPanel);
+
+		setVisible(true);
+	}
+
+	private void distributeRandomly() {
+		// Collection<Country> countriesMap = GameCreator.getCPMap().values();
+		Map<Polygon, Country> countriesMap = GameCreator.getCPMap();
+		MouseListener[] mouseListener = mapPanel.getMouseListeners();
+		// countriesMap.forEach(action);
+		List<Polygon> list = countriesMap.keySet().stream().collect(Collectors.toList());
+
+		for (Polygon entry : list) {
+			Point middlePoint = mapPanel.middlePoint(entry);
+			mouseListener[0].mouseClicked(
+					new MouseEvent(this, MouseEvent.MOUSE_CLICKED, Calendar.getInstance().getTimeInMillis(), 0,
+							(int) middlePoint.getX(), (int) middlePoint.getY(), 1, false));
+		}
 	}
 
 	public void updateSize(int width, int height) {
