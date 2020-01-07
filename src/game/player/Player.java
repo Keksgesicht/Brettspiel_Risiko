@@ -148,9 +148,9 @@ public class Player implements Cloneable {
 			c = new ArrayList<AreaCard>();
 			s = new ArrayList<AreaCard>();
 
-			for (int i = 0; i < cards.size(); i++) {
-				AreaCard ac = cards.get(i);
-				cards.remove(ac);
+			while (cards.size() > 0) {
+				AreaCard ac = cards.get(0);
+				cards.remove(0);
 				switch (ac) {
 				case TANK:
 					t.add(ac);
@@ -160,6 +160,8 @@ public class Player implements Cloneable {
 					break;
 				case SOLDIER:
 					s.add(ac);
+					break;
+				default:
 					break;
 				}
 			}
