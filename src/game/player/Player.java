@@ -18,7 +18,7 @@ public class Player implements Cloneable {
 		TANK, CAVALIER, SOLDIER
 	}
 
-	public final Set<AreaCard> cards;
+	public final ArrayList<AreaCard> cards;
 	public final String name;
 	public final Color color;
 
@@ -28,13 +28,12 @@ public class Player implements Cloneable {
 	private int troops;
 
 	/**
-	 * 
 	 * @param name how the Player should be called
 	 * @param col  the Color in which his countries should be drawn
 	 */
 	public Player(String name, Color col, int troops) {
 		controlledCountries = new HashSet<Country>();
-		cards = new HashSet<AreaCard>();
+		cards = new ArrayList<AreaCard>();
 		state = PlayerStatus.WAIT;
 		won1Fight = false;
 		this.name = name;
@@ -42,7 +41,7 @@ public class Player implements Cloneable {
 		color = col;
 	}
 
-	private Player(String name, Color col, Set<Country> controlled, Set<AreaCard> cards) {
+	private Player(String name, Color col, Set<Country> controlled, ArrayList<AreaCard> cards) {
 		controlledCountries = controlled;
 		this.cards = cards;
 		state = PlayerStatus.WAIT;
@@ -80,8 +79,8 @@ public class Player implements Cloneable {
 	}
 
 	/**
-	 * this method should be called after this Player won a fight gives the player
-	 * only one AreaCard in one turn
+	 * this method should be called after this Player won a fight gives the player only one
+	 * AreaCard in one turn
 	 */
 	public void fightWon() {
 		if (won1Fight)
@@ -89,7 +88,7 @@ public class Player implements Cloneable {
 		won1Fight = true;
 		AreaCard newCard = AreaCard.TANK;
 		Random r = new Random(System.nanoTime());
-		switch ((int) r.nextDouble() * 3) {
+		switch ((int) (r.nextDouble() * 3)) {
 		case 0:
 			newCard = AreaCard.SOLDIER;
 			break;
@@ -145,8 +144,12 @@ public class Player implements Cloneable {
 			cards.clear();
 		} else {
 			ArrayList<AreaCard> t, c, s;
-			t = c = s = new ArrayList<AreaCard>();
-			for (AreaCard ac : cards) {
+			t = new ArrayList<AreaCard>();
+			c = new ArrayList<AreaCard>();
+			s = new ArrayList<AreaCard>();
+
+			for (int i = 0; i < cards.size(); i++) {
+				AreaCard ac = cards.get(i);
 				cards.remove(ac);
 				switch (ac) {
 				case TANK:

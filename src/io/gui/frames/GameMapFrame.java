@@ -10,7 +10,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.swing.BorderFactory;
@@ -161,10 +160,9 @@ public class GameMapFrame extends JFrame {
 
 	private void distributeRandomly() {
 		// Collection<Country> countriesMap = GameCreator.getCPMap().values();
-		Map<Polygon, Country> countriesMap = GameCreator.getCPMap();
 		MouseListener[] mouseListener = mapPanel.getMouseListeners();
 		// countriesMap.forEach(action);
-		List<Polygon> list = countriesMap.keySet().stream().collect(Collectors.toList());
+		List<Polygon> list = GameCreator.getCPMap().keySet().stream().collect(Collectors.toList());
 
 		for (Polygon entry : list) {
 			Point middlePoint = mapPanel.middlePoint(entry);
