@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -96,7 +97,7 @@ public class GameMapFrame extends JFrame {
 		Font buttonFont = new Font("Courier", Font.BOLD, 20);
 		useUlti = new JButton("use Cards!");
 		useUlti.setFont(buttonFont);
-		useUlti.setVisible(false);
+		useUlti.setEnabled(false);
 		useUlti.setBackground(Color.BLACK);
 		useUlti.setForeground(Color.YELLOW);
 		useUlti.setHorizontalAlignment(SwingConstants.CENTER);
@@ -211,7 +212,9 @@ public class GameMapFrame extends JFrame {
 			}
 			break;
 		case PLAY:
-			useUlti.setVisible(true);
+			useUlti.setBackground(Color.BLACK);
+			useUlti.setForeground(Color.YELLOW);
+			useUlti.setEnabled(false);
 			if (0 < currentPlayer.ultiReady()) {
 				useUlti.setBackground(Color.BLACK);
 				useUlti.setForeground(Color.YELLOW);
@@ -219,11 +222,10 @@ public class GameMapFrame extends JFrame {
 			} else if (newArmy < 0) {
 				newArmy = Math.abs(newArmy);
 				calvalierCounter.setText(String.valueOf(GameCreator.getGoldenCavalier()));
-				useUlti.setBackground(Color.BLUE);
-				useUlti.setForeground(Color.WHITE);
-				useUlti.setEnabled(false);
-			} else
-				useUlti.setVisible(false);
+				JOptionPane.showMessageDialog(this,
+						"Your ultimate ability has been used automatically, because you had 5 cards", "Ultimate used",
+						JOptionPane.INFORMATION_MESSAGE);
+			}
 			currentPlayer.updateStatus();
 			newArmyCounter.setVisible(true);
 		default:
