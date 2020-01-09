@@ -2,12 +2,20 @@ package io.gui.frames;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Point;
+import java.awt.Polygon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.Calendar;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -39,9 +47,17 @@ public class GameMapFrame extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * 
+	 * @param distributeRandomly true, if the countries should be distributed randomly
 	 */
-	public GameMapFrame(int playerCount) {
-		GameCreator.createNewGame(playerCount + 2);
+	public GameMapFrame(boolean distributeRandomly) {
+		this();
+		if (distributeRandomly) {
+			distributeRandomly();
+		}
+	}
+
+	public GameMapFrame() {
 		currentPlayer = GameCreator.getCurrentPlayer();
 		newArmy = currentPlayer.getNewTroops();
 		Font risikoFont = new Font("Courier", Font.BOLD, 32);
@@ -81,7 +97,7 @@ public class GameMapFrame extends JFrame {
 		Font buttonFont = new Font("Courier", Font.BOLD, 20);
 		useUlti = new JButton("use Cards!");
 		useUlti.setFont(buttonFont);
-		useUlti.setVisible(false);
+		useUlti.setEnabled(false);
 		useUlti.setBackground(Color.BLACK);
 		useUlti.setForeground(Color.YELLOW);
 		useUlti.setHorizontalAlignment(SwingConstants.CENTER);
@@ -139,6 +155,22 @@ public class GameMapFrame extends JFrame {
 		contentPane.add(useUlti);
 		contentPane.add(nextPlayerStatus);
 		contentPane.add(mapPanel);
+
+		setVisible(true);
+	}
+
+	private void distributeRandomly() {
+		// Collection<Country> countriesMap = GameCreator.getCPMap().values();
+		MouseListener[] mouseListener = mapPanel.getMouseListeners();
+		// countriesMap.forEach(action);
+		List<Polygon> list = GameCreator.getCPMap().keySet().stream().collect(Collectors.toList());
+
+		for (Polygon entry : list) {
+			Point middlePoint = mapPanel.middlePoint(entry);
+			mouseListener[0].mouseClicked(
+					new MouseEvent(this, MouseEvent.MOUSE_CLICKED, Calendar.getInstance().getTimeInMillis(), 0,
+							(int) middlePoint.getX(), (int) middlePoint.getY(), 1, false));
+		}
 	}
 
 	public void updateSize(int width, int height) {
@@ -146,7 +178,7 @@ public class GameMapFrame extends JFrame {
 		int txtWidth = 42;
 		int margin = 10;
 
-		int playerTFwidth = 250;
+		int playerTFwidth = 340;
 		int nextPlayerStatusWidth = 220;
 		int ultiWidth = 150;
 
@@ -180,7 +212,9 @@ public class GameMapFrame extends JFrame {
 			}
 			break;
 		case PLAY:
-			useUlti.setVisible(true);
+			useUlti.setBackground(Color.BLACK);
+			useUlti.setForeground(Color.YELLOW);
+			useUlti.setEnabled(false);
 			if (0 < currentPlayer.ultiReady()) {
 				useUlti.setBackground(Color.BLACK);
 				useUlti.setForeground(Color.YELLOW);
@@ -188,11 +222,10 @@ public class GameMapFrame extends JFrame {
 			} else if (newArmy < 0) {
 				newArmy = Math.abs(newArmy);
 				calvalierCounter.setText(String.valueOf(GameCreator.getGoldenCavalier()));
-				useUlti.setBackground(Color.BLUE);
-				useUlti.setForeground(Color.WHITE);
-				useUlti.setEnabled(false);
-			} else
-				useUlti.setVisible(false);
+				JOptionPane.showMessageDialog(this,
+						"Your ultimate ability has been used automatically, because you had 5 cards", "Ultimate used",
+						JOptionPane.INFORMATION_MESSAGE);
+			}
 			currentPlayer.updateStatus();
 			newArmyCounter.setVisible(true);
 		default:

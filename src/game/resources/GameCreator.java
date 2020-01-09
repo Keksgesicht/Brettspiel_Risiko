@@ -22,19 +22,19 @@ import io.data.text.MapReader;
  * @author Braun
  */
 public abstract class GameCreator {
-	
+
 	static GameData live;
 	private static int plyN = 0;
-	
+
 	public static List<Player> getPlayers() {
 		return live.players;
 	}
-	
+
 	public static Player getCurrentPlayer() {
 		plyN %= getPlayers().size();
 		return getPlayers().get(plyN);
 	}
-	
+
 	public static Player nextPlayer() {
 		do {
 			plyN++;
@@ -43,8 +43,8 @@ public abstract class GameCreator {
 	}
 
 	public static void removePlayer(Player ply) {
-		for(int i=0; i < getPlayers().size(); i++) {
-			if(getPlayers().get(i) == ply)
+		for (int i = 0; i < getPlayers().size(); i++) {
+			if (getPlayers().get(i) == ply)
 				getPlayers().set(i, null);
 		}
 	}
@@ -56,11 +56,11 @@ public abstract class GameCreator {
 	public static List<Continent> getContinents() {
 		return MapReader.getContinents();
 	}
-	
+
 	public static Map<Polygon, Country> getCPMap() {
 		return live.countries;
 	}
-	
+
 	public static Collection<Country> getCountries() {
 		return live.countries.values();
 	}
@@ -72,24 +72,25 @@ public abstract class GameCreator {
 	public static int getGoldenCavalier() {
 		return live.getGoldenCavalier();
 	}
-	
+
 	public static void updateGoldenCavalier() {
 		live.updateGoldenCavalier();
 	}
-	
+
 	public static void updateGameStatus() {
 		GameData.updateStatus();
 	}
-	
+
 	public static GameStatus getGameState() {
 		return GameData.state;
 	}
-	
+
+	@Deprecated
 	public static void createNewGame(int players) {
 		ArrayList<Player> playerList = new ArrayList<Player>();
-		for(int i = 1; i <= players; i++) {
+		for (int i = 1; i <= players; i++) {
 			Color col;
-			switch(i) {
+			switch (i) {
 			case 1:
 				col = Color.RED;
 				break;
@@ -113,7 +114,7 @@ public abstract class GameCreator {
 		}
 		createNewGame(playerList);
 	}
-	
+
 	public static void createNewGame(ArrayList<Player> players) {
 		try {
 			live = new GameData(players, MapReader.loadMap("default"), 4);

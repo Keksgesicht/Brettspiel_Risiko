@@ -107,7 +107,8 @@ public class PolygonMapPanel extends JPanel {
 
 					popup.removeAll();
 					int army = frame.getNewArmyCount();
-					int i = 1; int n = 0;
+					int i = 1;
+					int n = 0;
 					troops = (int) (i * Math.pow(10, n));
 
 					while (troops < army) {
@@ -141,9 +142,10 @@ public class PolygonMapPanel extends JPanel {
 				if (inProgress)
 					return;
 				getMouseMapInfo(e);
-				if(coty == null || coty.getSoldiers() < 2 || coty.king() != currentPlayer) return;
-				
-				switch(currentPlayer.getStatus()) {
+				if (coty == null || coty.getSoldiers() < 2 || coty.king() != currentPlayer)
+					return;
+
+				switch (currentPlayer.getStatus()) {
 				case FIGHT:
 					antiGreyCoties = coty.getNeighboringEnemyCountries();
 					repaint();
@@ -171,8 +173,8 @@ public class PolygonMapPanel extends JPanel {
 					return;
 				}
 				inProgress = true;
-				
-				switch(currentPlayer.getStatus()) {
+
+				switch (currentPlayer.getStatus()) {
 				case FIGHT:
 					if (antiGreyCoties == null || !antiGreyCoties.contains(coty))
 						break;
@@ -289,7 +291,7 @@ public class PolygonMapPanel extends JPanel {
 		for (int i = 0; i < bl.size(); i++) {
 			ArrayList<Point> cocain = bl.get(i);
 			int cocSize = cocain.size();
-			if(cocSize == 2) {
+			if (cocSize == 2) {
 				Point p1 = cocain.get(0);
 				Point p2 = cocain.get(1);
 				g2.drawLine(p1.x, p1.y, p2.x, p2.y);
@@ -332,7 +334,7 @@ public class PolygonMapPanel extends JPanel {
 		}
 		// draw country name and soldier count
 		Point polyP = middlePoint(poly);
-		
+
 		// int midX = (int) (polyP.x / GUImanager.SCALE);
 		// int midY = (int) (polyP.y / GUImanager.SCALE);
 		// System.out.println(cpMap.get(poly).name + ": " + midX + " " + midY);
@@ -372,7 +374,7 @@ public class PolygonMapPanel extends JPanel {
 		GUImanager.SCALE = scale;
 	}
 
-	private Point middlePoint(Polygon poly) {
+	public Point middlePoint(Polygon poly) {
 		Map<Polygon, Point> stringPoints = MapReader.getStringPoints();
 		if (stringPoints.containsKey(poly)) {
 			return stringPoints.get(poly);
