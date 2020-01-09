@@ -38,7 +38,6 @@ import io.gui.frames.GameMapFrame;
 @SuppressWarnings("serial")
 public class PolygonMapPanel extends JPanel {
 
-	private GameMapFrame frame;
 	private JPopupMenu popup = new JPopupMenu();
 	private Map<Polygon, Country> cpMap = GameCreator.getCPMap();
 	private ActionListener popupItemListener;
@@ -51,7 +50,6 @@ public class PolygonMapPanel extends JPanel {
 
 	public PolygonMapPanel(GameMapFrame frame) {
 		super();
-		this.frame = frame;
 		gFont = new Font("SansSerif", Font.PLAIN, (int) (10 * GUImanager.SCALE * 3 / 4));
 		popup.setBorder(new BevelBorder(BevelBorder.RAISED));
 		popupItemListener = new ActionListener() {

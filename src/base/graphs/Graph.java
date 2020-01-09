@@ -120,7 +120,7 @@ public class Graph<Edge extends Comparable<Edge>, Node> {
 		List<Node> neighboors = new ArrayList<Node>();
 		List<Edge> adjRow = adjazenzmatrizen.get(name).getAdjazenzListe(nodes.get(row));
 		for (int i = 0; i < adjRow.size(); i++) {
-			final Integer j = new Integer(i);
+			final Integer j = i;
 			if (adjRow.get(j) != NaN) {
 				Node n = getNode(j);
 				if (n != null)
