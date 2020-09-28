@@ -17,6 +17,7 @@ public class Player implements Cloneable {
 	private enum AreaCard {
 		TANK, CAVALIER, SOLDIER
 	}
+	//Please work first try
 
 	public final ArrayList<AreaCard> cards;
 	public final String name;
